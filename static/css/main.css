@@ -26,10 +26,10 @@ a, a::after, a::before, a:visited{
     color: #0d6efd;
 }
 
-ul{
+/* ul{
     list-style-type: none;
     padding-left: 0px;
-}
+} */
 
 .universal-padding{
     padding: 20px;
@@ -325,7 +325,7 @@ ul{
   }
 
   .menu-item:hover{
-    color: red;
+    color: grey;
   }
 
   .side-info{
@@ -397,7 +397,7 @@ ul{
     background-color: #fff;
     min-height: 100vh;
     position: relative;
-    z-index: -20;
+    z-index: 0;
     /* padding: 30px 20px; */
 }
 
@@ -579,6 +579,7 @@ footer{
 #page-contents{
   background-color: #fff;
   position: relative;
+  padding-bottom: 80px;
   /* z-index: 10; */
 }
 
