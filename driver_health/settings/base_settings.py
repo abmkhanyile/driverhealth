@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -70,6 +71,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'driver_health.wsgi.application'
+ASGI_APPLICATION = "driver_health.asgi.application"
 
 AUTH_USER_MODEL = 'user_accounts.CustomUser'
 
