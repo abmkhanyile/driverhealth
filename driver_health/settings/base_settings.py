@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'driver_health.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'driver_health.urls'
@@ -230,5 +231,6 @@ TEST_RUNNER = 'django_heroku.HerokuDiscoverRunner'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CSRF_TRUSTED_ORIGINS=['https://driver-training.herokuapp.com', 'https://*.driverhealth.co.za']
 
 
