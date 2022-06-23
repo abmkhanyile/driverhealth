@@ -4,7 +4,26 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-
+django = "==4.0.1"
+gunicorn = "*"
+django-heroku = "*"
+django-ckeditor = "*"
+whitenoise = "*"
+djangorestframework = "*"
+"psycopg2-binary" = "*"
+heroku = "*"
+django-storages = "*"
+"boto3" = "*"
+smart-open = "*"
+django-allauth = "*"
+xhtml2pdf = "*"
+six = "*"
+django-formtools = "*"
+channels = "*"
+channels-redis = "*"
+python-dateutil = "==2.8.2"
+django-redis = "*"
+pillow = "*"
 
 [dev-packages]
 
