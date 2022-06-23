@@ -39,12 +39,14 @@ ul{
 
 /************header css***********************/
 #header_section {
-    background-color: #000;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.7);
     padding: 5px 20px;
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-rows: minmax(50px, auto);
     align-items: center;
+    z-index: 10;
   }
 
   .logo-container{
@@ -331,7 +333,8 @@ ul{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #8e9090;
+    /* background-color: #8e9090; */
+    background-color: rgb(152, 175, 199, .5);
     min-height: 350px;
     padding: 5px;
     
@@ -393,7 +396,9 @@ ul{
 #main-content{
     background-color: #fff;
     min-height: 100vh;
-    padding: 30px 20px;
+    position: relative;
+    z-index: -20;
+    /* padding: 30px 20px; */
 }
 
 footer{
@@ -405,6 +410,7 @@ footer{
     background-color: #373737;
     min-height: 250px;
     padding: var(--universal_margin);
+    position: relative;
 }
 
 
@@ -433,6 +439,7 @@ footer{
     min-height: 30px;
     padding: 5px;
     text-align: center;
+    position: relative;
 }
 #copy-right > *{
     font-size: .8em;
@@ -569,10 +576,21 @@ footer{
     background: var(--universal_blue);
 }
 
+#page-contents{
+  background-color: #fff;
+  position: relative;
+  /* z-index: 10; */
+}
+
 .page-segment{
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.home-container{
+  position: relative;
 }

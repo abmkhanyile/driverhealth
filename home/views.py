@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.base import View, ContextMixin
+from .models import AnimatedText
 
 # displays the homepage.
 class Home(ContextMixin, View):
@@ -7,6 +8,7 @@ class Home(ContextMixin, View):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['animated_txt'] = AnimatedText.objects.all()
         return context
 
     def get(self, request, **kwargs):

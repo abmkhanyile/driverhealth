@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('DH_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://driver-training.herokuapp.com', 'driver-training.herokuapp.com', 'https://www.driverhealth.co.za', 'www.driverhealth.co.za', 'http://www.driverhealth.co.za', 'driverhealth.co.za']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
