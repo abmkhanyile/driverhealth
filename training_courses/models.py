@@ -11,7 +11,7 @@ class TrainingCourse(models.Model):
     date_created = models.DateTimeField(default=timezone.now, blank=False)
 
     def __str__(self):
-        self.course_name
+        return self.course_name
 
 
 class Code14Course(models.Model):
@@ -22,5 +22,5 @@ class Code14Course(models.Model):
     date_created = models.DateTimeField(default=timezone.now, blank=False)
 
     def __str__(self):
-        self.course_name
+        return self.course_name
 
