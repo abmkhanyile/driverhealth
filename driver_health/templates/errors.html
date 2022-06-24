@@ -1,0 +1,17 @@
+{% load static %}
+
+{% if messages %}
+            <div class="col-xs-12">
+                {% for message in messages %}
+                    {% if message.level == 30 %}
+                        <div class="alert alert-danger" role="alert" style="text-align: center;">
+                            {{message}}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-success" role="alert" style="text-align: center;">
+                            {{message}}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}

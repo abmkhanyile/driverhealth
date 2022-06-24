@@ -1,0 +1,62 @@
+{% load static %}
+
+<div id="mySidenav" class="sidenav">
+    <div class="sidenave-header">
+        
+        <h6 class="text-white">Welcome, {% if request.user.is_authenticated %}{{request.user.first_name}}{% else %}<a href="{% url 'login' %}">Login</a> {% endif %} </h6>
+        
+    </div>
+    <div id="sidenav-mainContainer">
+        <div id="departments-container" onload="truncmenu(this)">         
+            <a href="{% url 'home' %}">
+                <div class="sidenav-row">
+                    <div>Home</div>
+                </div>
+            </a>
+            <a href="#">
+                <div class="sidenav-row">
+                    <div>About Us</div>
+                </div>
+            </a>
+
+            <a href="#">
+                <div class="sidenav-row">
+                    <div>Training</div>
+                    <i class="fa fa-chevron-right" style="color: #8e9090;"></i>
+                </div>
+            </a>
+            <a href="#">
+                <div class="sidenav-row">
+                    <div>Gallery</div>
+                </div>
+            </a>
+
+            
+            <a href="#">
+                <div class="sidenav-row">
+                    <div>Contact Us</div>
+                </div>
+            </a>
+
+            <a href="javascript:void(0)" id="expandCollapse" data-status="0" onclick="expand_collapse(this)">
+                <div>
+                    <span>See All</span>
+                    <i class="fa fa-chevron-down" style="color: #8e9090; margin-left: 10px;"></i> 
+                </div>
+            </a>
+            
+        </div>
+        
+       
+        <!-- <div class="sidenavContainer" id="firstContainer">
+            <hr />
+            <a href="#">
+                <div class="sidenav-row">
+                    <div>Electronics</div>
+                    <i class="fa fa-chevron-right" style="color: #8e9090;"></i>
+                </div>
+            </a>
+        </div> -->
+    </div>
+    
+  </div>

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Login{% endblock %}
+
+{% block css %}
+<style>
+    .login-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+
+        
+            <div class="login-container">
+                {% include 'errors.html' %}
+
+                <form class="p-3" action="{% url 'auth' %}" method="post">{% csrf_token %}
+                    {% if form.errors %}
+                    <p class="error">Sorry, that's not a valid username and password</p>
+                    {% endif %}
+                    
+                     
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                            <input class="form-control" type="text" placeholder="Username" name="username" value="" id="username">
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fa fa-lock" aria-hidden="true"></i></span>
+                            <input class="form-control" type="password" placeholder="Password" name="password" value="" id="password" autocomplete="current-password">
+                            <span class="input-group-text"><i class="fa fa-eye-slash" id="togglePassword" onclick="hide_show_pwd(this)" style="cursor: pointer"></i></span>
+                         </div>
+             
+                    
+                    {% if request.GET.next %}
+                        <input type="hidden" name="next" value="{{ request.GET.next }}">
+                    {% endif %}
+
+                    <input type="submit" class="btn btn-secondary btn-sm" value="login" style="float: right;" />
+                    <a href="{% url 'password_reset'%}">Forgot Password</a>
+
+                </form>
+
+                <hr>
+                <div>Don't have an account yet? <a href="#" style="color:green">Register</a> </div>
+            </div>
+
+
+
+
+
+{% endblock %}

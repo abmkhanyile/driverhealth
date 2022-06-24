@@ -49,8 +49,54 @@ a, a::after, a::before, a:visited{
     z-index: 10;
   }
 
+  @media only screen and (max-width: 750px) {
+    #header_section {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  .data_wrapper{
+    padding: 5px 15px 5px 15px;
+  }
+  
+  @media only screen and (max-width: 750px) {
+    .data_wrapper{
+      margin-left: 0px;
+      margin-right: 0px;
+      margin-top: 0px;
+      margin-bottom: 0px;
+  
+      padding: 5px;
+      /*min-height: 100%;*/ /*uncoment*/
+    }
+  }
+
+  @media only screen and (max-width: 1050px) {
+    .menuitems-container{
+      display: none;
+    }
+  }
+
+  .mobile-logo{
+    display: none;
+  }
+
+  @media only screen and (max-width: 750px) {
+    .logo{
+      display: none;
+    }
+  }
+  @media only screen and (max-width: 750px) {
+    .mobile-logo{
+      display: block;
+    }
+  }
+
   .logo-container{
       align-self: left;
+      display: flex;
+      justify-content: center;
+      align-items: center;
   }
 
   .mainmenu{
@@ -211,7 +257,7 @@ a, a::after, a::before, a:visited{
   }
   
   .sidenave-header{
-    background-color: var(--headercolor);
+    background-color: #000;
     /* min-height: 20px; */
     width: 100%;
     padding: 20px;
@@ -389,6 +435,22 @@ a, a::after, a::before, a:visited{
   font-weight: bold;
 }
 
+
+  .hamburger-menu{
+    display: none;
+    margin-right: 30px;
+  }
+
+  @media only screen and (max-width: 1050px) {
+    .hamburger-menu{
+      display: block;
+    }
+  }
+
+  
+
+
+
   /* end of main sidenav css  */
 
 
@@ -412,6 +474,11 @@ footer{
     padding: var(--universal_margin);
     position: relative;
 }
+
+footer ul{
+  list-style-type: none;
+  padding-left: 0px;
+} 
 
 
 @media only screen and (max-width: 950px) {
@@ -595,3 +662,6 @@ footer{
 .home-container{
   position: relative;
 }
+
+ 
+

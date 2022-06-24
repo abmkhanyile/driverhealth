@@ -54,17 +54,26 @@
 
   .home-img{
     max-width: 100%;
-    height: 450px;
+    /* height: 450px; */
     object-fit: cover;
-    margin-right: 15px;;
   }
 
   .home-img-container{
-    width: 100%;
-    min-height: 450px;
     background-color: rgb(152, 175, 199, .5); 
     padding: 5px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* grid-gap: 10px; */
+  }
+  @media only screen and (max-width: 750px) {
+      .home-img-container{
+          display: grid;
+          width: 100%;
+          grid-template-columns: 1fr;
+          grid-template-rows: minmax(200px, auto);
+          margin-bottom: 20px;
+        
+      }
   }
   .embedded-header{
     color: #00b0f0;
@@ -91,7 +100,7 @@
 <div class="home-container universal-padding">
   
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-sm-9">
           <div class="advertising_txt">
             {% for home_text in animated_txt %}
             <div class="home-text-container" style="display: none;">
@@ -101,7 +110,7 @@
             {% endfor %}
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-sm-3">
             <div class="side-info">
                 <h2>Truck Driver Training Academy</h2>
                 <br>
@@ -129,9 +138,12 @@
            
                 
                   <div class="home-img-container">
-                    <img src="{% static 'media/images/home-img.webp' %}" class="home-img" />
+                  
+                      <img src="{% static 'media/images/home-img.webp' %}" class="home-img" />
 
-                    <div class="home-txt">
+                   
+
+                    <div class="home-txt" style="padding-left: 20px;">
                       <h5 class="embedded-header mt-3">WHAT WE OFFER</h5>
                       <ul>
                         <li>E-learning truck driver program</li>
@@ -173,6 +185,13 @@
             </div>
           </div>
       </div>
+
+      <div class="page-segment">
+        <h4 class="mt-4 page-title">Truck Driver Training Courses</h4>
+        <div style="text-align: center; width: 75%;">We offer affordable courses focusing on the skills, knowledge, and duties of a professional truck driver. Our training covers the fundamentals of tractor and trailer operations, tractor and trailer regulations and safety, theoretical basics of a vehicle, inspections, coupling and uncoupling, right & left turns, lane changing, shifting gears up and down, maneuvering and load securing among other. Register today and start your journey to an exciting paying career.</div>
+        <br>
+      </div>
+
     </div>
 
   
