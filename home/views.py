@@ -11,6 +11,7 @@ class Home(ContextMixin, View):
         context = super().get_context_data(**kwargs)
         context['animated_txt'] = AnimatedText.objects.all()
         context['training_course'] = TrainingCourse.objects.all()
+        context['code14courses'] = Code14Course.objects.all()
         return context
 
     def get(self, request, **kwargs):

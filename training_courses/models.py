@@ -6,7 +6,7 @@ from django.utils import timezone
 class TrainingCourse(models.Model):
     course_name = models.CharField(max_length=150, blank=False)
     duration = models.IntegerField()
-    price = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     course_details = RichTextField()
     date_created = models.DateTimeField(default=timezone.now, blank=False)
 
@@ -17,7 +17,7 @@ class TrainingCourse(models.Model):
 class Code14Course(models.Model):
     course_name = models.CharField(max_length=150, blank=False)
     duration = models.IntegerField(blank=True)
-    price = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     course_details = RichTextField()
     date_created = models.DateTimeField(default=timezone.now, blank=False)
 

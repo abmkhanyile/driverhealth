@@ -52,7 +52,7 @@
     letter-spacing: 1px;
   }
 
-  .home-img{
+  .home-img, .truckimg{
     max-width: 100%;
     /* height: 450px; */
     object-fit: cover;
@@ -65,8 +65,17 @@
     grid-template-columns: 1fr 1fr;
     /* grid-gap: 10px; */
   }
+
+
+  .code14-container{
+    padding: 5px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 10px;
+  }
+
   @media only screen and (max-width: 750px) {
-      .home-img-container{
+      .home-img-container, .code14-container{
           display: grid;
           width: 100%;
           grid-template-columns: 1fr;
@@ -75,6 +84,9 @@
         
       }
   }
+
+  
+
   .embedded-header{
     color: #00b0f0;
     font-weight: 500;
@@ -105,18 +117,28 @@
     /* grid-template-rows: minmax(50px, auto); */
     grid-gap: 10px;
   }
+
   @media only screen and (max-width: 750px) {
       .course-outer-container{
           grid-template-columns: 1fr 1fr;
           /* grid-template-rows: minmax(200px, auto);         */
       }
   }
+
+  .code14course-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    /* grid-template-rows: minmax(50px, auto); */
+    grid-gap: 10px;
+  }
+
   @media only screen and (max-width: 550px) {
-      .course-outer-container{
+      .course-outer-container, .code14course-container{
           grid-template-columns: 1fr;
           /* grid-template-rows: minmax(200px, auto);         */
       }
   }
+ 
 </style>
 
 {% endblock css %}
@@ -217,7 +239,7 @@
             </div>
           </div>
       </div>
-
+      <hr />
       <div class="page-segment">
         <h4 class="mt-4 page-title">Truck Driver Training Courses</h4>
         <div style="text-align: center; width: 75%;">We offer affordable courses focusing on the skills, knowledge, and duties of a professional truck driver. Our training covers the fundamentals of tractor and trailer operations, tractor and trailer regulations and safety, theoretical basics of a vehicle, inspections, coupling and uncoupling, right & left turns, lane changing, shifting gears up and down, maneuvering and load securing among other. Register today and start your journey to an exciting paying career.</div>
@@ -227,16 +249,46 @@
           <div class="course-container">
             <h6 style="text-align: center;"><strong>{{course.course_name}}</strong></h6>
             <h6>Duration {{course.duration}} weeks</h6>
-            <h4 style="color:#00b0f0">{{course.price}}</h4>
+            <h4 style="color:#00b0f0">R{{course.price}}</h4>
             <div>
               {{course.course_details|safe}}
             </div>
+            <a href="#" class="btn btn-danger btn-sm text-white">Register</a>
           </div>
         {% endfor %}
         </div>
         
       </div>
-
+      
+    </div>
+    
+    <div id="page-contents" class="universal-padding" style="background-color: rgb(152, 175, 199);">
+      <div class="page-segment">
+        <div class="code14-container">
+          <div>
+            <h4 class="mt-2 page-title">Get your Code 14 with us!</h4>
+            <div class="mb-3" style="text-align: center;">
+              We have helped thousands of drivers pass their tests and drive around safely. Our structured lessons emphasize safety and skills preparation, so you can confidently pass your test.
+            </div>
+                <div class="code14course-container">
+                  {% for course in code14courses %}
+                    <div class="course-container bg-white">
+                      <h6 style="text-align: center;"><strong>{{course.course_name}}</strong></h6>
+                      <h4 style="color:#00b0f0">R{{course.price}}</h4>
+                      <div>
+                        {{course.course_details|safe}}
+                      </div>
+                      <a href="#" class="btn btn-danger btn-sm text-white">Register</a>
+                    </div>
+                  {% endfor %}
+              </div>
+          </div>
+          <div>
+            <img src="{% static 'media/images/truckimg.webp' %}" class="truckimg"/>
+          </div>
+        </div>
+        
+      </div>
     </div>
 
   
