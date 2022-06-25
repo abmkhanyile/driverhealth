@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Registration{% endblock %}
+
+{% block css %}
+<style>
+
+</style>
+{% endblock css %}
+
+{% block content %}
+
+
+    <div class="universal-padding">
+        {% include 'errors.html' %}
+
+        <div class="formcontainer">
+                        
+            <form class="user_reg_form" method="post">{% csrf_token %}
+                {{ user_form.username.errors }}
+                <label for="{{ user_form.username.id_for_label }}" class="mb-0">Username <span class="required">*</span></label>
+                {{ user_form.username }}
+
+                {{ user_form.first_name.errors }}
+                <label for="{{ user_form.first_name.id_for_label }}" class="mb-0 mt-4">First name <span class="required">*</span></label>
+                {{ user_form.first_name }}
+
+                {{ user_form.last_name.errors }}
+                <label for="{{ user_form.last_name.id_for_label }}" class="mb-0 mt-4">Last name <span class="required">*</span></label>
+                {{ user_form.last_name }}
+
+                {{ user_form.contactNumber.errors }}
+                <label for="{{ user_form.contactNumber.id_for_label }}" class="mb-0 mt-4">Contact Number <span class="required">*</span></label>
+                {{ user_form.contactNumber }}
+
+                {{ user_form.email.errors }}
+                <label for="{{ user_form.email.id_for_label }}" class="mb-0 mt-4">Email address </label>
+                {{ user_form.email }}
+
+                {{ client_form.nationality.errors }}
+                <label for="{{ client_form.nationality.id_for_label }}" class="mb-0 mt-4">Nationality <span class="required">*</span></label>
+                {{ client_form.nationality }}
+
+                {{ client_form.location.errors }}
+                <label for="{{ client_form.location.id_for_label }}" class="mb-0 mt-4">Nearest City or Town <span class="required">*</span></label>
+                {{ client_form.location }}    
+                
+                {{ client_form.postal_code.errors }}
+                <label for="{{ client_form.postal_code.id_for_label }}" class="mb-0 mt-4">What is your Postal Code? <span class="required">*</span></label>
+                {{ client_form.postal_code }}    
+               
+                {{ user_form.password1.errors }}
+                <label for="{{ user_form.password1.id_for_label }}" class="mb-0 mt-4">Password <span class="required">*</span></label>
+                {{ user_form.password1 }}
+
+                {{ user_form.password2.errors }}
+                <label for="{{ user_form.password2.id_for_label }}" class="mb-0 mt-4">Confirm password <span class="required">*</span></label>
+                {{ user_form.password2 }}
+
+                {{ user_form.terms.errors }}
+                {{ user_form.terms }}
+                <label for="{{ user_form.terms.id_for_label }}" class="mb-0 mt-4">By clicking <strong>Agree and Register:</strong>, I hereby:</label>
+                
+                <ul>
+                    <li>Agree and consent to the <a href="#">Terms and Conditions</a>, the <a href="#">Terms of Service</a>, it's policies, and the <a href="#">Privacy Policy</a>  </li>
+                    <li>Expressly instruct DriverHealth to communicate specific information about me and my account to third parties in accordance with the Privacy Policy and the Protection of Personal Information Act 4 of 2013
+
+                    </li>
+                </ul>
+                <h5>Terms of Service and Privacy Policy</h5>
+                <p>These documents are designed to inform you of your rights and obligations when using the DriverHealth service.</p>
+                
+
+                <div class="mt-4" style="text-align: center;">
+                <button type="submit" class="btn btn-secondary" style="width: 250px;">Register</button>
+            </div> 
+
+            </form>
+        </div>
+
+    </div>
+
+{% endblock %}

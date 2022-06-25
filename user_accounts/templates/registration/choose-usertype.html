@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Choose User Type{% endblock %}
+
+{% block css %}
+<style>
+    .contdiv{
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        height: 75vh;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+
+
+    <div class="contdiv universal-padding">
+        {% include 'errors.html' %}
+
+        
+        <div style="display: flex; align-items: center; justify-content: center;">
+            <form method="post" action="/user_accounts/pre-registration/">{% csrf_token %}
+                {{pre_reg_form.user_type.errors}}
+                <label for="{{ pre_reg_form.user_type.id_for_label }}" class="mt-4 mb-4" style="font-size: 1.3em;">What type of user do you want to be? <span class="required">*</span></label>
+                {{pre_reg_form.user_type}}
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <input type="submit" value="Next" class="btn btn-primary">
+                </div>
+                
+                
+            </form> 
+        </div>
+
+    </div>
+
+{% endblock %}

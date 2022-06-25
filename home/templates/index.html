@@ -34,6 +34,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     min-height: 350px;
     text-align: center;
     position: relative;
@@ -138,6 +139,27 @@
           /* grid-template-rows: minmax(200px, auto);         */
       }
   }
+
+  .home-btns{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .seemore a{
+    display: block;
+    text-align: center;
+    color: #00b0f0 !important;
+  }
+
+
+  .joblink{
+    color:#fff !important;
+  }
+
+  .joblink:hover{
+    color: #000 !important;
+  }
  
 </style>
 
@@ -154,7 +176,7 @@
 <div class="home-container universal-padding">
   
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-7">
           <div class="advertising_txt">
             {% for home_text in animated_txt %}
             <div class="home-text-container" style="display: none;">
@@ -162,21 +184,42 @@
                 <h3 class="home-text-sm animate__animated animate__fadeInUp" style="font-size: 2.0em; text-shadow: 2px 2px 8px #000;">{{home_text.line2|safe}}</h3>
             </div>
             {% endfor %}
+            
+          </div>
+
+          <div class="home-btns">
+              <a href="#" class="frontpage_btn text-white"  onclick="" style="float: left;">READ MORE</a>
+              <a href="#" class="frontpage_btn text-white"  onclick="" style="float: left;">BOOK TEST</a>
           </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-5">
             <div class="side-info">
-                <h2>Truck Driver Training Academy</h2>
-                <br>
-                <h4 class="text-light">Contact Us</h4>
-                <div class="cont-num mb-2">087 100 5164</div> 
-            
-                <h5 class="emailaddr mb-2 text-white">info@driverhealth.co.za</h5>
+              <h4 class="text-white" style="letter-spacing: 1px; text-align: center;">Available Jobs</h4>
+              
+              <table class="table table-responsive table-sm text-white">
+                <thead>
+                    <th>Description</th>
+                    <th>Post Date</th>
+                    <th>Closing Date</th>
+                </thead>
+                <tbody class="text-white" style="font-size: .85em;">
+                  {% for job in available_jobs %}
+                    <tr>
+                        <td><a class="joblink" href="#">{{job.job_title|truncatechars:45}}</a> </td>
+                        <td>{{job.date_created|date:"d.m.Y"}}</td>
+                        <td>{{job.closing_date|date:"d.m.Y"}}</td>
+                    </tr>
+                  {% empty %}
+                      <span class="text-danger">No available job opportunities currently</span>
+                  {% endfor %}
+                                       
+                </tbody>
+            </table>
+            {% if available_jobs|length_is:"12" %}
+            <span class="seemore"><a href="#">See More &#8250;</a> </span>
+            {% endif %}
 
-                <div class="home-btns">
-                    <a href="#" class="frontpage_btn text-white"  onclick="" style="float: left;">READ MORE</a>
-                    <a href="#" class="frontpage_btn text-white"  onclick="" style="float: left;">BOOK TEST</a>
-                </div>
+                
             </div>
         </div>
     </div>

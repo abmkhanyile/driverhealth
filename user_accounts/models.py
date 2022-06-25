@@ -44,3 +44,21 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     dh_id = models.CharField(max_length=20, unique=True, blank=False, null=True)
     contactNumber = models.CharField(max_length=20, blank=True, null=True)
+    terms = models.BooleanField(blank=False, null=True)
+
+    objects = CustomUserManager()
+
+    # USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['contactNumber']
+
+    class Meta:
+        ordering = ['username']
+
+    def __str__(self):
+        return self.username
+
+    def ret_acc_name(self):
+        if self.company:
+            return self.company.company_name
+        else:
+            return self.get_full_name()

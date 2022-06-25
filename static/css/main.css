@@ -375,14 +375,12 @@ a, a::after, a::before, a:visited{
   }
 
   .side-info{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    /* background-color: #8e9090; */
-    background-color: rgb(152, 175, 199, .5);
-    min-height: 350px;
+    display: block;
+    position: relative;
+    background-color: rgb(152, 175, 199, .7);
+    min-height: 450px;
     padding: 5px;
+    border-radius: 10px;
     
   }
   .side-info > h2{
@@ -406,24 +404,20 @@ a, a::after, a::before, a:visited{
 
 
   .frontpage_btn{
-    min-width: 15%;
-    min-height: 30px;
+    min-width: 20%;
+    min-height: 50px;
     
     border: 2px solid white;
     color: white;
-    padding: 5px 10px;
+    padding: 15px 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 1em;
-    font-weight: 700;
+    font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
-  
     letter-spacing: 1px;
-    
-    
-    background: linear-gradient(to right, transparent 50%, #0d6efd 50%);
+    background: linear-gradient(to right, transparent 50%, #dc3545 50%);
     background-size: 200%;
     background-position: left;
     transition: background-position 0.5s;
@@ -661,6 +655,14 @@ footer ul{
 
 .home-container{
   position: relative;
+}
+
+.formcontainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
 }
 
  

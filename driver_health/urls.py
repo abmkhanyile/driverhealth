@@ -22,6 +22,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('user_accounts/', include('user_accounts.urls')),
     path('', include('home.urls')),
+    path('careers/', include('careers.urls')),
+    path('dhclients/', include('dhclients.urls')),
+    path('companies/', include('companies.urls')),
+    path('countries/', include('countries.urls')),
 ]
 
 

@@ -91,12 +91,12 @@
            
             <div class="prof-details">
                 {% if request.user.is_authenticated %}
-                <span><a href="#" class="header-links">Hello, {{request.user.first_name}}</a> <br>
+                <span><a href="#" class="header-links">Hello, {{request.user.ret_acc_name|truncatechars:14}}</a> <br>
                     <a href="{% url 'logout' %}" class="header-links" style="font-size: .85em;">Logout</a> | {% if request.user.is_shipper %}<a href="#" class="header-links" style="font-size: .85em;">Dashboard</a>{% else %}<a href="#" class="header-links" style="font-size: .85em;">My Account</a>{% endif %}
                 </span>
                 {% else %}
                 <span><a href="#" class="header-links">My DriverHealth</a> <br>
-                    <a href="{% url 'login' %}" class="header-links" style="font-size: .85em;">Login</a> | <a href="#" class="header-links" style="font-size: .85em;">Register</a>
+                    <a href="{% url 'login' %}" class="header-links" style="font-size: .85em;">Login</a> | <a href="{% url 'pre-registration' %}" class="header-links" style="font-size: .85em;">Register</a>
                 </span>
                 {% endif %}
             </div>
