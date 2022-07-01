@@ -1,5 +1,5 @@
 from django import forms
-from .models import DHClient
+from .models import DHClient, ClientDocument
 
 
 
@@ -38,9 +38,39 @@ class DHClientRegForm(forms.ModelForm):
 
             'postal_code': forms.TextInput(attrs={
                 'class': 'form-control',
-            }),
-          
-     
-            
+            }),            
         }
 
+
+
+# handles the upload of driver documents.
+class ClientDocForm(forms.ModelForm):
+    class Meta:
+        model = ClientDocument
+        exclude = (
+            'client',
+        )
+        fields = (
+            'doc_type',
+            'other_type',
+            'document',
+        )
+        labels = {
+            'other_type': 'Specify Document Type',
+            'doc_type': 'Document Type',
+            'document': 'Select document (i.e. 5MB size limit)',
+        }
+        widgets = {
+            'document': forms.ClearableFileInput(attrs={
+                'class': 'form-control clientdoc-fileinput',
+            }),
+            'doc_type': forms.Select(attrs={
+                'class': 'form-control client-doctype',
+                'onchange': 'checkSel(this)',
+            }),
+            'other_type': forms.TextInput(attrs={
+                'class': 'form-control client-otherdoctype',
+                'id': "othertype",
+                'placeholder': 'Please specify the type of document',
+            }),
+        }

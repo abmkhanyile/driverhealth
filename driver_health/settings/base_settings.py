@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'user_accounts',
     'home',
+    'about_us',
     'training_courses',
     'careers',
     'dhclients',

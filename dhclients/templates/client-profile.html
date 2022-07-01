@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Profile{% endblock %}
+
+{% block css %}
+<style>
+    .imgcontainer{
+        width: 200px;
+        height: 200px;
+        border: 1px solid #ddd;
+
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+        background-image: url('https://dh-training.s3.eu-west-2.amazonaws.com/{{client.profile_picture}}');
+    }
+    .profile-pic{
+        width: 100%;
+        object-fit: cover;
+    }
+
+
+    .half-input-container {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        grid-template-rows: 1fr !important;
+        grid-gap: 10px !important;
+        /* width: 92.5% !important; */
+      }
+
+      .half-input {
+        max-width: 120px;
+      }
+
+      .map {
+        width: 100%;
+        height: 100vh;
+      }
+
+      h2 {
+        font-family: Roboto, sans-serif;
+      } 
+
+      #othertype, label[for="othertype"]{
+        display: none;
+    }
+
+      p > input, p > select{
+        width: 90%;
+      }
+
+      label{
+        display: block;
+      }
+
+      input:focus::placeholder {
+        color: white;
+      } 
+    
+</style>
+{% endblock css %}
+
+{% block content %}
+
+
+    <div class="universal-padding">
+        {% include 'errors.html' %}
+        <div class="prof-upper">
+            <div>
+                <div class="imgcontainer">
+
+                </div>
+            </div>
+            <div class="prof-upper-inner" style="border-bottom: 1px solid #ddd;">
+                <div>
+                    <h3 class="prof-title mb-3">{{client.user.get_full_name}}</h3>
+                    <div class="dh-accreditation">
+                        {% for i in stars_list %}
+                            {{ forloop.counter1 }}
+                            {% if i <= client.rating %}
+                            <i class="fa fa-star goldstar" aria-hidden="true"></i>
+                            {% else %}  
+                            <i class="fa fa-star-o greystar" aria-hidden="true"></i>
+                            {% endif %}
+                        {% endfor %}
+                        <span style="color: #ddd; display: block;">DriverHealth Rating</span>   
+                    </div>
+                </div>
+                <div>
+                    <span class="dh-accre-title" style="font-family: roboto; color: red;">Driver Health Remarks</span>
+                    <div class="accr-text">
+                        {% if client.dh_test_comment %}
+                            {{client.dh_test_comment|safe }}
+                        {% else %}
+                            <div class="alert alert-danger" role="alert"><i>Has NOT been tested by DriverHealth yet.</i></div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+        <div class="prof-mid">
+            <div></div>
+            <div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <table class="table table-sm table-borderless mt-4" style="font-size: .85em;">
+                        
+                            <tr>
+                                <td>
+                                    DriverHealth ID             
+                                </td>
+                                <td>
+                                    {{client.user.dh_id}}
+                                </td>
+                            </tr>
+                                                    
+                            <tr>
+                                <td>
+                                    Nationality            
+                                </td>
+                                <td>
+                                    {{client.nationality}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Contact Number             
+                                </td>
+                                <td>
+                                    {{client.user.contactNumber}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Email             
+                                </td>
+                                <td>
+                                    {{client.user.email}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-sm-6">
+                        <h5 class="text-dark mt-4">Upload a document</h5>
+                        <div class="doc-upload">
+                            <div class="form-overlay"></div>
+                            <img src="{% static 'media/images/loader.gif' %}" class="loader-icon" alt="uploader icon" />
+                            <span class="text-success success-msg" style="display: none;">Document successfully uploaded. (Fresh the page to see document below).</span>
+                            <span id="client_id" data-clientid="{{client.pk}}"></span>
+                            <form method="post" class="clientdocs-form" action="/dhclients/upload-client-doc/">{% csrf_token %}
+                              
+                                    <div class="half-input-container">
+                      
+                                      <p>
+                                        <label for="id_doc_type">Document Type</label>
+                                        {{docform.doc_type}}
+                                      </p>
+                        
+                                      <p>
+                                        <label for="id_document">Document</label>
+                                        {{docform.document}}
+                                      </p>
+                        
+                                    </div>
+                                  
+                                
+                                    <label for="othertype">Other</label>
+                                    {{docform.other_type}}
+                                    <div class="mt-3" style="text-align: center;">
+                                        <input type="submit" onclick="get_signed_AWS_url()" class="btn btn-secondary btn-sm" value="Upload Document">                               
+                                    </div>
+                            </form>
+                        </div>
+                        <table class="table table-responsive table-bordered border-primary doctable">
+                            {% for doc in clientdocs %}
+                            <tr>
+                                {% if doc.doc_type == 6 %}
+                                <td style="width: 20%;">Other ({{ doc.other_type|truncatechars:25 }})</td>
+                                {% else %}
+                                <td style="width: 20%;">{{ doc.get_doc_type_display }}</td>
+                                {% endif %}
+                                <td><a href="{{doc.retDocument}}" class="homepage_link" >{{doc.doc_name|truncatechars:30 }}</a>  </td>
+                                <td style="width: 10%;">
+                                    
+                                    <div class="form-check">
+                                        
+                                        <input class="form-check-input" type="radio" data-docid="{{doc.pk}}" onclick=setDoc_visibility(this) name="flexRadioDefault{{doc.pk}}" id="flexRadioDefault{{doc.pk}}" {% if doc.doc_visibility == 1 %} checked {% endif %}>                               
+                                        <label class="form-check-label" for="flexRadioDefault{{doc.pk}}">
+                                          Public
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        
+                                        <input class="form-check-input" type="radio" data-docid="{{doc.pk}}" onclick=setDoc_visibility(this) name="flexRadioDefault{{doc.pk}}" id="flex_RadioDefault{{doc.pk}}" {% if doc.doc_visibility == 2 %} checked {% endif %}>
+                                        <label class="form-check-label" for="flex_RadioDefault{{doc.pk}}">
+                                          Private
+                                        </label>
+                                    </div>
+        
+                                </td>
+                                <td style="width: 10%;"><a href="{% url 'delete-document' pk=doc.pk %}" class="btn btn-outline-danger btn-sm">Delete</a> </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

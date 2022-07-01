@@ -26,6 +26,7 @@ urlpatterns = [
     path('dhclients/', include('dhclients.urls')),
     path('companies/', include('companies.urls')),
     path('countries/', include('countries.urls')),
+    path('about_us/', include('about_us.urls')),
 ]
 
 

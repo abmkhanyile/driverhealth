@@ -58,7 +58,13 @@ class CustomUser(AbstractUser):
         return self.username
 
     def ret_acc_name(self):
-        if self.company:
+        if hasattr(self, 'company'): 
             return self.company.company_name
         else:
-            return self.get_full_name()
+            return self.first_name
+
+    def is_company(self):
+        if hasattr(self, 'company'): 
+            return True
+        else:
+            return False

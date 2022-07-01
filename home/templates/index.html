@@ -3,6 +3,9 @@
 
 {% block css %}
 <style>
+  #header_section{
+    background-color: rgba(0, 0, 0, 0.7);
+  }
   #home-video {
     width: 100vw;
     height: 100vh;
@@ -291,7 +294,7 @@
           {% for course in training_course %}
           <div class="course-container">
             <h6 style="text-align: center;"><strong>{{course.course_name}}</strong></h6>
-            <h6>Duration {{course.duration}} weeks</h6>
+            <h6>Duration {{course.duration}}</h6>
             <h4 style="color:#00b0f0">R{{course.price}}</h4>
             <div>
               {{course.course_details|safe}}

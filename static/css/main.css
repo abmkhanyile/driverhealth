@@ -3,6 +3,7 @@
 @import "https://unpkg.com/open-props";
 @import "https://unpkg.com/open-props/normalize.min.css";
 
+
 :root{
   --fontsize: .95em;
   --universal_margin: 20px;
@@ -32,7 +33,7 @@ a, a::after, a::before, a:visited{
 } */
 
 .universal-padding{
-    padding: 20px;
+    padding: 40px 20px;
 }
 
 
@@ -40,12 +41,22 @@ a, a::after, a::before, a:visited{
 /************header css***********************/
 #header_section {
     position: relative;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0);
     padding: 5px 20px;
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-rows: minmax(50px, auto);
     align-items: center;
+    z-index: 10;
+  }
+
+  .shortcut-links-container{
+    display: none;
+    background: #373737;
+    width: 100%;
+    min-height: 35px; 
+    padding: 0px 20px;
+    position: relative;
     z-index: 10;
   }
 
@@ -127,16 +138,7 @@ a, a::after, a::before, a:visited{
   #header_section a{
       color: #fff;
   }
-  
-  .shortcut-links-container{
-    background: #0000AE;
-    width: 100%;
-    min-height: 35px;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    padding: 0px 20px;
-  }
+
   
   .shortcut-link{
     text-decoration: none;
@@ -147,7 +149,7 @@ a, a::after, a::before, a:visited{
 
   .important-links{
       display: flex;
-      justify-content: flex-end;
+      justify-content: flex-end !important;
       align-items: center;
       width: 100%;
   }
@@ -665,5 +667,89 @@ footer ul{
   margin-top: 30px;
 }
 
- 
+.prof-upper{
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  grid-template-rows: 1fr;
+  grid-gap: 50px;
+}
+
+.prof-upper-inner{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 50px;
+}
+
+.prof-title{
+  font-weight: 500;
+  /* letter-spacing: 1px; */
+}
+@media only screen and (max-width: 750px) {
+  .prof-upper, .prof-upper-inner{
+    grid-template-columns: 1fr;
+  }
+}
+
+.accr-text{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #E1EBEE;
+  border-radius: 10px;
+  height: 80%;
+  overflow: auto;
+}
+
+.goldstar{
+  font-size: 30px;
+  color: gold;
+}
+
+.greystar{
+  font-size: 30px;
+  color: grey;
+}
+
+.doc-upload{
+  padding: 10px;
+  border: 1px solid#ddd;
+  border-radius: 10px;
+  min-height: 100px;
+  background-color: #E1EBEE;
+  position: relative;
+  width: 100%;
+  margin: auto;
+}
+
+.loader-icon{
+  display: none;
+  position: absolute;
+  width: 100px;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+
+/* css styling for dashboard sub-menus */
+.subheader-contianer{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-column-end:auto;
+}
+.submenu{
+  display: flex;
+  justify-content: right;
+  
+}
+
+.submenu > a{
+  color: ivory;
+  font-size: .85em;
+}
+/* end css styling for dashboard sub-menus */
+
 

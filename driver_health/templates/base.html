@@ -49,7 +49,7 @@
         <div class="mainmenu">
             <div class="menuitems-container">
                 <a href="{% url 'home' %}" class="menu-item">Home</a>
-                <a href="#" class="menu-item">About Us</a>
+                <a href="{% url 'about-us' %}" class="menu-item">About Us</a>
                 <a href="#" class="menu-item">Training</a>
                 <a href="#" class="menu-item">Gallery</a>
                 <a href="#" class="menu-item">Contact Us</a>
@@ -68,10 +68,10 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     
                     <li>
-                        {% if request.user.is_shipper %}
-                        <a class="dropdown-item" href="#">Dashboard</a>
+                        {% if request.user.is_company %}
+                        <a class="dropdown-item" href="{% url 'company-dashboard' %}">Dashboard</a>
                         {% else %}
-                        <a class="dropdown-item" href="#">My Account</a>
+                        <a class="dropdown-item" href="{% url 'client-profile' %}">My Profile</a>
                         {% endif %}
                     </li>
                     <li>
@@ -92,7 +92,7 @@
             <div class="prof-details">
                 {% if request.user.is_authenticated %}
                 <span><a href="#" class="header-links">Hello, {{request.user.ret_acc_name|truncatechars:14}}</a> <br>
-                    <a href="{% url 'logout' %}" class="header-links" style="font-size: .85em;">Logout</a> | {% if request.user.is_shipper %}<a href="#" class="header-links" style="font-size: .85em;">Dashboard</a>{% else %}<a href="#" class="header-links" style="font-size: .85em;">My Account</a>{% endif %}
+                    <a href="{% url 'logout' %}" class="header-links" style="font-size: .85em;">Logout</a> | {% if request.user.is_company %}<a href="{% url 'company-dashboard' %}" class="header-links" style="font-size: .85em;">Dashboard</a>{% else %}<a href="{% url 'client-profile' %}" class="header-links" style="font-size: .85em;">My Profile</a>{% endif %}
                 </span>
                 {% else %}
                 <span><a href="#" class="header-links">My DriverHealth</a> <br>
@@ -111,6 +111,12 @@
         </div>
         
 
+    </section>
+    <section class="shortcut-links-container">
+         
+                {% block dashboard_menu %}
+                {% endblock dashboard_menu %} 
+             
     </section>
     
 

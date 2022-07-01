@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+
+{% block css %}
+<style>
+    .shortcut-links-container{
+        display: flex !important;
+        flex-wrap: nowrap;
+        /* justify-content: left; */
+        align-items: center;
+    }
+    .subheader-contianer{
+        color: #fff;
+    }
+    
+</style>
+{% endblock css %}
+
+{% block dashboard_menu %}
+<div class="subheader-contianer">
+    <div class="comp_name">{{company.company_name|truncatechars:25}}</div> 
+    <div class="submenu">
+        <a href="#" class="menu-item">Dashboard</a>
+        <a href="#" class="menu-item">Post a Job</a>
+        <a href="#" class="menu-item">Jobs & Applicants</a>
+        <a href="#" class="menu-item">Candidate List</a>
+        <a href="#" class="menu-item">Requested Candidates</a>
+    </div>
+</div>
+{% endblock dashboard_menu %} 
+
+{% block content %}
+
+
+    <div class="universal-padding">
+        {{company}}
+    </div>
+
+{% endblock %}
