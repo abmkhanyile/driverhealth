@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Create Job{% endblock %}
+
+{% block css %}
+<style>
+    .shortcut-links-container{
+        display: flex !important;
+        flex-wrap: nowrap;
+        /* justify-content: left; */
+        align-items: center;
+    }
+    .subheader-contianer{
+        color: #fff;
+    }
+</style>
+{% endblock css %}
+
+{% block dashboard_menu %}
+<div class="subheader-contianer">
+    {% include 'dashboard-menu.html' %}
+</div>
+{% endblock dashboard_menu %} 
+
+{% block content %}
+
+
+    <div class="flex-page universal-padding">
+        {% include 'errors.html' %}
+        <form method="post" action="/companies/create-job/">{% csrf_token %}
+            {{ jobform.media }}
+            {{jobform.as_p}}
+            <div style="text-align: center;">
+                <input type="submit" class="btn btn-secondary">
+            </div>
+            
+        </form>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+{% load static %}
+
+<div class="comp_name">{{request.user.company.company_name|truncatechars:25}}</div> 
+    <div class="submenu">
+        <a href="{% url 'company-dashboard' %}" class="menu-item">Dashboard</a>
+        <a href="{% url 'create-job' %}" class="menu-item">Post a Job</a>
+        <a href="#" class="menu-item">Jobs & Applicants</a>
+        <a href="#" class="menu-item">Candidate List</a>
+        <a href="#" class="menu-item">Requested Candidates</a>
+    </div>

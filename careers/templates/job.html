@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Job{% endblock %}
+
+{% block css %}
+<style>
+    
+</style>
+{% endblock css %}
+
+{% block content %}
+
+
+    <div class="universal-padding">
+        {% include 'job-details.html' %}
+        {% if request.user.is_dhclient %}
+        <div style="text-align: center;">
+            <a href="javascript:void(0)" class="btn btn-info btn-lg text-white">Apply Now</a>
+        </div>
+        {% endif %}
+        
+    </div>
+
+{% endblock %}

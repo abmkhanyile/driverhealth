@@ -750,6 +750,57 @@ footer ul{
   color: ivory;
   font-size: .85em;
 }
+
+.dash-tile{
+  padding: 10px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 200px;
+  min-height: 50px;
+  font-size: 1.2em;
+  font-weight: 500;
+  margin-bottom: 20px;
+  background-color: #9494FF;
+}
 /* end css styling for dashboard sub-menus */
 
 
+.flex-page{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.jobcontainer{
+  display: block;
+  background-color: #F5F5DC;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.jobcontainer > span{
+  display: block;
+  font-size: 1.2em;
+  font-weight: 700;
+  /* margin-bottom: 8px; */
+  color:#00b0f0;
+}
+
+.jobcontainer > p{
+  font-size: .95em;
+  font-weight: normal;
+  color: #232023;
+  max-inline-size: 100% !important;
+}
+
+.timesince{
+  font-size: .8em;
+  color: grey;
+}
+
+.embedded-header{
+  color:#00b0f0;
+}

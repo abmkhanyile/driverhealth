@@ -208,7 +208,7 @@
                 <tbody class="text-white" style="font-size: .85em;">
                   {% for job in available_jobs %}
                     <tr>
-                        <td><a class="joblink" href="#">{{job.job_title|truncatechars:45}}</a> </td>
+                        <td><a class="joblink" href="{% url 'job' pk=job.pk %}">{{job.job_title|truncatechars:45}}</a> </td>
                         <td>{{job.date_created|date:"d.m.Y"}}</td>
                         <td>{{job.closing_date|date:"d.m.Y"}}</td>
                     </tr>
@@ -219,7 +219,7 @@
                 </tbody>
             </table>
             {% if available_jobs|length_is:"12" %}
-            <span class="seemore"><a href="#">See More &#8250;</a> </span>
+            <span class="seemore"><a href="{% url 'jobs-list' %}">See More &#8250;</a> </span>
             {% endif %}
 
                 

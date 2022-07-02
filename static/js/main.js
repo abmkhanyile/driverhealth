@@ -140,4 +140,10 @@ $(document).ready(function() {
       // For this example, don't actually submit the form
       event.preventDefault();
   });
+
+  $('#jobclosing_date').datepicker({  
+    showAnim: 'drop',
+    numberOfMonth: 1,
+  });
 });
+

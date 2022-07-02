@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Jobs List{% endblock %}
+
+{% block css %}
+<style>
+    
+</style>
+{% endblock css %}
+
+{% block content %}
+
+
+    <div class="universal-padding">
+        <h1>Available Jobs</h1>   
+
+        <ul style="list-style-type: none; padding-left: 0px; width: 100%;">
+            {% for job in page_obj %}
+            <li style="max-inline-size: 100%">
+                <a href="{% url 'job' pk=job.pk %}" class="jobcontainer" style="width: 100%;">
+                    <span>{{job.job_title}}</span>
+                    <p>{{job.job_details|striptags|truncatechars:100}}</p>
+                    <div class="timesince">{{job.date_created|timesince}}</div>
+                </a>
+            </li>
+            {% empty %}
+            <li><h4 class="text-danger">No available jobs currently</h4> </li>
+            {% endfor %}
+        </ul>
+
+        {% include 'paginator.html' %}
+       
+    </div>
+
+{% endblock %}

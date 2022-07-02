@@ -19,14 +19,7 @@
 
 {% block dashboard_menu %}
 <div class="subheader-contianer">
-    <div class="comp_name">{{company.company_name|truncatechars:25}}</div> 
-    <div class="submenu">
-        <a href="#" class="menu-item">Dashboard</a>
-        <a href="#" class="menu-item">Post a Job</a>
-        <a href="#" class="menu-item">Jobs & Applicants</a>
-        <a href="#" class="menu-item">Candidate List</a>
-        <a href="#" class="menu-item">Requested Candidates</a>
-    </div>
+    {% include 'dashboard-menu.html' %}
 </div>
 {% endblock dashboard_menu %} 
 
@@ -34,7 +27,56 @@
 
 
     <div class="universal-padding">
-        {{company}}
+        <div class="row">
+           <div class="col-sm-4">
+            <div class="bg-secondary text-white p-3" style="border-radius: 10px;">
+                <p>{{company.contact_person}}</p>
+                <p>{{company.contact_num1}}</p>
+                <p>{{company.contact_num2}}</p>
+                <p>{{company.email_address}}</p>
+                <p>{{company.address}}</p>
+            </div>
+           </div>
+           <div class="col-sm-6">
+            <h4 class="dash-header" style="color: #00b0f0;">Welcome to DriverHealth</h4>
+            <p>Your partner in truck driver training. We are South Africa’s leading truck driver training academy offering various driver training programs to produce safe and skilled truck drivers.
+            </p>
+
+            <h5 class="embedded-header">Truck Driver Training </h5>
+            <ul>
+                <li>Truck driver beginner training</li>
+                <li>Truck driver refresher training</li>
+                <li>Superlink reverse training</li>
+            </ul>
+
+            <h5 class="embedded-header">Advanced Driver Training </h5>
+            <p>We minimise company costs and risks by developing your driver’s knowledge and driving skills. We provide advanced training for the novice and experienced driver. 
+            </p>
+            <ul>
+                <li>Driver assessments</li>
+                <li>Dangerous goods training</li>
+                <li>Defensive driving</li>
+                <li>Economical driving – (Green band)</li>
+                <li>Driver fatigue</li>
+                <li>Lane discipline</li>
+                <li>Communication</li>
+                <li>Crash avoidance</li>
+                <li>Day & Night driving</li>
+                <li>Adverse weather conditions (Rainy, Windy & Foggy)</li>
+                <li>Loaded & empty driving</li>
+                <li>Braking</li>
+            </ul>
+
+            <p>Talk to us for any of the trainings listed above.</p>
+
+            <h5 class="embedded-header">Looking for Drivers?</h5>
+            <p>Are you looking to employ drivers on a temporary or permanent basis? Look no further, we have trained and experienced truck drivers around the country in search of employment. 
+
+                To ensure that you get exceptional drivers, we identify suitable candidates, we conduct all necessary checks and assessments, and we take candidates through our inhouse driver training program that offers advanced driver training. To view available drivers please click the button below
+                </p>
+
+           </div>
+        </div>
     </div>
 
 {% endblock %}

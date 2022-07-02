@@ -68,3 +68,9 @@ class CustomUser(AbstractUser):
             return True
         else:
             return False
+
+    def is_dhclient(self):
+        if hasattr(self, 'dhclient'): 
+            return True
+        else:
+            return False

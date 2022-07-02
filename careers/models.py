@@ -8,6 +8,7 @@ class Job(models.Model):
     owner = models.ForeignKey('companies.Company', related_name="company_jobs", on_delete=models.CASCADE, blank=False)
     applicants = models.ManyToManyField('dhclients.DHClient', related_name="applicants", blank=True)
     job_title = models.CharField(max_length=150, blank=False)
+    job_location = models.CharField(max_length=500, blank=True)
     closing_date = models.DateTimeField(blank=False)
     dhref = models.CharField(max_length=15, blank=False)
     ref = models.CharField(max_length=150, blank=True)
@@ -24,4 +25,10 @@ class Job(models.Model):
 
     def __str__(self):
         return self.job_title
+
+# stores job application data
+class JobApplication(models.Model):
+    job = models.ForeignKey('careers.Job', related_name="job_applications", on_delete=models.CASCADE, blank=False)
+    dhclient = models.ForeignKey('dhclients.DHClient', related_name="dhclient_applications", on_delete=models.CASCADE, blank=False)
+
 

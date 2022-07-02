@@ -160,6 +160,7 @@ LOGIN_EXEMPT_URLS = (
     r'^newsletter/newsletter/$',
     r'^upcoming_events/events/$',
     r'^training_academy/create-enquiry/(?P<course_type>\d+)/$',
+    r'^careers/jobs-list/$',
 )
 
 

@@ -1,0 +1,9 @@
+{% load static %}
+
+<div>
+    <h4>{{object.job_title}}</h4>
+    <p>Ref:     {{object.ref}}</p>
+    {{object.job_details|safe}}
+    <p>{{object.closing_date}}</p>
+</div>
+
