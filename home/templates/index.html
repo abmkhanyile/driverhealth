@@ -375,8 +375,9 @@
                             </p>
                             <br><br>
                             <a href="{% url 'jobs-list' %}">View Available Jobs</a>
-                            <a href="#">View Available Drivers</a>
-
+                            {% if request.user.is_company %}
+                            <a href="{% url 'client-list' %}">View Available Drivers</a>
+                            {% endif %}
                     </div>
                 </div>
             </div>
