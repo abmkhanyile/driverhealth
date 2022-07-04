@@ -691,14 +691,12 @@ footer ul{
 }
 
 .accr-text{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  display: block;
   background-color: #E1EBEE;
   border-radius: 10px;
   height: 80%;
   overflow: auto;
+  padding: 10px;
 }
 
 .goldstar{
@@ -822,4 +820,81 @@ footer ul{
   #profpic_file{
     display: block !important;
   }
+}
+
+
+/* css styling for the careers section on the homepage */
+.available-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+}
+
+.listcontainer, .internship-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+/* end of css styling for the careers section on the homepage */
+
+.cli-container{
+  display: grid;
+  grid-template-columns: .5fr 1fr 1.5fr;
+  grid-template-rows: minmax(151px, auto);
+  /* grid-gap: 10px; */
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  background-color: ivory;
+  min-height: 151px;
+  overflow: hidden;
+}
+
+
+@media only screen and (max-width: 750px) {
+  .cli-container{
+      display: grid;
+      /* width: 100%; */
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 10px;
+      grid-template-rows: minmax(200px, auto);
+     
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .driverinfo{
+    grid-column: 1 / 3;
+  }
+}
+
+
+
+.cli-container:hover{
+  background-color: #f8eeec;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.profimg{
+  width: 150px;
+  height: 150px;
+  border: 1px solid #ddd;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.driverinfo{
+  padding: 10px;
+  overflow: hidden;
+}
+
+.clientrating{
+  display: block;
+  overflow: hidden;
 }

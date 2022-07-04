@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Driver List{% endblock %}
+
+{% block css %}
+<style>
+      .shortcut-links-container{
+        display: flex !important;
+        flex-wrap: nowrap;
+        /* justify-content: left; */
+        align-items: center;
+    }
+    .subheader-contianer{
+        color: #fff;
+    }
+    .goldstar{
+        font-size: 20px;
+    }
+    .greystar{
+        font-size: 20px;
+    }
+</style>
+{% endblock css %}
+
+{% block dashboard_menu %}
+<div class="subheader-contianer">
+    {% include 'dashboard-menu.html' %}
+</div>
+{% endblock dashboard_menu %}
+
+{% block content %}
+
+
+    <div class="universal-padding">
+        {% include 'list-shared-code.html' %}
+    </div>
+
+{% endblock %}

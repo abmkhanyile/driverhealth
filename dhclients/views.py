@@ -11,6 +11,7 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse
 from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
 
 
 # displays the client profile.
@@ -159,3 +160,5 @@ class UplaodProfileImg(View):
         client.profile_picture = 'Profile_Pics/{}.webp'.format(f_name)
         client.save()
         return JsonResponse(dataList, safe=False)
+
+

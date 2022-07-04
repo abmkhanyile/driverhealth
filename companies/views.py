@@ -6,6 +6,8 @@ import random
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
+from dhclients.models import DHClient
+from django.core.paginator import Paginator
 
 class Dashboard(View, ContextMixin):
     template_name = "company-dashboard.html"
@@ -44,3 +46,28 @@ class CreateJob(View, ContextMixin):
             job.save()
             messages.success(request, "Job successfully created...awaiting approval by DriverHealth")
             return HttpResponseRedirect(reverse('create-job'))
+
+
+
+# displays a list of all the drivers.
+class ClientList(View, ContextMixin):
+    template_name = "client-list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        clients = DHClient.objects.filter(user__is_active = True)
+        
+        paginator = Paginator(clients, 25) # Show 25 clients per page.
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context['page_obj'] = page_obj
+
+        context['stars_list'] = [1,2,3,4,5]
+
+        return context
+
+    def get(self, request, **kwargs):
+        if not request.user.is_company():
+            raise PermissionDenied
+        context = self.get_context_data()
+        return render(request, self.template_name, context)

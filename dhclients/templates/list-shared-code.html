@@ -1,0 +1,49 @@
+{% load static %}
+
+<ul style="list-style-type: none; padding-left: 0px;">
+    {% for client in page_obj %}
+    <li>
+        <a href="#" class="cli-container">
+            <div class="profimg" style="background-image: url('https://dh-training.s3.eu-west-2.amazonaws.com/{{client.profile_picture}}');"></div>
+            <div class="dh-accreditation" style="padding: 10px 0px;">
+               <div>
+                {% for i in stars_list %}
+                    {{ forloop.counter1 }}
+                    {% if i <= client.rating %}
+                    <i class="fa fa-star goldstar" aria-hidden="true"></i>
+                    {% else %}  
+                    <i class="fa fa-star-o greystar" aria-hidden="true"></i>
+                    {% endif %}
+                {% endfor %}
+                </div>
+                
+                <span class="mb-1" style="color: #ddd; display: block;">DriverHealth Rating</span>   
+                <span class="text-dark" style="font-size: .9em; display: block;">DriverHealt ID: {{client.user.dh_id}}</span>
+                <span class="text-dark" style="font-size: .9em; display: block;">Nationality: {{client.nationality}}</span>
+                {% if client.tested %}<span class="badge bg-success">Driver Tested</span> {% else %} <span class="badge bg-warning text-dark">Driver Not Tested</span>{% endif %}
+                
+               
+         
+            </div>
+            <div class="driverinfo">
+                
+                <div class="clientrating">
+                                        
+                    <div class="dhremarks" style="width: 100%;">
+                        <h5 class="text-primary" style="font-size: 1em; font-weight: 700; letter-spacing: 1px;">DriverHealth Remarks</h5>
+                        <div class="accr-text" style="height: 100px; width: 100%;">
+                            {% if client.dh_test_comment %}
+                                <p class="text-primary" style="font-size: .9em;">{{client.dh_test_comment|safe }}</p>
+                            {% else %}
+                                <span class="text-danger">No available remarks for this driver. </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
+{% include 'paginator.html' %}

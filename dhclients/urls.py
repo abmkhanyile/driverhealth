@@ -13,5 +13,4 @@ urlpatterns = [
     path('delete-document/<pk>/', DelDoc.as_view(), name='delete-document'),
     path('change-visibility/', change_visibility, name='change-visibility'),
     path('upload-image/', UplaodProfileImg.as_view(), name='upload-image'),
-
 ]
