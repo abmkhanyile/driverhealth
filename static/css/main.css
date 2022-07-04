@@ -22,15 +22,15 @@ html, body {
   padding: 0;
 }
 
+li{
+    max-inline-size: 100%;
+}
+
 a, a::after, a::before, a:visited{
     text-decoration: none;
     color: #0d6efd;
 }
 
-/* ul{
-    list-style-type: none;
-    padding-left: 0px;
-} */
 
 .universal-padding{
     padding: 40px 20px;
@@ -803,4 +803,23 @@ footer ul{
 
 .embedded-header{
   color:#00b0f0;
+}
+
+#profpic_overlay{
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+@media only screen and (max-width: 750px) {
+  #profpic_file{
+    display: block !important;
+  }
 }

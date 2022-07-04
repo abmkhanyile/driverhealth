@@ -138,7 +138,7 @@ class Register(View, ContextMixin):
 
 # displays a success message after registration.
 def registration_success_view(request):
-    return render(request, "registration-success.html")
+    return render(request, "registration/registration-success.html")
 
 
 # this view handles Company Registrations

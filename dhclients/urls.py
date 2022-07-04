@@ -4,6 +4,7 @@ from .views import (
     upload_client_doc,
     change_visibility,
     DelDoc,
+    UplaodProfileImg,
 )
 
 urlpatterns = [
@@ -11,5 +12,6 @@ urlpatterns = [
     path('upload-client-doc/', upload_client_doc, name="upload-client-doc"),
     path('delete-document/<pk>/', DelDoc.as_view(), name='delete-document'),
     path('change-visibility/', change_visibility, name='change-visibility'),
+    path('upload-image/', UplaodProfileImg.as_view(), name='upload-image'),
 
 ]

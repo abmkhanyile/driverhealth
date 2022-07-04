@@ -12,6 +12,7 @@ class CreateJobForm(forms.ModelForm):
         fields = (
             'job_title',
             'ref',
+            'job_location',
             'job_details',
             'closing_date',
         )
@@ -22,6 +23,10 @@ class CreateJobForm(forms.ModelForm):
             'ref': forms.TextInput(attrs={
                 'class': 'form-control',
             }),
+            'job_location': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Type in City, Town, or Province'
+            }),
             'closing_date': forms.DateInput(attrs={
                 'class': 'form-control',
                 'id': 'jobclosing_date',
@@ -29,5 +34,14 @@ class CreateJobForm(forms.ModelForm):
         }
 
 # collects data for a job application
-class JobApplicationForm(forms.ModelForm):
-    pass
+class JobApplicationForm(forms.Form):
+    name = forms.CharField(required=True, widget=forms.TextInput(attrs={
+        'class': 'form-control',
+    }))
+    surname = forms.CharField(required=True, widget=forms.TextInput(attrs={
+        'class': 'form-control',
+    }))
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={
+        'class': 'form-control',
+    }))
+    

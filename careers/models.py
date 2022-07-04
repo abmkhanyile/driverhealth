@@ -1,6 +1,7 @@
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.utils import timezone
+from django.conf import settings
 
 
 # this model store job listings by companies.
@@ -26,9 +27,29 @@ class Job(models.Model):
     def __str__(self):
         return self.job_title
 
+
+
 # stores job application data
 class JobApplication(models.Model):
     job = models.ForeignKey('careers.Job', related_name="job_applications", on_delete=models.CASCADE, blank=False)
     dhclient = models.ForeignKey('dhclients.DHClient', related_name="dhclient_applications", on_delete=models.CASCADE, blank=False)
+    date_created = models.DateTimeField(default=timezone.now, blank=False)
 
+    def __str__(self) -> str:
+        return self.job.job_title
+
+
+class ApplicationDocument(models.Model):
+    job_application = models.ForeignKey('careers.JobApplication', related_name='application_documents', on_delete=models.CASCADE, blank=False)
+    application_doc = models.FileField(upload_to='Job_Application_Documents/', blank=False)
+    creation_date = models.DateTimeField(default=timezone.now, blank=False)
+    
+    class Meta:
+        verbose_name_plural = ('Application Documents')
+
+    def __str__(self) -> str:
+        return f'{self.creation_date}'
+
+    def retDocument(self):
+        return 'https://{}/{}'.format(settings.AWS_S3_CUSTOM_DOMAIN, self.document)
 

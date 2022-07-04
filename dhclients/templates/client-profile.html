@@ -8,11 +8,15 @@
         width: 200px;
         height: 200px;
         border: 1px solid #ddd;
-
+        position: relative;
         overflow: hidden;
         background-size: cover;
         background-position: center;
         background-image: url('https://dh-training.s3.eu-west-2.amazonaws.com/{{client.profile_picture}}');
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
     }
     .profile-pic{
         width: 100%;
@@ -56,6 +60,8 @@
       input:focus::placeholder {
         color: white;
       } 
+
+    
     
 </style>
 {% endblock css %}
@@ -67,9 +73,24 @@
         {% include 'errors.html' %}
         <div class="prof-upper">
             <div>
-                <div class="imgcontainer">
+                
+                <div class="imgcontainer" data-loaded="false" data-original_fn="">
 
+                    <input type="text" class="aws_url" name="aws_url" hidden />
+                    <progress class="progressbar file" style="display: none;"></progress>
+
+                    {% if not client.profile_picture %}
+                        <input type="button" class="btn btn-secondary btn-sm" onclick="selfile()" value="Upload Profile Pic" />
+                    {% else %}
+                        <div id="profpic_overlay">
+                            <input type="button" class="btn btn-secondary btn-sm" onclick="selfile()" value="Upload Profile Pic" />
+                        </div>
+                    {% endif %}
                 </div>
+                <input type="number" value="{{client.pk}}" id="clientId" style="display: none;"> 
+                {% if client.profile_picture %}
+                    <input type="file" id="profpic_file" onchange="upload_img(this)" style="display: none;">
+                {% endif %}
             </div>
             <div class="prof-upper-inner" style="border-bottom: 1px solid #ddd;">
                 <div>
