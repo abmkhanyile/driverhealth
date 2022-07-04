@@ -148,6 +148,7 @@ $(document).ready(function() {
 });
 
 function selfile(){
+  console.log("btn clicked")
   $('#profpic_file').click();
 }
 
@@ -168,7 +169,6 @@ async function upload_img(elem) {
   fdata.append('csrfmiddlewaretoken', csrftoken);
   fdata.append('clientpk', $('#clientId').val());
   fdata.append('img_name', profile_image.name);
-
 
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "/dhclients/upload-image/");

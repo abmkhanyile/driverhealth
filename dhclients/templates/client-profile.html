@@ -61,8 +61,6 @@
         color: white;
       } 
 
-    
-    
 </style>
 {% endblock css %}
 
@@ -80,7 +78,10 @@
                     <progress class="progressbar file" style="display: none;"></progress>
 
                     {% if not client.profile_picture %}
-                        <input type="button" class="btn btn-secondary btn-sm" onclick="selfile()" value="Upload Profile Pic" />
+                        <span>Upload Profile Picture</span>
+                        <div id="profpic_overlay">
+                            <input type="button" class="btn btn-secondary btn-sm" onclick="selfile()" value="Upload Profile Pic" />
+                        </div>
                     {% else %}
                         <div id="profpic_overlay">
                             <input type="button" class="btn btn-secondary btn-sm" onclick="selfile()" value="Upload Profile Pic" />
@@ -88,9 +89,9 @@
                     {% endif %}
                 </div>
                 <input type="number" value="{{client.pk}}" id="clientId" style="display: none;"> 
-                {% if client.profile_picture %}
-                    <input type="file" id="profpic_file" onchange="upload_img(this)" style="display: none;">
-                {% endif %}
+               
+                <input type="file" id="profpic_file" onchange="upload_img(this)" style="display: none;">
+                
             </div>
             <div class="prof-upper-inner" style="border-bottom: 1px solid #ddd;">
                 <div>
