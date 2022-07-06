@@ -4,7 +4,7 @@
     {% for client in page_obj %}
     <li>
         <a href="#" class="cli-container">
-            <div class="profimg" style="background-image: url('https://dh-training.s3.eu-west-2.amazonaws.com/{{client.profile_picture}}');"></div>
+            <div class="profimg" style="background-image: url('https://ik.imagekit.io/2mjln4gew/{{client.profile_picture}}?tr=q-50?tr=w-0.5,h-0.5');"></div>
             <div class="dh-accreditation" style="padding: 10px 0px;">
                <div>
                 {% for i in stars_list %}
@@ -18,7 +18,7 @@
                 </div>
                 
                 <span class="mb-1" style="color: #ddd; display: block;">DriverHealth Rating</span>   
-                <span class="text-dark" style="font-size: .9em; display: block;">DriverHealt ID: {{client.user.dh_id}}</span>
+                <span class="text-dark" style="font-size: .9em; display: block;">DriverHealth ID: {{client.user.dh_id}}</span>
                 <span class="text-dark" style="font-size: .9em; display: block;">Nationality: {{client.nationality}}</span>
                 {% if client.tested %}<span class="badge bg-success">Driver Tested</span> {% else %} <span class="badge bg-warning text-dark">Driver Not Tested</span>{% endif %}
                 

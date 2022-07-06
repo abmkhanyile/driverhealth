@@ -8,6 +8,8 @@ from django.urls import reverse
 from django.contrib import messages
 from dhclients.models import DHClient
 from django.core.paginator import Paginator
+from careers.models import Job
+
 
 class Dashboard(View, ContextMixin):
     template_name = "company-dashboard.html"
@@ -71,3 +73,45 @@ class ClientList(View, ContextMixin):
             raise PermissionDenied
         context = self.get_context_data()
         return render(request, self.template_name, context)
+
+
+# displays a list of all the jobs posted by a company.
+class PostedJobs(View, ContextMixin):
+    template_name = "posted-jobs.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        company = self.request.user.company
+        postedjobs = company.company_jobs.all()
+        paginator = Paginator(postedjobs, 25) # Show 25 jobs per page.
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        context['page_obj'] = page_obj
+        return context
+
+    def get(self, request, **kwargs):
+        if not request.user.is_company():
+            raise PermissionDenied
+        return render(request, self.template_name, self.get_context_data())
+
+
+# displays a job and all the applicants of that job.
+# this is in the company Dashboard.
+class JobApplicants(View, ContextMixin):
+    template_name = "applicants.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        job = Job.objects.get(pk=self.kwargs['pk'])
+        context['job'] = job
+        context['stars_list'] = [1,2,3,4,5]
+        context['applications'] = job.job_applications.all()
+        return context
+
+    def get(self, request, **kwargs):
+        if not request.user.is_company():
+            raise PermissionDenied
+        return render(request, self.template_name, self.get_context_data())
+

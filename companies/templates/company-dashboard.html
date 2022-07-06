@@ -17,10 +17,15 @@
 </style>
 {% endblock css %}
 
-{% block dashboard_menu %}
-<div class="subheader-contianer">
+{% block submenu %}
+{% include 'dashboard-menu.html' %}
+{% endblock submenu %}
+
+{% block entity_name %}
+    <div class="comp_name">{{request.user.company}}</div>
+{% endblock entity_name %}
+{% block dashboard_menu %}    
     {% include 'dashboard-menu.html' %}
-</div>
 {% endblock dashboard_menu %} 
 
 {% block content %}
@@ -72,7 +77,7 @@
             <h5 class="embedded-header">Looking for Drivers?</h5>
             <p>Are you looking to employ drivers on a temporary or permanent basis? Look no further, we have trained and experienced truck drivers around the country in search of employment. 
 
-                To ensure that you get exceptional drivers, we identify suitable candidates, we conduct all necessary checks and assessments, and we take candidates through our inhouse driver training program that offers advanced driver training. To view available drivers please click the button below
+                To ensure that you get exceptional drivers, we identify suitable candidates, we conduct all necessary checks and assessments, and we take candidates through our inhouse driver training program that offers advanced driver training.
                 </p>
 
            </div>

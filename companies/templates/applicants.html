@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Job & Applicants{% endblock %}
+
+{% block css %}
+<style>
+      .shortcut-links-container{
+        display: flex !important;
+        flex-wrap: nowrap;
+        /* justify-content: left; */
+        align-items: center;
+    }
+    .subheader-contianer{
+        color: #fff;
+    }
+
+    .applicant{
+        display: block;
+        margin-bottom: 5px;
+        background-color: ivory;
+    }
+
+    .applicant:hover{
+        background-color: #f8eeec;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    }
+
+    .applicant_profimg{
+        width: 100px;
+        height: 100px;
+        border: 1px solid #ddd;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .goldstar{
+        font-size: 15px !important;
+    } 
+    .greystar{
+        font-size: 15px !important;
+    } 
+
+</style>
+{% endblock css %}
+
+{% block submenu %}
+{% include 'dashboard-menu.html' %}
+{% endblock submenu %}
+
+{% block entity_name %}
+    <div class="comp_name">{{request.user.company}}</div>
+{% endblock entity_name %}
+{% block dashboard_menu %}    
+    {% include 'dashboard-menu.html' %}
+{% endblock dashboard_menu %} 
+
+{% block content %}
+
+    
+
+    <div class="universal-padding">
+         <div class="row">
+            <div class="col-sm-6">
+                
+                <h4>{{job.job_title}}</h4>
+                <p>Ref:     {{job.ref}}</p>
+                <p>Location:    {{job.job_location}}</p>
+                {{job.job_details|safe}}
+                <p>{{job.closing_date}}</p>
+            </div>
+            <div class="col-sm-6">
+                <h3>Applicants</h3>
+                <div class="applicants-container">
+                    <ul style="list-style-type: none; padding-left: 0px;">
+                    {% for application in applications %}
+                    
+                        <li>
+                           
+                            <a href="#" class="applicant">
+                                <div class="row">
+                                    <div class="col-sm-3">                                
+                                        <div class="applicant_profimg" style="background-image: url('https://ik.imagekit.io/2mjln4gew/{{application.dhclient.profile_picture}}?tr=q-50');"></div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        
+                                        <div>
+                                            {% for i in stars_list %}
+                                                {{ forloop.counter1 }}
+                                                {% if i <= application.dhclient.rating %}
+                                                <i class="fa fa-star goldstar" aria-hidden="true"></i>
+                                                {% else %}  
+                                                <i class="fa fa-star-o greystar" aria-hidden="true"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                            </div>
+                                            
+                                            <span class="mb-1" style="color: #ddd; display: block; font-size: .85em;">DriverHealth Rating</span>   
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="dh-accreditation" style="padding: 10px 0px;">
+                                   
+                                            <span class="text-dark" style="font-size: .9em; display: block;">DriverHealth ID: {{application.dhclient.user.dh_id}}</span>
+                                            <span class="text-dark" style="font-size: .9em; display: block;">Nationality: {{application.dhclient.nationality}}</span>
+                                            {% if application.dhclient.tested %}<span class="badge bg-success">Driver Tested</span> {% else %} <span class="badge bg-warning text-dark">Driver Not Tested</span>{% endif %}
+                                    </div>
+                                </div>
+ 
+                                </div>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+         </div>      
+
+     
+    </div>
+
+{% endblock %}

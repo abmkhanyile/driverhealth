@@ -3,6 +3,8 @@ from django.views.generic.base import View, ContextMixin
 from .models import AnimatedText
 from training_courses.models import TrainingCourse, Code14Course
 from careers.models import Job
+from django.utils import timezone
+
 
 # displays the homepage.
 class Home(ContextMixin, View):
@@ -13,7 +15,7 @@ class Home(ContextMixin, View):
         context['animated_txt'] = AnimatedText.objects.all()
         context['training_course'] = TrainingCourse.objects.all()
         context['code14courses'] = Code14Course.objects.all()
-        jobs = list(Job.objects.filter(active_listing=True))
+        jobs = list(Job.objects.filter(active_listing=True, closing_date__gte=timezone.now()))
         context['available_jobs'] = jobs[:12]
         return context
 

@@ -34,15 +34,23 @@
     {% endblock %}
 
     <div id="page-overlay">
-        <div id="closeBtn" onclick="closeNav()">&times;</div>
+        <div id="closeBtn" onclick="closeNav('mySidenav')">&times;</div>
     </div>
     {% include 'sidenav.html' %}
+    
+    
+    <div id="mySidenav-submenu" class="submenu-sidenav" style="padding-top: 30px;">
+         <div class="actual-menu">
+            {% block submenu %}
+            {% endblock submenu %}
+        </div> 
+    </div>
 
     <section id="header_section">
         
         <div class="logo-container">
             <div class="hamburger-menu">
-                <span style="font-size:20px;cursor:pointer" onclick="openNav()">
+                <span style="font-size:20px;cursor:pointer" onclick="openNav('mySidenav')">
                     <i class="fa fa-bars" aria-hidden="true" style="font-size: 30px; color: #fff;"></i>
                 </span>
             </div>
@@ -53,7 +61,7 @@
             <div class="menuitems-container">
                 <a href="{% url 'home' %}" class="menu-item">Home</a>
                 <a href="{% url 'about-us' %}" class="menu-item">About Us</a>
-                <a href="#" class="menu-item">Training</a>
+                <a href="{% url 'jobs-list' %}" class="menu-item">Jobs</a>
                 <a href="#" class="menu-item">Gallery</a>
                 <a href="#" class="menu-item">Contact Us</a>
             </div>
@@ -110,14 +118,25 @@
             </div>
             
         </div>
-        
-
     </section>
+
     <section class="shortcut-links-container">
-         
+        <div class="subheader-contianer">
+
+            <div class="hamburger-submenu">
+                <span style="font-size:20px; cursor:pointer; display: flex;" onclick="openNav('mySidenav-submenu')">
+                    <i class="fa fa-bars" aria-hidden="true" style="font-size: 30px; color: #fff;"></i><span style="display: block; margin-left: 10px; font-size: .8em; color: ivory;">Dashboard Menu</span> 
+                </span>
+            </div>
+
+            {% block entity_name %}
+            {% endblock entity_name %}
+    
+             <div class="submenu">
                 {% block dashboard_menu %}
                 {% endblock dashboard_menu %} 
-             
+             </div>
+        </div>
     </section>
     
 

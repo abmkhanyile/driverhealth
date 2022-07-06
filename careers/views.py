@@ -11,6 +11,7 @@ import boto3
 from django.conf import settings
 from botocore.client import Config
 from django.contrib import messages
+from django.utils import timezone
 
 
 # displays a job and click to apply
@@ -31,15 +32,17 @@ class JobList(View, ContextMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        return context
+        jobs = Job.objects.filter(active_listing=True, closing_date__gte=timezone.now())
 
-    def get(self, request, **kwargs):
-        jobs = Job.objects.filter(active_listing=True)
-        context = self.get_context_data()
         paginator = Paginator(jobs, 25) # Show 25 jobs per page.
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
+
         context['page_obj'] = page_obj
+        return context
+
+    def get(self, request, **kwargs):
+        context = self.get_context_data()
         return render(request, self.template_name, context)
 
 
@@ -50,6 +53,13 @@ class JobApplicationView(View):
     def post(self, request, **kwargs):
         client = request.user.dhclient
         job = Job.objects.get(pk=self.kwargs['pk'])
+        existing_application = JobApplication.objects.filter(job=job, dhclient=client)
+
+        # checks if the user has not applied for the same position already.
+        if existing_application.exists():
+            messages.warning(request, "You have already applied for this position.")
+            return HttpResponseRedirect(reverse('job', kwargs={'pk': self.kwargs['pk']})) 
+
         clientdocs = client.client_documents.all()
         application_form = self.form_class(request.POST)
         if application_form.is_valid():
@@ -76,5 +86,7 @@ class JobApplicationView(View):
             messages.success(request, "Your application was received, Thank you.")
             return HttpResponseRedirect(reverse('job', kwargs={'pk': self.kwargs['pk']}))
         else:
+            messages.warning(request, "Something went wrong. Please try again and make sure to fill all the required form fields.")
             return HttpResponseRedirect(reverse('job', kwargs={'pk': self.kwargs['pk']}))
         
+

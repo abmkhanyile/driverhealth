@@ -1,6 +1,6 @@
 // start of the sidenav js
-function openNav() {
-    document.getElementById("mySidenav").style.animation = "expand 0.3s forwards";
+function openNav(sidenav) {
+    document.getElementById(sidenav).style.animation = "expand 0.3s forwards";
     document.getElementById("closeBtn").style.display = "block";
     document.getElementById("closeBtn").style.animation = "show 0.3s";
     // page-overlay
@@ -8,8 +8,15 @@ function openNav() {
     document.getElementById("page-overlay").style.animation = "show 0.3s";
   }
   
-  function closeNav() {
-    document.getElementById("mySidenav").style.animation = "collapse 0.3s forwards";
+  function closeNav(sidevanv) {
+    let ele = document.getElementById(sidevanv);
+    
+    if(ele.style.animation.includes('expand') == true){
+      document.getElementById(sidevanv).style.animation = "collapse 0.3s forwards";
+    }else{
+      document.getElementById('mySidenav-submenu').style.animation = "collapse 0.3s forwards";
+    }
+    
     document.getElementById("closeBtn").style.animation = "hide 0.3s";
     // page-overlay
     document.getElementById("page-overlay").style.animation = "hide 0.3s";

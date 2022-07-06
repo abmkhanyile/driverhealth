@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Driver List{% endblock %}
+
+{% block css %}
+<style>
+      .shortcut-links-container{
+        display: flex !important;
+        flex-wrap: nowrap;
+        /* justify-content: left; */
+        align-items: center;
+    }
+    .subheader-contianer{
+        color: #fff;
+    }
+
+    .jobcontainer{
+        position: relative !important;
+
+    }
+
+    .applicaitons-lbl{
+        background-color: darkturquoise;
+        padding: 2px 5px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-radius: 10px;
+    }
+
+    
+
+</style>
+{% endblock css %}
+
+{% block submenu %}
+{% include 'dashboard-menu.html' %}
+{% endblock submenu %}
+
+{% block entity_name %}
+    <div class="comp_name">{{request.user.company}}</div>
+{% endblock entity_name %}
+{% block dashboard_menu %}    
+    {% include 'dashboard-menu.html' %}
+{% endblock dashboard_menu %} 
+
+{% block content %}
+
+    
+
+    <div class="universal-padding">
+        <h3>Posted Jobs</h3>
+        <ul style="list-style-type: none; padding-left: 0px; width: 100%;">
+            {% for job in page_obj %}
+            <li style="max-inline-size: 100%">
+                <div class="jobcontainer" style="width: 100%;">
+                    <div class="applicaitons-lbl">
+                        <span style="font-size: .85em;"><a href="{% url 'job-applicants' pk=job.pk %}">{{job.job_applications.all|length}} applications</a></span>
+                    </div>
+            
+                    <a href="{% url 'job-applicants' pk=job.pk %}">{{job.job_title}}</a>
+                    <p>{{job.job_details|striptags|truncatechars:100}}</p>
+                    <p class="text-secondary"><i class="fa fa-map-marker" aria-hidden="true"></i> {{job.job_location}}</p>
+                    <div class="timesince">{{job.date_created|timesince}}</div>
+                    
+                </div>
+            </li>
+            {% empty %}
+            <li><h4 class="text-danger">No available jobs currently</h4> </li>
+            {% endfor %}
+        </ul>
+
+        {% include 'paginator.html' %}
+    </div>
+
+{% endblock %}

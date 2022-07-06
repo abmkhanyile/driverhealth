@@ -22,11 +22,16 @@
 </style>
 {% endblock css %}
 
-{% block dashboard_menu %}
-<div class="subheader-contianer">
+{% block submenu %}
+{% include 'dashboard-menu.html' %}
+{% endblock submenu %}
+
+{% block entity_name %}
+    <div class="comp_name">{{request.user.company}}</div>
+{% endblock entity_name %}
+{% block dashboard_menu %}    
     {% include 'dashboard-menu.html' %}
-</div>
-{% endblock dashboard_menu %}
+{% endblock dashboard_menu %} 
 
 {% block content %}
 
