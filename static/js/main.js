@@ -148,7 +148,7 @@ $(document).ready(function() {
       event.preventDefault();
   });
 
-  $('#jobclosing_date').datepicker({  
+  $('#jobclosing_date, .startdate, .enddate').datepicker({  
     showAnim: 'drop',
     numberOfMonth: 1,
   });

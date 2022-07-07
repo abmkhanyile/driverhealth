@@ -949,3 +949,38 @@ footer ul{
   overflow: auto;
   padding: 5px;
 }
+
+.employment-box{
+  background-color: #E1EBEE;
+  min-height: 150px;
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: .85em;
+  margin-bottom: 20px;
+  position: relative;
+}
+.cv-title-container{
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.cv-title-container > h4{
+  margin-right: 10px;
+}
+
+.docs-container{
+  margin: auto;
+  overflow: auto;
+}
+
+.personal-details{
+  position: relative;
+}
+
+.edit-icon{
+  position: absolute;
+  top: 5;
+  right: 10px;
+
+}

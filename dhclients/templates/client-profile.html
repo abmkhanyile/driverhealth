@@ -61,8 +61,65 @@
         color: white;
       } 
 
+      .modal-footer{
+        justify-content: center !important;
+      }
+
+      @media (min-width: 576px){
+        .modal-dialog {
+            max-width: 69%;
+        }
+      }
+
+      .shortcut-links-container{
+        display: flex !important;
+        flex-wrap: nowrap;
+        /* justify-content: left; */
+        align-items: center;
+    }
+    .subheader-contianer{
+        color: #fff;
+    }
+
 </style>
 {% endblock css %}
+
+
+{% block submenu %}
+{% include 'client-menu.html' %}
+{% endblock submenu %}
+
+{% block entity_name %}
+    <div class="comp_name">{{request.user.get_full_name}}</div>
+{% endblock entity_name %}
+{% block dashboard_menu %}    
+    {% include 'client-menu.html' %}
+{% endblock dashboard_menu %} 
+
+
+{% block modals %}
+ 
+  <!-- Modal -->
+  <div class="modal fade" id="cvmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="cvmodalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cvmodalLabel">Add Employment History</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="employment_form" method="post" action="/dhclients/">{% csrf_token %}
+            {{ employment_history_form.media }}
+            {{employment_history_form.as_p}}
+          </form>
+        </div>
+        <div class="modal-footer">
+          <input type="submit" form="employment_form" class="btn btn-primary" value="Submit">
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock modals %}
 
 {% block content %}
 
@@ -127,42 +184,109 @@
             <div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <table class="table table-sm table-borderless mt-4" style="font-size: .85em;">
+                        <div class="personal-details">
+
+                            <a href="{% url 'edit-client' %}" class="edit-icon"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 20px;"></i></a>                           
+
+                            <table class="table table-sm table-borderless mt-4" style="font-size: .85em;">
                         
-                            <tr>
-                                <td>
-                                    DriverHealth ID             
-                                </td>
-                                <td>
-                                    {{client.user.dh_id}}
-                                </td>
-                            </tr>
-                                                    
-                            <tr>
-                                <td>
-                                    Nationality            
-                                </td>
-                                <td>
-                                    {{client.nationality}}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Contact Number             
-                                </td>
-                                <td>
-                                    {{client.user.contactNumber}}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Email             
-                                </td>
-                                <td>
-                                    {{client.user.email}}
-                                </td>
-                            </tr>
-                        </table>
+                                <tr>
+                                    <td>
+                                        DriverHealth ID             
+                                    </td>
+                                    <td>
+                                        {{client.user.dh_id}}
+                                    </td>
+                                </tr>
+                                                        
+                                <tr>
+                                    <td>
+                                        Nationality            
+                                    </td>
+                                    <td>
+                                        {{client.nationality}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Location</td>
+                                    <td>{{client.location}}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Contact Number             
+                                    </td>
+                                    <td>
+                                        {{client.user.contactNumber}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Email             
+                                    </td>
+                                    <td>
+                                        {{client.user.email}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Own a Passport</td>
+                                    <td>{% if client.has_passport == True %}Yes{% else %}No{% endif %}</td>
+                                </tr>
+                                <tr>
+                                    <td>Passport Number</td>
+                                    <td>{{client.passport_num}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div class="cv-title-container">
+                            <h4>Employment History</h4> <input type="button" class="btn btn-secondary btn-sm" value="Add Employment History" data-bs-toggle="modal" data-bs-target="#cvmodal">
+                           
+                        </div>
+                        {% for work_exp in work_history %}
+                        <div class="employment-box"> 
+                            <a href="{% url 'edit-workexp' pk=work_exp.pk %}" class="edit-icon"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 20px;"></i></a>                           
+                            
+                            <table class="table table-responsive table-borderless">
+                                <tr>
+                                    <td colspan="2">
+                                        <h5>{{work_exp.company_name}}</h5>
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td style="width: 15%;">Period</td>
+                                    <td>
+                                        <span>{{work_exp.start_date}} to </span>
+                                        <span>{{work_exp.end_date}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Role</td>
+                                    <td><h5>{{work_exp.role}}</h5></td>
+                                </tr>
+                                <tr>
+                                    <td>Duties</td>
+                                    <td style="font-size: .85em;">{{work_exp.duties|safe}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Contact Person</td>
+                                    <td><h5>{{work_exp.contact_person}}</h5></td>
+                                </tr>
+                                <tr>
+                                    <td>Contact Number</td>
+                                    <td><h5>{{work_exp.contact_num}}</h5></td>
+                                </tr>
+                                <tr>
+                                    <td><h6>Can this person be contacted for a reference?</h6></td>
+                                    <td>{% if work_exp.contact_permission == True %}Yes{% else %}No{% endif %}</td>
+                                </tr>
+                            </table>
+
+                        </div>
+                        {% empty %}
+                            <span class="text-danger">Currently no work experience</span>
+
+                        {% endfor %}
                     </div>
                     <div class="col-sm-6">
                         <h5 class="text-dark mt-4">Upload a document</h5>
@@ -195,37 +319,39 @@
                                     </div>
                             </form>
                         </div>
-                        <table class="table table-responsive table-bordered border-primary doctable">
-                            {% for doc in clientdocs %}
-                            <tr>
-                                {% if doc.doc_type == 6 %}
-                                <td style="width: 20%;">Other ({{ doc.other_type|truncatechars:25 }})</td>
-                                {% else %}
-                                <td style="width: 20%;">{{ doc.get_doc_type_display }}</td>
-                                {% endif %}
-                                <td><a href="{{doc.retDocument}}" class="homepage_link" >{{doc.doc_name|truncatechars:30 }}</a>  </td>
-                                <td style="width: 10%;">
-                                    
-                                    <div class="form-check">
+                        <div class="docs-container">
+                            <table class="table table-responsive table-bordered border-primary doctable">
+                                {% for doc in clientdocs %}
+                                <tr>
+                                    {% if doc.doc_type == 6 %}
+                                    <td style="width: 20%;">Other ({{ doc.other_type|truncatechars:25 }})</td>
+                                    {% else %}
+                                    <td style="width: 20%;">{{ doc.get_doc_type_display }}</td>
+                                    {% endif %}
+                                    <td><a href="{{doc.retDocument}}" class="homepage_link" >{{doc.doc_name|truncatechars:30 }}</a>  </td>
+                                    <td style="width: 10%;">
                                         
-                                        <input class="form-check-input" type="radio" data-docid="{{doc.pk}}" onclick=setDoc_visibility(this) name="flexRadioDefault{{doc.pk}}" id="flexRadioDefault{{doc.pk}}" {% if doc.doc_visibility == 1 %} checked {% endif %}>                               
-                                        <label class="form-check-label" for="flexRadioDefault{{doc.pk}}">
-                                          Public
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        
-                                        <input class="form-check-input" type="radio" data-docid="{{doc.pk}}" onclick=setDoc_visibility(this) name="flexRadioDefault{{doc.pk}}" id="flex_RadioDefault{{doc.pk}}" {% if doc.doc_visibility == 2 %} checked {% endif %}>
-                                        <label class="form-check-label" for="flex_RadioDefault{{doc.pk}}">
-                                          Private
-                                        </label>
-                                    </div>
-        
-                                </td>
-                                <td style="width: 10%;"><a href="{% url 'delete-document' pk=doc.pk %}" class="btn btn-outline-danger btn-sm">Delete</a> </td>
-                            </tr>
-                            {% endfor %}
-                        </table>
+                                        <div class="form-check">
+                                            
+                                            <input class="form-check-input" type="radio" data-docid="{{doc.pk}}" onclick=setDoc_visibility(this) name="flexRadioDefault{{doc.pk}}" id="flexRadioDefault{{doc.pk}}" {% if doc.doc_visibility == 1 %} checked {% endif %}>                               
+                                            <label class="form-check-label" for="flexRadioDefault{{doc.pk}}">
+                                              Public
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            
+                                            <input class="form-check-input" type="radio" data-docid="{{doc.pk}}" onclick=setDoc_visibility(this) name="flexRadioDefault{{doc.pk}}" id="flex_RadioDefault{{doc.pk}}" {% if doc.doc_visibility == 2 %} checked {% endif %}>
+                                            <label class="form-check-label" for="flex_RadioDefault{{doc.pk}}">
+                                              Private
+                                            </label>
+                                        </div>
+            
+                                    </td>
+                                    <td style="width: 10%;"><a href="{% url 'delete-document' pk=doc.pk %}" class="btn btn-outline-danger btn-sm">Delete</a> </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
                     </div>
                 </div>
                 

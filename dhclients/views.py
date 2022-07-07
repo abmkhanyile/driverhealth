@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from django.views.generic.base import View, ContextMixin
-from .forms import ClientDocForm
+from .forms import ClientDocForm, EmploymentHistoryForm, EditClientForm
 from django.conf import settings
 import boto3
 import string
 import random
 from botocore.client import Config
-from dhclients.models import DHClient, ClientDocument
+from dhclients.models import DHClient, ClientDocument, EmploymentHistory
 from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse
@@ -26,12 +26,26 @@ class ClinetProfile(View, ContextMixin):
         context['stars_list'] = [1,2,3,4,5]
         context['docform'] = self.form_class()
         context['clientdocs'] = client.client_documents.all()
+        context['employment_history_form'] = EmploymentHistoryForm()
+        context['work_history'] = client.client_employment_history.all()
         return context
 
     def get(self, request, **kwargs):
         if not request.user.is_dhclient():
             raise PermissionDenied
         return render(request, self.template_name, self.get_context_data())
+
+    def post(self, request, **kwargs):
+        emp_history_form = EmploymentHistoryForm(request.POST)
+        if emp_history_form.is_valid():
+            emp_history = emp_history_form.save(commit=False)
+            emp_history.dhclient = self.get_context_data()['client']
+            emp_history.save()
+            messages.success(request, "Employment history created successfully...")
+            return HttpResponseRedirect(reverse('client-profile'))
+        else:
+            messages.warning(request, "Something went wrong, please try again...")
+            return HttpResponseRedirect(reverse('client-profile')) 
 
 
 
@@ -162,3 +176,69 @@ class UplaodProfileImg(View):
         return JsonResponse(dataList, safe=False)
 
 
+# handles editing client personal details on the dashboard.
+class EditClient(View, ContextMixin):
+    template_name = "edit-personal-details.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        client = self.request.user.dhclient
+        context['client'] = client
+        context['editform'] = EditClientForm(instance=client)
+        return context
+
+    def get(self, request, **kwargs):
+        if request.user.is_company():
+            raise PermissionDenied
+        return render(request, self.template_name, self.get_context_data())
+
+    def post(self, request, **kwargs):
+        editform = EditClientForm(request.POST, instance=self.get_context_data()['client'])
+        if editform.is_valid():
+            editform.save()
+            messages.success(request, "Details successfully updated...")
+            return HttpResponseRedirect(reverse("client-profile"))
+
+
+# handles editing of the work experience section on the dashboard
+class EditWorkExp(View, ContextMixin):
+    template_name = "edit-workexp.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        workexp = EmploymentHistory.objects.get(pk=self.kwargs['pk'])
+        context['workexp'] = workexp
+        context['editform'] = EmploymentHistoryForm(instance=workexp)
+        return context
+
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+    def post(self, request, **kwargs):
+        workexp_form = EmploymentHistoryForm(request.POST, instance=self.get_context_data()['workexp'])
+        if workexp_form.is_valid():
+            workexp_form.save()
+            messages.success(request, "Employment history successfully updated...")
+            return HttpResponseRedirect(reverse("client-profile"))
+
+
+# displays all the job applications by the driver.
+class JobApplications(View, ContextMixin):
+    template_name = "job-applications.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        client = self.request.user.dhclient
+        applications = client.dhclient_applications.all()
+
+        paginator = Paginator(applications, 25) # Show 25 clients per page.
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context['page_obj'] = page_obj
+
+        return context
+
+    def get(self, request, **kwargs):
+        if request.user.is_company():
+            raise PermissionDenied
+        return render(request, self.template_name, self.get_context_data())

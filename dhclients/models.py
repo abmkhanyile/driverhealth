@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from ckeditor.fields import RichTextField
 
 
 # this model holds all the DH Clients (i.e. Job Seekers).
@@ -61,4 +62,21 @@ class ClientDocument(models.Model):
 
     def retDocument(self):
         return 'https://{}/{}'.format(settings.AWS_S3_CUSTOM_DOMAIN, self.document)
+
+
+# this model holds the client's employment history
+class EmploymentHistory(models.Model):
+    dhclient = models.ForeignKey('dhclients.DHClient', related_name="client_employment_history", on_delete=models.CASCADE, blank=False, null=True)
+    company_name = models.CharField(max_length=150, blank=False)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    role = models.CharField(max_length=100, blank=False)
+    duties = RichTextField(blank=False)
+    contact_person = models.CharField(max_length=50, blank=False)
+    contact_num = models.CharField(max_length=50, blank=False)
+    contact_permission = models.BooleanField(blank=False)
+    creation_date = models.DateTimeField(default=timezone.now, blank=False)
+
+    def __str__(self):
+        return self.company_name
 

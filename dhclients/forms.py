@@ -1,6 +1,6 @@
 from django import forms
-from .models import DHClient, ClientDocument
-
+from .models import DHClient, ClientDocument, EmploymentHistory
+from ckeditor.widgets import CKEditorWidget
 
 
 # this form collect client details on registration.
@@ -41,7 +41,19 @@ class DHClientRegForm(forms.ModelForm):
             }),            
         }
 
-
+# this form handles editing client details
+class EditClientForm(forms.ModelForm):
+    class Meta:
+        model = DHClient
+        exclude = (
+            'date_created',
+            'tested',
+            'profile_picture',
+            'rating',
+            'dh_test_comment',
+        )
+        fields = '__all__'
+        
 
 # handles the upload of driver documents.
 class ClientDocForm(forms.ModelForm):
@@ -73,4 +85,49 @@ class ClientDocForm(forms.ModelForm):
                 'id': "othertype",
                 'placeholder': 'Please specify the type of document',
             }),
+        }
+
+CHOICES=[
+   (True, 'Yes.'),
+   (False, 'No'),        
+]
+# collects data of previous work experience.
+class EmploymentHistoryForm(forms.ModelForm):
+    duties = forms.CharField(widget=CKEditorWidget(attrs={
+        'class': 'form-control',
+    }))
+    contact_permission = forms.BooleanField(required=False, label="Do you give permission to contact this person?", widget=forms.RadioSelect(
+        choices=CHOICES
+    ))
+    class Meta:
+        model = EmploymentHistory
+        exclude = (
+            'dhclient',
+            'creation_date',
+        )
+        fields = '__all__'
+
+        widgets = {
+            'company_name': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+            'start_date': forms.DateInput(attrs={
+                'class': 'form-control startdate'
+            }),
+             'end_date': forms.DateInput(attrs={
+                'class': 'form-control enddate'
+            }),
+            'role': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+             'contact_person': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+             'contact_num': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+             'contact_permission': forms.RadioSelect(attrs={
+                'class': 'form-control'
+            }),
+            
         }

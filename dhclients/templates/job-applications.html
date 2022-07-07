@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Job Applications{% endblock %}
+
+{% block css %}
+<style>
+    
+    .shortcut-links-container{
+        display: flex !important;
+        flex-wrap: nowrap;
+        /* justify-content: left; */
+        align-items: center;
+    }
+    .subheader-contianer{
+        color: #fff;
+    }
+
+</style>
+{% endblock css %}
+
+
+{% block submenu %}
+{% include 'client-menu.html' %}
+{% endblock submenu %}
+
+{% block entity_name %}
+    <div class="comp_name">{{request.user.get_full_name}}</div>
+{% endblock entity_name %}
+{% block dashboard_menu %}    
+    {% include 'client-menu.html' %}
+{% endblock dashboard_menu %} 
+
+{% block content %}
+
+
+    <div class="about universal-padding">
+        <h3>My Applications</h3>   
+
+        <ul style="list-style-type: none; padding-left: 0px; width: 100%;">
+            {% for application in page_obj %}
+            <li style="max-inline-size: 100%">
+                <div>Application submitted on {{application.date_created}}</div>
+                <a href="{% url 'job' pk=application.job.pk %}" class="jobcontainer" style="width: 100%;">
+                    <span>{{application.job.job_title}}</span>
+                    <p>{{application.job.job_details|striptags|truncatechars:100}}</p>                  
+                    <p class="text-secondary"><i class="fa fa-map-marker" aria-hidden="true"></i> {{application.job.job_location}}</p>
+                    <div class="timesince">{{application.job.date_created|timesince}}</div>
+                </a>
+            </li>
+            {% empty %}
+            <li><h4 class="text-danger">No available jobs currently</h4> </li>
+            {% endfor %}
+        </ul>
+
+        {% include 'paginator.html' %}
+    </div>
+
+{% endblock %}
