@@ -3,6 +3,11 @@ from .models import DHClient, ClientDocument, EmploymentHistory
 from ckeditor.widgets import CKEditorWidget
 
 
+CHOICES=[
+   (True, 'Yes.'),
+   (False, 'No'),        
+]
+
 # this form collect client details on registration.
 class DHClientRegForm(forms.ModelForm):
     class Meta:
@@ -46,6 +51,7 @@ class EditClientForm(forms.ModelForm):
     class Meta:
         model = DHClient
         exclude = (
+            'user',
             'date_created',
             'tested',
             'profile_picture',
@@ -53,6 +59,37 @@ class EditClientForm(forms.ModelForm):
             'dh_test_comment',
         )
         fields = '__all__'
+
+        labels = {
+            'crossborder': 'Are you willing to do crossborder work?',
+            'in_job_market': 'Are you actively looking for a job?',
+            'has_passport': 'Do you have a passport?',
+            'passport_num': 'What is your passport number?'
+        }
+
+        widgets = {
+            'nationality': forms.Select(attrs={
+                'class': 'form-control',
+            }),  
+            'has_passport': forms.RadioSelect(
+                choices=CHOICES
+            ),  
+            'passport_num': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),  
+            'crossborder': forms.RadioSelect(
+                choices=CHOICES
+                ),  
+            'location': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),  
+            'postal_code': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),  
+            'in_job_market': forms.RadioSelect(
+                choices=CHOICES
+                ),  
+        }
         
 
 # handles the upload of driver documents.
@@ -87,10 +124,7 @@ class ClientDocForm(forms.ModelForm):
             }),
         }
 
-CHOICES=[
-   (True, 'Yes.'),
-   (False, 'No'),        
-]
+
 # collects data of previous work experience.
 class EmploymentHistoryForm(forms.ModelForm):
     duties = forms.CharField(widget=CKEditorWidget(attrs={

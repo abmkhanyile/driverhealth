@@ -18,6 +18,7 @@ class DHClient(models.Model):
     nationality = models.ForeignKey('countries.Country', blank=False, null=True, on_delete=models.PROTECT)
     has_passport = models.BooleanField(default=False)
     passport_num = models.CharField(max_length=30, blank=True)
+    crossborder = models.BooleanField(default=True)
     location = models.CharField(max_length=150, blank=False)
     postal_code = models.CharField(max_length=15, blank=True)
     rating = models.SmallIntegerField(default=0, blank=False, null=True, choices=STAR_CHOICES)

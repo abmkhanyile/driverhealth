@@ -235,11 +235,15 @@
                                     <td>Passport Number</td>
                                     <td>{{client.passport_num}}</td>
                                 </tr>
+                                <tr>
+                                    <td>Looking for a job?</td>
+                                    <td>{% if client.in_job_market == True %}Yes{% else %}No{% endif %}</td>
+                                </tr>
                             </table>
                         </div>
                         
                         <div class="cv-title-container">
-                            <h4>Employment History</h4> <input type="button" class="btn btn-secondary btn-sm" value="Add Employment History" data-bs-toggle="modal" data-bs-target="#cvmodal">
+                            <h4>Employment History</h4> {% if work_history|length >= 3 %}<span class="text-danger">(Max of 3 entries)</span> {% else %}<input type="button" class="btn btn-secondary btn-sm" value="Add Employment History" data-bs-toggle="modal" data-bs-target="#cvmodal">{% endif %}
                            
                         </div>
                         {% for work_exp in work_history %}

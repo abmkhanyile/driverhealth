@@ -36,6 +36,10 @@ class ClinetProfile(View, ContextMixin):
         return render(request, self.template_name, self.get_context_data())
 
     def post(self, request, **kwargs):
+        if len(self.get_context_data()['work_history']) >= 3:
+            messages.success(request, "You can't have more than 3 work experience entries")
+            return HttpResponseRedirect(reverse('client-profile'))
+            
         emp_history_form = EmploymentHistoryForm(request.POST)
         if emp_history_form.is_valid():
             emp_history = emp_history_form.save(commit=False)
