@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Gallery{% endblock %}
+
+{% block css %}
+<style>
+    p{
+        max-inline-size: 100% !important;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+
+
+    <div class="universal-padding">
+       <h4>Gallery</h4>
+    
+                  <div class="photos-container">
+                    {% for photo in gallery_photos %}
+                        <div class="gallery-photo gallery_pic_div" id="gallery_image_div{{ forloop.counter }}">
+                            <img src="https://ik.imagekit.io/2mjln4gew/tr:w-190,h-190/{{photo.image}}?tr=q-50?tr=w-0.5,h-0.5'" alt="Gallery Image">
+                            <img src="https://ik.imagekit.io/2mjln4gew/tr:w-1200/{{photo.image}}" class="gallery_image" id="gimage{{forloop.counter}}" alt="Gallery Image" style="display: none;">
+        
+                        </div> 
+                        
+        
+                    {% endfor %}
+                
+                </div>
+        
+        
+     
+ 
+    </div>
+
+{% endblock %}
+
+
+

@@ -984,3 +984,85 @@ footer ul{
   right: 10px;
 
 }
+
+
+/* gallery css  */
+.photos-container{
+  padding-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.gallery-photo{
+  height: 200px;
+  width: 200px;
+  border: 1px solid #ddd;
+  /* border-radius: 15px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.gallery_pic_div{
+  cursor: pointer;
+}
+/* end of gallery css  */
+
+
+
+/*image slider styling*/
+.img-window {
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-img {
+  max-height: 80vh;
+  max-width: 80vw;
+  z-index: 200;
+}
+
+.img-btn-next {
+  display: block;
+  font-size: 2rem;
+  padding: 8px 30px;
+  border-radius: 4px;
+  background-color: #111111;
+  position: fixed;
+  top: 48vh;
+  z-index: 500;
+  color: white;
+  cursor: pointer;
+  right: 0;
+}
+
+.img-btn-prev {
+  display: block;
+  font-size: 2rem;
+  padding: 8px 30px;
+  border-radius: 4px;
+  background-color: #111111;
+  position: fixed;
+  top: 48vh;
+  z-index: 500;
+  color: white;
+  cursor: pointer;
+}
+
+.img-btn-next:hover,
+.img-btn-prev:hover {
+  background-color: #282828;
+  transition: 0.2s ease-out;
+}
+/* end of image slider css */

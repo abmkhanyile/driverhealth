@@ -292,3 +292,76 @@ function upload_image_to_aws(resp, img, container) {
 }
 
 
+// gallery js
+var gallery_images = document.querySelectorAll(".gallery_pic_div");
+var getLatestOpenedImg;
+var containerDivWidth = window.innerWidth;
+
+gallery_images.forEach(function (image, index) {
+  image.onclick = function () {
+    getLatestOpenedImg = index + 1;
+    var container = document.body;
+    var newImgWindow = document.createElement("div");
+    container.appendChild(newImgWindow);
+    newImgWindow.setAttribute("class", "img-window");
+    newImgWindow.setAttribute("onclick", "closeImg()");
+
+    var newImg = image.getElementsByTagName("img")[1].cloneNode();
+    newImg.style.display = 'block';
+    newImgWindow.appendChild(newImg);
+    newImg.classList.remove("gallery_image");
+    newImg.classList.add("popup-img");
+    newImg.setAttribute("id", "current-img");
+
+    newImg.onload = function () {
+      var newNextBtn = document.createElement("a");
+      newNextBtn.innerHTML = '<i class="fa fa-angle-right text-white" aria-hidden="true"></i>';
+      container.appendChild(newNextBtn);
+      newNextBtn.setAttribute("class", "img-btn-next");
+      newNextBtn.setAttribute("onclick", "changeImg(1)");
+
+      var newPrevBtn = document.createElement("a");
+      newPrevBtn.innerHTML = '<i class="fa fa-angle-left text-white" aria-hidden="true"></i>';
+      container.appendChild(newPrevBtn);
+      newPrevBtn.setAttribute("class", "img-btn-prev");
+      newPrevBtn.setAttribute("onclick", "changeImg(0)");
+    };
+  };
+});
+
+function closeImg() {
+  document.querySelector(".img-window").remove();
+  document.querySelector(".img-btn-next").remove();
+  document.querySelector(".img-btn-prev").remove();
+}
+
+function changeImg(change) {
+  document.querySelector("#current-img").remove();
+
+  var getImgWindow = document.querySelector(".img-window");
+  var newImg = document.createElement("img");
+  getImgWindow.appendChild(newImg);
+
+  var calNewImg;
+  if (change === 1) {
+    calNewImg = getLatestOpenedImg + 1;
+    if (calNewImg > gallery_images.length) {
+      calNewImg = 1;
+    }
+  } else if (change === 0) {
+    calNewImg = getLatestOpenedImg - 1;
+    if (calNewImg < 1) {
+      calNewImg = gallery_images.length;
+    }
+  }
+
+  var img_src = document
+    // .getElementById("gallery_image_div" + calNewImg)
+    .getElementById("gimage" + calNewImg).getAttribute("src");
+  newImg.setAttribute("src", img_src);
+  newImg.setAttribute("class", "popup-img");
+  newImg.setAttribute("id", "current-img");
+
+  getLatestOpenedImg = calNewImg;
+}
+// end of gallery js

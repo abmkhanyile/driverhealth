@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}About Us{% endblock %}
+
+{% block css %}
+<style>
+    p{
+        max-inline-size: 100% !important;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+
+    <div class="universal-padding">
+        <div class="row">
+            <div class="col-md-6">
+                {% if user.is_authenticated %}
+                    <form method="post">
+                        {% else %}
+                    <form method="post" action="/contact_us/">
+                    {% endif %}
+                    {% csrf_token %}
+    
+                    {{ contact_form.name.errors }}
+                    <label for="{{ contact_form.name.id_for_label }}">Name</label>
+                    {{ contact_form.name }}
+                    <br>
+    
+                    {{ contact_form.surname.errors }}
+                    <label for="{{ contact_form.surname.id_for_label }}">Surname</label>
+                    {{ contact_form.surname }}
+                    <br>
+    
+                    {{ contact_form.email.errors }}
+                    <label for="{{ contact_form.email.id_for_label }}">Email</label>
+                    {{ contact_form.email }}
+                    <br>
+    
+                    {{ contact_form.contact_num.errors }}
+                    <label for="{{ contact_form.contact_num.id_for_label }}">Contact Number</label>
+                    {{ contact_form.contact_num }}
+                    <br>
+    
+                    {{ contact_form.message.errors }}
+                    <label for="{{ contact_form.message.id_for_label }}">Message</label>
+                    {{ contact_form.message }}
+    
+                    <br>
+    
+                    <input class="btn btn-primary pull-right" type="submit" value="Send"/>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <div class="bus_hr_container p-5 mt-3 bg-dark text-white">
+                    <h5 class="text-white">Our Business Hours</h5>               
+                        <p>Mon - Fri: 08:00am to 04:30pm</p>
+                    <br />
+                    <h5 class="text-white">Address:</h5>
+                    <p>
+                        <!-- {{about_us.physicalAddress|safe}} -->
+                        19 Foreman Street,<br>
+                        Spartan Ext.,<br>
+                        Johannesburg<br>
+                        1619
+                    </p>
+                    <br />
+                    <p>
+                        <a href="tel:27861005164" style="text-decoration: none; color: white;">Tel: +27 86 100 5164</a><br>
+                        <a href="tel:27864748368" style="text-decoration: none; color: white;">Fax: +27 86 474 8368</a><br>
+                        <a href="tel:0735644950" style="text-decoration: none; color: white;">Whatsapp: +27 67 657 2325</a>
+                            
+                    </p><br>
+    
+                    <h5 class="text-white">Email:</h5>
+                    <a href="mailto:info@driverhealth.co.za" style="text-decoration: none; color: white;">info@driverhealth.co.za</a>
+                </div>
+            </div>
+    
+        </div>
+        
+    </div>
+
+{% endblock %}

@@ -42,11 +42,13 @@ INSTALLED_APPS = [
     'user_accounts',
     'home',
     'about_us',
+    'contact_us',
     'training_courses',
     'careers',
     'dhclients',
     'companies',
     'countries',
+    'gallery',
 ]
 
 MIDDLEWARE = [
