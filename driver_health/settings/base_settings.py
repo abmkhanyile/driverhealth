@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'companies',
     'countries',
     'gallery',
+    'users',
 ]
 
 MIDDLEWARE = [
