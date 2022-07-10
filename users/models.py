@@ -13,6 +13,9 @@
 #     is_superuser = models.BooleanField()
 #     is_active = models.BooleanField()
 
+from django.db import models
+from django.contrib.auth.models import AbstractUser, BaseUserManager
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, contactNumber, password=None, **extra_fields):
@@ -53,8 +56,7 @@ class CustomUserManager(BaseUserManager):
         return user
 
 
-from django.db import models
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+
 
 # this is a custom user model.
 class CustomUser(AbstractUser):
