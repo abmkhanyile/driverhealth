@@ -120,6 +120,8 @@ DATABASES = {
     }
 }
 
+DATABASE_ROUTERS = ['routers.db_routers.AuthRouter']
+
 
 import dj_database_url
 db_from_env = dj_database_url.config()
