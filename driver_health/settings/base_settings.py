@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'ckeditor',
     'user_accounts',
     'home',
@@ -80,6 +81,17 @@ TEMPLATES = [
     },
 ]
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+}
+
+
 WSGI_APPLICATION = 'driver_health.wsgi.application'
 ASGI_APPLICATION = "driver_health.asgi.application"
 
@@ -96,6 +108,14 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'ayaman',
         'HOST': 'localhost',
+        'PORT': '5432'
+    },
+    'old_dh': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('OLD_DH_DB_NAME'),
+        'USER': os.environ.get('OLD_DH_USER'),
+        'PASSWORD': os.environ.get('OLD_DH_PASSWORD'),
+        'HOST': os.environ.get('OLD_DH_HOST'),
         'PORT': '5432'
     }
 }
