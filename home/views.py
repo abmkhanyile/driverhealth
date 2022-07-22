@@ -17,6 +17,7 @@ class Home(ContextMixin, View):
         context['code14courses'] = Code14Course.objects.all()
         jobs = list(Job.objects.filter(active_listing=True, closing_date__gte=timezone.now()))
         context['available_jobs'] = jobs[:12]
+        context['current_date'] = timezone.now()
         return context
 
     def get(self, request, **kwargs):

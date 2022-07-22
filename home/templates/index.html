@@ -254,6 +254,7 @@
                         <li>Refresher trainings</li>
                         <li>Skills courses</li>
                         <li>Driver assessments</li>
+                        <li>Driver Medical Check-Ups</li>
                         <li>Dangerous goods training</li>
                         <li>Job placement assistance</li>
                         <li> Learnership opportunities</li>
@@ -299,7 +300,7 @@
             <div>
               {{course.course_details|safe}}
             </div>
-            <a href="#" class="btn btn-danger btn-sm text-white">Register</a>
+            <a href="{% url 'book-training' pk=course.pk month=current_date.month year=current_date.year %}" class="btn btn-danger btn-sm text-white">Register</a>
           </div>
         {% endfor %}
         </div>

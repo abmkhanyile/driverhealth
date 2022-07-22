@@ -1,0 +1,70 @@
+.calendar-header{
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  background-color: cadetblue;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.calendar-header-middle{
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.scrolling-arrows{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.month_lbl{
+  font-size: 2.0em;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: block;
+}
+
+.calendar-week{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+
+.calendar-days{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.calendar-days > div{
+  border: 1px solid #ccc;
+  min-height: 100px;
+  min-width: 20px;
+  padding: 10px;
+}
+
+.prev-date, .next-date{
+  background-color: #ddd;
+}
+
+.training-content{
+  /* background-color: #54626F; */
+  min-height: 60%;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: .85em;
+}
+
+.notraining{
+  background-color: #373737; 
+  padding: 3px 15px; 
+  border-radius: 10px;
+}

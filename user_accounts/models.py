@@ -40,6 +40,8 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+
+
 # this is a custom user model.
 class CustomUser(AbstractUser):
     dh_id = models.CharField(max_length=20, unique=True, blank=False, null=True)
