@@ -50,6 +50,7 @@ urlpatterns = [
     path('contact_us/', include('contact_us.urls')),
     path('gallery/', include('gallery.urls')),
     path('training_courses/', include('training_courses.urls')),
+    path('dh_dashboard/', include('dh_dashboard.urls')),
 ]
 
 

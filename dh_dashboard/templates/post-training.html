@@ -1,28 +1,49 @@
 {% extends "base.html" %}
 {% load static %}
 {% load training_tags %}
-{% block title %}Booking{% endblock %}
+{% block title %}Post Training{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard_calendar.css' %}"/>
 <style>
-    p{
-        max-inline-size: 100% !important;
+    .shortcut-links-container{
+        display: flex !important;
+        flex-wrap: nowrap;
+        /* justify-content: left; */
+        align-items: center;
     }
+    .subheader-contianer{
+        color: #fff;
+    }
+
 </style>
 {% endblock css %}
 
+{% block submenu %}
+{% include 'dhdashboard-menu.html' %}
+{% endblock submenu %}
+
+{% block entity_name %}
+    <div class="comp_name">{{request.user.company}}</div>
+{% endblock entity_name %}
+{% block dashboard_menu %}    
+    {% include 'dhdashboard-menu.html' %}
+{% endblock dashboard_menu %} 
+
 {% block content %}
 
+    
 
-    <div class="about universal-padding">
-        <input type="hidden" id="training_dates">
-
+    <div class="universal-padding">
+        {% include 'errors.html' %}
+        <h2>Post Training Event <span class="text-danger">({{course}})</span> </h2>
+        <br>
+    
         <div class="calendar">
             <div class="calendar-header">
                 <div class="scrolling-arrows">
-                    <a href="{% url 'book-training' pk=course.pk month=prev_month year=calendar_month.year %}" class="text-white">
+                    <a href="{% url 'post-training' pk=course.pk month=prev_month year=calendar_month.year %}" class="text-white">
                         <i class="fa fa-chevron-left" aria-hidden="true" style="font-size: 36px;"></i>
                     </a>
                 </div>
@@ -31,7 +52,7 @@
                      
                 </div>
                 <div class="scrolling-arrows">
-                    <a href="{% url 'book-training' pk=course.pk month=next_month year=calendar_month.year %}" class="text-white">
+                    <a href="{% url 'post-training' pk=course.pk month=next_month year=calendar_month.year %}" class="text-white">
                         <i class="fa fa-chevron-right" aria-hidden="true" style="font-size: 36px;"></i>
                     </a>
                 </div>
@@ -50,16 +71,15 @@
                 {% for day in calender_days %}
                     {% find_prev_next calender_days forloop.counter0 as ifcond %}
                     {% if ifcond == 1 %}
-                        <div class="calendar-day prev-date" data-day="{{day}}-{{prev_month}}-{{calendar_month.year}}" data-dayselected="0">
+                        <div class="calendar-day prev-date" onclick="selectday(this)" data-day="{{day}}-{{prev_month}}-{{calendar_month.year}}" data-dayselected="0">
+                            
                             {{day}}
-                    
                             <div class="training-content">
                                 <span class="notraining">No Training</span> 
                             </div>
-                          
                         </div>
                     {% elif ifcond == 2 %}
-                        <div class="calendar-day next-date" data-day="{{day}}-{{next_month}}-{{calendar_month.year}}" data-dayselected="0">
+                        <div class="calendar-day next-date" onclick="selectday(this)" data-day="{{day}}-{{next_month}}-{{calendar_month.year}}" data-dayselected="0">
                             
                             {{day}}
                             <div class="training-content">
@@ -67,7 +87,7 @@
                             </div>
                         </div>
                     {% else %}
-                        <div class="calendar-day" data-day="{{day}}-{{calendar_month.month}}-{{calendar_month.year}}" data-dayselected="0">
+                        <div class="calendar-day" onclick="selectday(this)" data-day="{{day}}-{{calendar_month.month}}-{{calendar_month.year}}" data-dayselected="0">
                             
                             {% if training_events.day == training_events.day.date_created|date:'d' %}
                             <div class="event bg-info">Event</div>
@@ -81,8 +101,25 @@
                     {% endif %}
                 {% endfor %}
                 
+                
+                
             </div>
         </div>
+
+        <div class="formdv">
+            <form onsubmit="return compile_dates()" id="trainingform" method="post" action="{% url 'post-training' pk=course.pk month=calendar_month.month year=calendar_month.year %}" style="width: 100%;">
+                {% csrf_token %}
+                <br><br>
+                {{training_form.training_slots}}
+                <label>Notes about the training (Optional)</label>
+                {{training_form.comment}}
+                <br><br>
+                <div style="text-align: center;">
+                    <input type="submit" class="btn btn-primary btn-lg">
+                </div>
+            </form>
+        </div>
+     
     </div>
 
 {% endblock %}
@@ -91,11 +128,4 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
 <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/dashboard_calendar.js' %}"></script>
-
-<script type="text/javascript">
-    let training_dates = JSON.parse('{{ training_events | safe }}')
-    console.log(training_dates)
-</script>
-
-
 {% endblock js %}

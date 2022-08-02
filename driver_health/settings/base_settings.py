@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'countries',
     'gallery',
     'users',
+    'dh_dashboard',
 ]
 
 MIDDLEWARE = [
@@ -85,12 +86,17 @@ TEMPLATES = [
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
+     'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
 }
+
+
 
 
 WSGI_APPLICATION = 'driver_health.wsgi.application'

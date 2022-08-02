@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+{% load training_tags %}
+{% block title %}Dashboard{% endblock %}
+
+{% block css %}
+<style>
+    .shortcut-links-container{
+        display: flex !important;
+        flex-wrap: nowrap;
+        /* justify-content: left; */
+        align-items: center;
+    }
+    .subheader-contianer{
+        color: #fff;
+    }
+
+    .package-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .course{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: #00b0f0;
+        padding: 15px;
+        margin-bottom: 20px;
+        min-height: 50px;
+        width: 30%;
+        font-size: 1.5em;
+    }
+
+</style>
+{% endblock css %}
+
+{% block submenu %}
+{% include 'dhdashboard-menu.html' %}
+{% endblock submenu %}
+
+{% block entity_name %}
+    <div class="comp_name">{{request.user.company}}</div>
+{% endblock entity_name %}
+{% block dashboard_menu %}    
+    {% include 'dhdashboard-menu.html' %}
+{% endblock dashboard_menu %} 
+
+{% block content %}
+
+    
+
+    <div class="universal-padding">
+        <div class="package-container">
+            {% for course in courses %}
+                <div class="course">
+                    {{course}}
+                    <a href="{% url 'post-training' pk=course.pk month=today.month year=today.year %}" class="btn btn-secondary btn-lg text-white">Post Training</a>
+                </div>
+            {% endfor %}
+        </div>       
+    </div>
+
+{% endblock %}

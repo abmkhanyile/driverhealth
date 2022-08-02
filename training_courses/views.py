@@ -3,7 +3,9 @@ from django.shortcuts import render
 from django.views.generic.base import View, ContextMixin
 from django.utils import timezone
 import calendar
-from training_courses.models import TrainingCourse
+from training_courses.models import TrainingCourse, TrainingEvent
+from django.core import serializers
+from .serializers import TrainingEventSerializer
 
 
 # handles booking for training.
@@ -53,6 +55,7 @@ class BookTraining(View, ContextMixin):
         context['prev_month'] = today.month - 1
         context['next_month'] = today.month + 1
         context['course'] = TrainingCourse.objects.get(pk=self.kwargs['pk'])
+        context['training_events'] = serializers.serialize("json", TrainingEvent.objects.all())
         return context
 
     def get(self, request, **kwargs):

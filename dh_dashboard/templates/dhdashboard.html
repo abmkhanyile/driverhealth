@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% load training_tags %}
+{% block title %}Dashboard{% endblock %}
+
+{% block css %}
+<style>
+    .shortcut-links-container{
+        display: flex !important;
+        flex-wrap: nowrap;
+        /* justify-content: left; */
+        align-items: center;
+    }
+    .subheader-contianer{
+        color: #fff;
+    }
+
+</style>
+{% endblock css %}
+
+{% block submenu %}
+{% include 'dhdashboard-menu.html' %}
+{% endblock submenu %}
+
+{% block entity_name %}
+    <div class="comp_name">{{request.user.company}}</div>
+{% endblock entity_name %}
+{% block dashboard_menu %}    
+    {% include 'dhdashboard-menu.html' %}
+{% endblock dashboard_menu %} 
+
+{% block content %}
+
+    
+
+    <div class="universal-padding">
+    
+       
+    </div>
+
+{% endblock %}
+

@@ -2,6 +2,8 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from django.utils import timezone
 
+
+
 # this models holds all the courses on offer
 class TrainingCourse(models.Model):
     course_name = models.CharField(max_length=150, blank=False)
@@ -24,6 +26,7 @@ class Code14Course(models.Model):
     def __str__(self):
         return self.course_name
 
+
 # this is an intermediary table for the Trainees and TrainingEvent relationship.
 class Course_Enrollees(models.Model):
     enrollee = models.ForeignKey('dhclients.DHClient', on_delete=models.CASCADE, blank=False) 
@@ -35,11 +38,19 @@ class Course_Enrollees(models.Model):
 class TrainingEvent(models.Model):
     training_course = models.ForeignKey('training_courses.TrainingCourse', related_name="course_events", on_delete=models.CASCADE, blank=False)
     enrollees = models.ManyToManyField('dhclients.DHClient', through='Course_Enrollees', blank=True)
+    slots = models.ManyToManyField('training_courses.TrainingDays', blank=False)
     comment = models.CharField(max_length=1000, blank=True)
-    start_date = models.DateTimeField(blank=False)
-    end_date = models.DateTimeField(blank=False)
     date_created = models.DateTimeField(default=timezone.now, blank=False)
 
     def __str__(self) -> str:
         return self.training_course.course_name
+
+
+# holds the dates for the training 
+class TrainingDays(models.Model):
+    training_slot = models.DateTimeField(blank=False)
+
+    def __str__(self):
+        return str(self.training_slot)
+
 

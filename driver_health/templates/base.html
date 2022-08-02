@@ -79,6 +79,8 @@
                     <li>
                         {% if request.user.is_company %}
                         <a class="dropdown-item" href="{% url 'company-dashboard' %}">Dashboard</a>
+                        {% elif request.user.is_staff %}
+                        <a class="dropdown-item" href="{% url 'dh-dashboard' %}">Dashboard</a>
                         {% else %}
                         <a class="dropdown-item" href="{% url 'client-profile' %}">My Profile</a>
                         {% endif %}
@@ -101,7 +103,8 @@
             <div class="prof-details">
                 {% if request.user.is_authenticated %}
                 <span><a href="#" class="header-links">Hello, {{request.user.ret_acc_name|truncatechars:14}}</a> <br>
-                    <a href="{% url 'logout' %}" class="header-links" style="font-size: .85em;">Logout</a> | {% if request.user.is_company %}<a href="{% url 'company-dashboard' %}" class="header-links" style="font-size: .85em;">Dashboard</a>{% else %}<a href="{% url 'client-profile' %}" class="header-links" style="font-size: .85em;">My Profile</a>{% endif %}
+                    <a href="{% url 'logout' %}" class="header-links" style="font-size: .85em;">Logout</a> | {% if request.user.is_company %}<a href="{% url 'company-dashboard' %}" class="header-links" style="font-size: .85em;">Dashboard</a>{% elif request.user.is_staff %}
+                    <a class="header-links" href="{% url 'dh-dashboard' %}" style="font-size: .85em;">Dashboard</a>{% else %}<a href="{% url 'client-profile' %}" class="header-links" style="font-size: .85em;">My Profile</a>{% endif %}
                 </span>
                 {% else %}
                 <span><a href="#" class="header-links">My DriverHealth</a> <br>
