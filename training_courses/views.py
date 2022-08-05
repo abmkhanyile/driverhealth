@@ -55,7 +55,7 @@ class BookTraining(View, ContextMixin):
         context['prev_month'] = today.month - 1
         context['next_month'] = today.month + 1
         context['course'] = TrainingCourse.objects.get(pk=self.kwargs['pk'])
-        context['training_events'] = serializers.serialize("json", TrainingEvent.objects.all())
+        context['training_events'] = TrainingEventSerializer("json", TrainingEvent.objects.all())
         return context
 
     def get(self, request, **kwargs):
