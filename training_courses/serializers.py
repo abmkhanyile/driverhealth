@@ -13,4 +13,7 @@ class TrainingEventSerializer(serializers.ModelSerializer):
     slots = TrainingDaysSerializer(many=True)
     class Meta:
         model = TrainingEvent
-        fields = '__all__'
+        fields = [
+            'comment',
+            'slots',
+        ]

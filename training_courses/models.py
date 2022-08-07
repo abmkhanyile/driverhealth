@@ -45,6 +45,9 @@ class TrainingEvent(models.Model):
     def __str__(self) -> str:
         return self.training_course.course_name
 
+    def natural_key(self):
+        return (self.training_course.course_name)
+
 
 # holds the dates for the training 
 class TrainingDays(models.Model):
@@ -52,5 +55,8 @@ class TrainingDays(models.Model):
 
     def __str__(self):
         return str(self.training_slot)
+
+    def natural_key(self):
+        return (self.training_slot)
 
 

@@ -18,7 +18,6 @@
 
     <div class="about universal-padding">
         <input type="hidden" id="training_dates">
-        {{training_events}}
         <div class="calendar">
             <div class="calendar-header">
                 <div class="scrolling-arrows">
@@ -50,7 +49,7 @@
                 {% for day in calender_days %}
                     {% find_prev_next calender_days forloop.counter0 as ifcond %}
                     {% if ifcond == 1 %}
-                        <div class="calendar-day prev-date" data-day="{{day}}-{{prev_month}}-{{calendar_month.year}}" data-dayselected="0">
+                        <div class="calendar-day prev-date" id="{{calendar_month.year}}-{{prev_month}}-{{day}}" data-dayselected="0">
                             {{day}}
                     
                             <div class="training-content">
@@ -59,7 +58,7 @@
                           
                         </div>
                     {% elif ifcond == 2 %}
-                        <div class="calendar-day next-date" data-day="{{day}}-{{next_month}}-{{calendar_month.year}}" data-dayselected="0">
+                        <div class="calendar-day next-date" id="{{calendar_month.year}}-{{next_month}}-{{day}}" data-dayselected="0">
                             
                             {{day}}
                             <div class="training-content">
@@ -67,7 +66,7 @@
                             </div>
                         </div>
                     {% else %}
-                        <div class="calendar-day" data-day="{{day}}-{{calendar_month.month}}-{{calendar_month.year}}" data-dayselected="0">
+                        <div class="calendar-day" id="{{calendar_month.year}}-{{calendar_month.month}}-{{day}}" data-dayselected="0">
                             
                             {% if training_events.day == training_events.day.date_created|date:'d' %}
                             <div class="event bg-info">Event</div>
@@ -90,11 +89,63 @@
 {% block js %}
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
 <script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/dashboard_calendar.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'js/dashboard_calendar.js' %}"></script> -->
 
 <script type="text/javascript">
-    let training_dates = JSON.parse('{{ training_events | safe }}')
-    console.log(training_dates)
+    
+    // let json_str = JSON.stringify('{{ training_events | safe }}')
+    let server_data = '{{training_events | safe}}'
+
+    // console.log(typeof server_data)
+
+    let training_dates = JSON.parse(JSON.stringify(server_data))
+    let server_json_objs = JSON.parse(training_dates.slice(1, -1))
+    console.log(server_json_objs)
+    
+    let calendar_dates_arr = []
+    let calendar_days = document.getElementsByClassName('calendar-day')
+    for(let i = 0; i < calendar_days.length; i++){
+        calendar_dates_arr.push(new Date(calendar_days[i].getAttribute('id')))
+        
+    }
+
+    let events_dates_arr = []
+    for(let j = 0; j < server_json_objs.length; j++){
+        console.log(server_json_objs[j])
+        let training_event_dates =  server_json_objs[j].fields.slots
+        console.log(training_event_dates)
+        let dates = []
+        for(let k=0; k < training_event_dates.length; k++){
+            dates.push(new Date(training_event_dates[k]))
+        }
+        events_dates_arr.push(dates)
+        
+    }
+
+    function plot_calendar(eventdates, calendar_dates){
+        for(let i=0; i<calendar_dates.length; i++){
+            for(let j=0; j<eventdates.length; j++){
+                for(let k=0; k<eventdates[j].length; k++){
+                    let month = parseInt(calendar_dates[i].getMonth()) + 1
+                    let events_month = parseInt(eventdates[j][k].getMonth()) + 1
+                   
+                    if((eventdates[j][k].getDate() == calendar_dates[i].getDate()) && (events_month == month) && (eventdates[j][k].getFullYear() == calendar_dates[i].getFullYear())){
+                        console.log("found a match ", eventdates)
+                        let calendarday = document.getElementById(""+calendar_dates[i].getFullYear()+"-"+month+"-"+calendar_dates[i].getDate()+"") 
+                        console.log(""+calendar_dates[i].getFullYear()+"-"+month+"-"+calendar_dates[i].getDate()+"")
+                        if(calendarday != null){
+                            calendarday.style.background = "red"
+                            calendarday.classList.add("training-day")
+                            calendarday.getElementsByClassName('training-content')[0].innerHTML = "Training Scheduled"
+                        }
+                        
+                        console.log(calendarday)
+                    }
+                }
+            }
+        }
+    }
+    plot_calendar(events_dates_arr, calendar_dates_arr)
 </script>
 
 

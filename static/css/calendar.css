@@ -68,3 +68,7 @@
   padding: 3px 15px; 
   border-radius: 10px;
 }
+
+.training-day{
+  cursor: pointer;
+}

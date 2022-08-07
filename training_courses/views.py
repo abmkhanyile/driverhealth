@@ -5,7 +5,9 @@ from django.utils import timezone
 import calendar
 from training_courses.models import TrainingCourse, TrainingEvent
 from django.core import serializers
-from .serializers import TrainingEventSerializer
+from .serializers import TrainingEventSerializer, TrainingDaysSerializer
+from rest_framework.renderers import JSONRenderer
+import json
 
 
 # handles booking for training.
@@ -49,13 +51,16 @@ class BookTraining(View, ContextMixin):
             calender_days.append(next_month_days)   
             next_month_days += 1
 
+
         context['calender_days'] = calender_days    
         context['calendar_month'] = today
        
         context['prev_month'] = today.month - 1
         context['next_month'] = today.month + 1
         context['course'] = TrainingCourse.objects.get(pk=self.kwargs['pk'])
-        context['training_events'] = TrainingEventSerializer("json", TrainingEvent.objects.all())
+        data = serializers.serialize('json', TrainingEvent.objects.all(), use_natural_foreign_keys=True, fields=['comment', 'slots'], indent=4)
+        context['training_events'] = json.dumps(data, separators=(',', ':'))
+       
         return context
 
     def get(self, request, **kwargs):
