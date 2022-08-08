@@ -13,10 +13,41 @@
 </style>
 {% endblock css %}
 
+{% block modals %}
+<!-- Button trigger modal -->
+  
+  <!-- Modal -->
+  <div class="modal fade" id="booking-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="booking-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="booking-modalLabel">Book Training</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="reset_events()"></button>
+        </div>
+        <div class="modal-body">
+            {{calendar_month|date:"F"}} {{calendar_month|date:"Y"}}
+          <form id="training-form" method="get" action="{% url 'book-training' pk=course.pk month=calendar_month.month year=calendar_month.year %}">
+           
+            <div id="events">
+
+            </div>
+           
+            <div style="text-align: center;">
+                <input type="submit" class="btn btn-primary" value="Confirm Booking">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock modals %}
+
 {% block content %}
 
 
     <div class="about universal-padding">
+        <div class="training-lbl" style="display: inline-block; margin: 0px;"></div><span>&#9;&#9;Training Scheduled</span>
+        <br><br>
         <input type="hidden" id="training_dates">
         <div class="calendar">
             <div class="calendar-header">
@@ -49,24 +80,24 @@
                 {% for day in calender_days %}
                     {% find_prev_next calender_days forloop.counter0 as ifcond %}
                     {% if ifcond == 1 %}
-                        <div class="calendar-day prev-date" id="{{calendar_month.year}}-{{prev_month}}-{{day}}" data-dayselected="0">
+                        <div class="calendar-day prev-date" id="{{calendar_month.year}}-{{prev_month}}-{{day}}" data-dayselected="0" onclick="display_events(this)">
                             {{day}}
                     
                             <div class="training-content">
-                                <span class="notraining">No Training</span> 
+                                
                             </div>
                           
                         </div>
                     {% elif ifcond == 2 %}
-                        <div class="calendar-day next-date" id="{{calendar_month.year}}-{{next_month}}-{{day}}" data-dayselected="0">
+                        <div class="calendar-day next-date" id="{{calendar_month.year}}-{{next_month}}-{{day}}" data-dayselected="0" onclick="display_events(this)">
                             
                             {{day}}
                             <div class="training-content">
-                                <span class="notraining">No Training</span> 
+                              
                             </div>
                         </div>
                     {% else %}
-                        <div class="calendar-day" id="{{calendar_month.year}}-{{calendar_month.month}}-{{day}}" data-dayselected="0">
+                        <div class="calendar-day" id="{{calendar_month.year}}-{{calendar_month.month}}-{{day}}" data-dayselected="0" onclick="display_events(this)">
                             
                             {% if training_events.day == training_events.day.date_created|date:'d' %}
                             <div class="event bg-info">Event</div>
@@ -74,7 +105,7 @@
 
                             {{day}}
                             <div class="training-content">
-                                <span class="notraining">No Training</span> 
+                            
                             </div>
                         </div>
                     {% endif %}
@@ -100,8 +131,7 @@
 
     let training_dates = JSON.parse(JSON.stringify(server_data))
     let server_json_objs = JSON.parse(training_dates.slice(1, -1))
-    console.log(server_json_objs)
-    
+        
     let calendar_dates_arr = []
     let calendar_days = document.getElementsByClassName('calendar-day')
     for(let i = 0; i < calendar_days.length; i++){
@@ -109,43 +139,74 @@
         
     }
 
+    
+
     let events_dates_arr = []
     for(let j = 0; j < server_json_objs.length; j++){
-        console.log(server_json_objs[j])
         let training_event_dates =  server_json_objs[j].fields.slots
-        console.log(training_event_dates)
+
+        let events = new Object()
+
+        events['pk'] = server_json_objs[j].pk
         let dates = []
+
         for(let k=0; k < training_event_dates.length; k++){
             dates.push(new Date(training_event_dates[k]))
         }
-        events_dates_arr.push(dates)
+        events['slots'] = dates
+        events_dates_arr.push(events)
         
     }
 
+
     function plot_calendar(eventdates, calendar_dates){
+   
         for(let i=0; i<calendar_dates.length; i++){
             for(let j=0; j<eventdates.length; j++){
-                for(let k=0; k<eventdates[j].length; k++){
+                for(let k=0; k<eventdates[j]['slots'].length; k++){
                     let month = parseInt(calendar_dates[i].getMonth()) + 1
-                    let events_month = parseInt(eventdates[j][k].getMonth()) + 1
+                    let events_month = parseInt(eventdates[j]['slots'][k].getMonth()) + 1
                    
-                    if((eventdates[j][k].getDate() == calendar_dates[i].getDate()) && (events_month == month) && (eventdates[j][k].getFullYear() == calendar_dates[i].getFullYear())){
-                        console.log("found a match ", eventdates)
+                    if((eventdates[j]['slots'][k].getDate() == calendar_dates[i].getDate()) && (events_month == month) && (eventdates[j]['slots'][k].getFullYear() == calendar_dates[i].getFullYear())){
                         let calendarday = document.getElementById(""+calendar_dates[i].getFullYear()+"-"+month+"-"+calendar_dates[i].getDate()+"") 
-                        console.log(""+calendar_dates[i].getFullYear()+"-"+month+"-"+calendar_dates[i].getDate()+"")
+                        
                         if(calendarday != null){
-                            calendarday.style.background = "red"
+                            calendarday.style.background = "#fd5c63"
+                            calendarday.setAttribute("data-bs-toggle", "modal")
+                            calendarday.setAttribute("data-bs-target", "#booking-modal")
                             calendarday.classList.add("training-day")
-                            calendarday.getElementsByClassName('training-content')[0].innerHTML = "Training Scheduled"
+                            calendarday.getElementsByClassName('training-content')[0].innerHTML += '<div class="training-lbl" data-eventpk="'+eventdates[j]['pk']+'"></div>'
                         }
                         
-                        console.log(calendarday)
                     }
                 }
             }
         }
     }
     plot_calendar(events_dates_arr, calendar_dates_arr)
+
+    function display_events(elem){
+        
+        let trainingday = $(elem)
+        training_lbls = elem.getElementsByClassName('training-lbl')
+        
+        let pks = []
+        for(let i = 0; i < training_lbls.length; i++){
+            pks.push(training_lbls[i].getAttribute("data-eventpk"))
+            let pk = training_lbls[i].getAttribute("data-eventpk")
+            for(let j = 0; j < events_dates_arr.length; j++){
+                if(events_dates_arr[j].pk == parseInt(pk)){
+                    let eventdays = []
+                    for(let v = 0; v < events_dates_arr[j].slots.length; v++){
+                        eventdays.push(events_dates_arr[j].slots[v].getDate())
+                    }
+                    let events_container = document.getElementById('events')
+                    events_container.innerHTML += '<input type="radio" id="event'+j+'" name="training_event" value="'+parseInt(pk)+'" checked>'
+                    events_container.innerHTML += '<label for="event'+j+'">'+eventdays +'</label><br>'
+                }
+            }
+        }
+    }
 </script>
 
 

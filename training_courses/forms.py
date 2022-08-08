@@ -1,5 +1,5 @@
 from django import forms
-from .models import TrainingEvent
+from .models import TrainingEvent, TrainingBooking
 
 class PostTrainingForm(forms.ModelForm):
     training_slots = forms.CharField(max_length=1500, required=False, widget=forms.HiddenInput(attrs={
@@ -22,3 +22,16 @@ class PostTrainingForm(forms.ModelForm):
                 'class': 'form-control',
             }),
         }
+
+# this form handles the booking.
+class TrainingBookingForm(forms.ModelForm):
+    class Meta:
+        model = TrainingBooking
+        exclude = (
+            'date_created',
+            'paid',
+            'booking_id',
+        )
+        fields = (
+            'training_event',
+        )

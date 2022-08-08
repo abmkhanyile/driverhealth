@@ -59,4 +59,15 @@ class TrainingDays(models.Model):
     def natural_key(self):
         return (self.training_slot)
 
+# holds all the training bookings 
+class TrainingBooking(models.Model):
+    client = models.ForeignKey('user_accounts.CustomUser', related_name="client_training_bookings", on_delete=models.CASCADE, blank=True)
+    training_event = models.ForeignKey('training_courses.TrainingEvent', related_name="training_event_bookings", on_delete=models.CASCADE, blank=True)
+    booking_id = models.CharField(max_length=20, unique=True, blank=False)
+    paid = models.BooleanField(default=False)
+    date_created = models.DateTimeField(default=timezone.now, blank=False)
+
+    def __str__(self) -> str:
+        return self.booking_id
+
 

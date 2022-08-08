@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Booking Success{% endblock %}
+
+{% block css %}
+<style>
+    p{
+        max-inline-size: 100% !important;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+
+
+    <div class="about universal-padding">
+        <h5 class="text-success">Booking successful</h5>
+        <p>
+            Please make a payment within the next 48 hours to confirm your booking. User <span class="text-danger">{{object.booking_id}}</span> as a reference for the payment. 
+        </p>
+    </div>
+
+{% endblock %}

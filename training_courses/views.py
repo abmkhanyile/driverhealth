@@ -1,13 +1,18 @@
 from datetime import timedelta
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.base import View, ContextMixin
+from django.views.generic.detail import DetailView
 from django.utils import timezone
 import calendar
-from training_courses.models import TrainingCourse, TrainingEvent
+from training_courses.models import TrainingBooking, TrainingCourse, TrainingEvent
 from django.core import serializers
 from .serializers import TrainingEventSerializer, TrainingDaysSerializer
 from rest_framework.renderers import JSONRenderer
 import json
+import random
+
 
 
 # handles booking for training.
@@ -57,14 +62,24 @@ class BookTraining(View, ContextMixin):
        
         context['prev_month'] = today.month - 1
         context['next_month'] = today.month + 1
-        context['course'] = TrainingCourse.objects.get(pk=self.kwargs['pk'])
-        data = serializers.serialize('json', TrainingEvent.objects.all(), use_natural_foreign_keys=True, fields=['comment', 'slots'], indent=4)
+        training_course = TrainingCourse.objects.get(pk=self.kwargs['pk'])
+        context['course'] = training_course
+        data = serializers.serialize('json', TrainingEvent.objects.filter(training_course = training_course), use_natural_foreign_keys=True, indent=4)
         context['training_events'] = json.dumps(data, separators=(',', ':'))
        
         return context
 
     def get(self, request, **kwargs):
+        if 'training_event' in request.GET:
+            eventpk = request.GET['training_event']
+            event = TrainingEvent.objects.get(pk=eventpk)
+            training_booking = TrainingBooking.objects.create(client=request.user, training_event=event, booking_id=random.randint(100000000000,999999999999))
+            return HttpResponseRedirect(reverse("booking-success", kwargs={'pk': training_booking.pk}))
         return render(request, self.template_name, self.get_context_data())
+
+class BookingSuccess(DetailView):
+    template_name = "booking-success.html"
+    model = TrainingBooking
 
 
 
