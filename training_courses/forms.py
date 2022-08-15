@@ -15,23 +15,25 @@ class PostTrainingForm(forms.ModelForm):
         )
         fields = (
             'comment',
+            'enrollees_num',
         )
 
         widgets = {
             'comment': forms.Textarea(attrs={
                 'class': 'form-control',
             }),
+            'enrollees_num': forms.NumberInput(attrs={
+                'class': 'form-control',
+            })
         }
 
 # this form handles the booking.
-class TrainingBookingForm(forms.ModelForm):
-    class Meta:
-        model = TrainingBooking
-        exclude = (
-            'date_created',
-            'paid',
-            'booking_id',
-        )
-        fields = (
-            'training_event',
-        )
+class TrainingBookingForm(forms.Form):
+    TRAINING_EVENTS = []
+    # training_dates = forms.ModelChoiceField(queryset=TrainingEvent.objects.none(), empty_label="", widget=forms.RadioSelect(attrs={
+    #     # 'class': 'form-control',
+    # }))
+    times = forms.IntegerField(required=False, widget=forms.Select(attrs={
+        'class': 'form-control',
+    }))
+

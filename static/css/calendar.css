@@ -84,3 +84,38 @@
   border-radius: 50%;
   background-color: darkgreen;
 }
+
+.seldate{
+  color: darkgreen;
+  font-size: 1.8em;
+}
+
+.seldate-container{
+  display: grid;
+  grid-template-columns: .5fr 3fr;
+}
+
+
+#eventcomments{
+  background-color: #E1EBEE;
+  min-height: 100px;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+#selectedates{
+  min-height: 150px;
+  width: 100%;
+  background-color:aliceblue;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.seldate-container{
+  background-color: #FBCEB1;
+  padding: 10px;
+  min-width: 100px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+

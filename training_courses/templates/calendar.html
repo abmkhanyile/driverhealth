@@ -27,10 +27,17 @@
         <div class="modal-body">
             {{calendar_month|date:"F"}} {{calendar_month|date:"Y"}}
           <form id="training-form" method="get" action="{% url 'book-training' pk=course.pk month=calendar_month.month year=calendar_month.year %}">
-           
+           {% csrf_token %}
             <div id="events">
 
             </div>
+            {{booking_form.as_p}}
+            <br>
+            <label>Notice</label>
+            <div id="eventcomments">
+
+            </div>
+            <br>
            
             <div style="text-align: center;">
                 <input type="submit" class="btn btn-primary" value="Confirm Booking">
@@ -46,6 +53,7 @@
 
 
     <div class="about universal-padding">
+        {% include 'errors.html' %}
         <div class="training-lbl" style="display: inline-block; margin: 0px;"></div><span>&#9;&#9;Training Scheduled</span>
         <br><br>
         <input type="hidden" id="training_dates">
@@ -80,7 +88,7 @@
                 {% for day in calender_days %}
                     {% find_prev_next calender_days forloop.counter0 as ifcond %}
                     {% if ifcond == 1 %}
-                        <div class="calendar-day prev-date" id="{{calendar_month.year}}-{{prev_month}}-{{day}}" data-dayselected="0" onclick="display_events(this)">
+                        <div class="calendar-day prev-date" id="{{calendar_month.year}}-{{prev_month}}-{{day}}" data-dayselected="0" onclick="getTimes(this)">
                             {{day}}
                     
                             <div class="training-content">
@@ -89,7 +97,7 @@
                           
                         </div>
                     {% elif ifcond == 2 %}
-                        <div class="calendar-day next-date" id="{{calendar_month.year}}-{{next_month}}-{{day}}" data-dayselected="0" onclick="display_events(this)">
+                        <div class="calendar-day next-date" id="{{calendar_month.year}}-{{next_month}}-{{day}}" data-dayselected="0" onclick="getTimes(this)">
                             
                             {{day}}
                             <div class="training-content">
@@ -97,7 +105,7 @@
                             </div>
                         </div>
                     {% else %}
-                        <div class="calendar-day" id="{{calendar_month.year}}-{{calendar_month.month}}-{{day}}" data-dayselected="0" onclick="display_events(this)">
+                        <div class="calendar-day" id="{{calendar_month.year}}-{{calendar_month.month}}-{{day}}" data-dayselected="0" onclick="getTimes(this)">
                             
                             {% if training_events.day == training_events.day.date_created|date:'d' %}
                             <div class="event bg-info">Event</div>
@@ -131,7 +139,7 @@
 
     let training_dates = JSON.parse(JSON.stringify(server_data))
     let server_json_objs = JSON.parse(training_dates.slice(1, -1))
-        
+            
     let calendar_dates_arr = []
     let calendar_days = document.getElementsByClassName('calendar-day')
     for(let i = 0; i < calendar_days.length; i++){
@@ -148,6 +156,8 @@
         let events = new Object()
 
         events['pk'] = server_json_objs[j].pk
+        events['comment'] = server_json_objs[j].fields.comment
+
         let dates = []
 
         for(let k=0; k < training_event_dates.length; k++){
@@ -190,22 +200,27 @@
         let trainingday = $(elem)
         training_lbls = elem.getElementsByClassName('training-lbl')
         
-        let pks = []
-        for(let i = 0; i < training_lbls.length; i++){
-            pks.push(training_lbls[i].getAttribute("data-eventpk"))
-            let pk = training_lbls[i].getAttribute("data-eventpk")
-            for(let j = 0; j < events_dates_arr.length; j++){
-                if(events_dates_arr[j].pk == parseInt(pk)){
-                    let eventdays = []
-                    for(let v = 0; v < events_dates_arr[j].slots.length; v++){
-                        eventdays.push(events_dates_arr[j].slots[v].getDate())
-                    }
-                    let events_container = document.getElementById('events')
-                    events_container.innerHTML += '<input type="radio" id="event'+j+'" name="training_event" value="'+parseInt(pk)+'" checked>'
-                    events_container.innerHTML += '<label for="event'+j+'">'+eventdays +'</label><br>'
-                }
-            }
-        }
+        // let pks = []
+        // for(let i = 0; i < training_lbls.length; i++){
+        //     pks.push(training_lbls[i].getAttribute("data-eventpk"))
+        //     let pk = training_lbls[i].getAttribute("data-eventpk")
+        //     for(let j = 0; j < events_dates_arr.length; j++){
+        //         if(events_dates_arr[j].pk == parseInt(pk)){
+        //             let eventdays = []
+        //             for(let v = 0; v < events_dates_arr[j].slots.length; v++){
+        //                 eventdays.push(events_dates_arr[j].slots[v].getDate())
+        //             }
+        //             let events_container = document.getElementById('events')
+        //             events_container.innerHTML += '<input type="radio" id="event'+j+'" name="training_event" value="'+parseInt(pk)+'" checked>'
+        //             events_container.innerHTML += '<label for="event'+j+'">'+eventdays +'</label><br>'
+        //             if(events_dates_arr[j].comment != ''){
+        //                 noticeboard = document.getElementById('eventcomments').innerHTML = '<p class="text-danger">'+events_dates_arr[j].comment+'</p>'
+        //             }else{
+        //                 noticeboard = document.getElementById('eventcomments').innerHTML = '<p class="text-secondary"><i>No notices</i></p>'
+        //             }
+        //         }
+        //     }
+        // }
     }
 </script>
 

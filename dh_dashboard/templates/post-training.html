@@ -71,7 +71,7 @@
                 {% for day in calender_days %}
                     {% find_prev_next calender_days forloop.counter0 as ifcond %}
                     {% if ifcond == 1 %}
-                        <div class="calendar-day prev-date" onclick="selectday(this)" data-day="{{day}}-{{prev_month}}-{{calendar_month.year}}" data-dayselected="0">
+                        <div class="calendar-day prev-date" onclick="selectday(this)" data-day="{{calendar_month.year}}-{{prev_month}}-{{day}}" data-dayselected="0">
                             
                             {{day}}
                             <div class="training-content">
@@ -79,7 +79,7 @@
                             </div>
                         </div>
                     {% elif ifcond == 2 %}
-                        <div class="calendar-day next-date" onclick="selectday(this)" data-day="{{day}}-{{next_month}}-{{calendar_month.year}}" data-dayselected="0">
+                        <div class="calendar-day next-date" onclick="selectday(this)" data-day="{{calendar_month.year}}-{{next_month}}-{{day}}" data-dayselected="0">
                             
                             {{day}}
                             <div class="training-content">
@@ -87,7 +87,7 @@
                             </div>
                         </div>
                     {% else %}
-                        <div class="calendar-day" onclick="selectday(this)" data-day="{{day}}-{{calendar_month.month}}-{{calendar_month.year}}" data-dayselected="0">
+                        <div class="calendar-day" onclick="selectday(this)" data-day="{{calendar_month.year}}-{{calendar_month.month}}-{{day}}" data-dayselected="0">
                             
                             {% if training_events.day == training_events.day.date_created|date:'d' %}
                             <div class="event bg-info">Event</div>
@@ -106,18 +106,30 @@
             </div>
         </div>
 
+        <br><br>
+
+        <h5>Selected Dates</h5>
+        <div id="selectedates">
+            
+        </div>
+        
+
         <div class="formdv">
-            <form onsubmit="return compile_dates()" id="trainingform" method="post" action="{% url 'post-training' pk=course.pk month=calendar_month.month year=calendar_month.year %}" style="width: 100%;">
-                {% csrf_token %}
+            <form id="trainingform" method="post" action="{% url 'post-training' pk=course.pk month=calendar_month.month year=calendar_month.year %}" style="width: 100%;">
+               {% csrf_token %}
                 <br><br>
                 {{training_form.training_slots}}
                 <label>Notes about the training (Optional)</label>
                 {{training_form.comment}}
                 <br><br>
-                <div style="text-align: center;">
-                    <input type="submit" class="btn btn-primary btn-lg">
-                </div>
+                <label>Enter maximum number of enrollees </label>
+                {{training_form.enrollees_num}}
+                <br><br>
+                
             </form>
+            <div style="text-align: center;">
+                <input type="submit" form="trainingform" class="btn btn-primary btn-lg">
+            </div>
         </div>
      
     </div>

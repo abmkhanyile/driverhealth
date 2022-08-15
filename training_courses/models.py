@@ -38,8 +38,9 @@ class Course_Enrollees(models.Model):
 class TrainingEvent(models.Model):
     training_course = models.ForeignKey('training_courses.TrainingCourse', related_name="course_events", on_delete=models.CASCADE, blank=False)
     enrollees = models.ManyToManyField('dhclients.DHClient', through='Course_Enrollees', blank=True)
-    slots = models.ManyToManyField('training_courses.TrainingDays', blank=False)
     comment = models.CharField(max_length=1000, blank=True)
+    fully_booked = models.BooleanField(default=False)
+    enrollees_num = models.IntegerField(null=True)
     date_created = models.DateTimeField(default=timezone.now, blank=False)
 
     def __str__(self) -> str:
@@ -52,18 +53,31 @@ class TrainingEvent(models.Model):
 # holds the dates for the training 
 class TrainingDays(models.Model):
     training_slot = models.DateTimeField(blank=False)
-
+    event = models.ForeignKey('training_courses.TrainingEvent', related_name="training_event_dates", on_delete=models.CASCADE, blank=False, null=True)
+   
     def __str__(self):
         return str(self.training_slot)
 
     def natural_key(self):
         return (self.training_slot)
 
+# holds time slots
+class TrainingTime(models.Model):
+    time_slot = models.TimeField(blank=False)
+    date = models.ForeignKey('training_courses.TrainingDays', related_name="training_date_times", on_delete=models.CASCADE, blank=False, null=True)
+
+    def __str__(self):
+        return str(self.time_slot)
+
+    def natural_key(self):
+        return (self.time_slot)
+
 # holds all the training bookings 
 class TrainingBooking(models.Model):
     client = models.ForeignKey('user_accounts.CustomUser', related_name="client_training_bookings", on_delete=models.CASCADE, blank=True)
     training_event = models.ForeignKey('training_courses.TrainingEvent', related_name="training_event_bookings", on_delete=models.CASCADE, blank=True)
     booking_id = models.CharField(max_length=20, unique=True, blank=False)
+    stime = models.ForeignKey('training_courses.TrainingTime', related_name="booking_times", on_delete=models.CASCADE, blank=True, null=True)
     paid = models.BooleanField(default=False)
     date_created = models.DateTimeField(default=timezone.now, blank=False)
 
