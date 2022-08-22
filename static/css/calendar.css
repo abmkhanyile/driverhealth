@@ -44,6 +44,12 @@
   border: 1px solid #ccc;
   min-height: 100px;
   min-width: 20px;
+}
+
+.clink{
+  display: block;
+  width: 100%;
+  height: 100%;
   padding: 10px;
 }
 
@@ -78,8 +84,8 @@
 }
 
 .training-lbl{
-  min-width: 15px;
-  min-height: 15px;
+  width: 15px;
+  height: 15px;
   margin: 2px;
   border-radius: 50%;
   background-color: darkgreen;
@@ -119,3 +125,11 @@
   margin-bottom: 10px;
 }
 
+[data-dayselected="1"]{
+  background-color: #FBCEB1;
+  cursor: pointer;
+}
+
+[data-dayselected="1"] > a:hover{
+  background-color: #ff6961;
+}

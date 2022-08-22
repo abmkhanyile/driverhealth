@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Booking{% endblock %}
+
+{% block css %}
+<style>
+    p{
+        max-inline-size: 100% !important;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+
+
+    <div class="about universal-padding" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <h3>Book Training</h3>
+        <br>
+        <br>
+       <form method="post" action="{% url 'booking' pk=course.pk date=date %}">
+        {% csrf_token %}
+        {{bookingform.as_p}}
+
+        <div style="text-align: center;">
+            <input type="submit" class="btn btn-primary" value="Book Training">
+        </div>
+        
+       </form>
+    </div>
+
+{% endblock %}

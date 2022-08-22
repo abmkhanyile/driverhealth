@@ -1,12 +1,13 @@
-from datetime import timedelta
+from datetime import datetime, timedelta, date
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.base import View, ContextMixin
 from django.views.generic.detail import DetailView
 from django.utils import timezone
+
 import calendar
-from training_courses.models import TrainingBooking, TrainingCourse, TrainingEvent
+from training_courses.models import TrainingBooking, TrainingCourse, TrainingEvent, TrainingDays
 from django.core import serializers
 from .serializers import TrainingEventSerializer, TrainingDaysSerializer
 from rest_framework.renderers import JSONRenderer
@@ -14,6 +15,9 @@ import json
 import random
 from django.contrib import messages
 from .forms import TrainingBookingForm
+from calendar import HTMLCalendar
+from dateutil.relativedelta import relativedelta
+import pytz
 
 
 # handles booking for training.
@@ -22,57 +26,28 @@ class BookTraining(View, ContextMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        calender_days = []
-        today = timezone.datetime.now()
-
-        reqmonth = self.kwargs['month']
-        reqyear = self.kwargs['year']
-        if(today.month != reqmonth):
-            if reqmonth == 0:
-                reqmonth = 12
-                today = today.replace(year=reqyear-1, month=reqmonth)
-            elif reqmonth == 13:
-                reqmonth = 1
-                today = today.replace(year=reqyear+1, month=reqmonth)
-            else:
-                today = today.replace(year=reqyear, month=reqmonth)
-            
         
-        first_day_of_the_month = today.replace(day=1)        
-        year, month = today.year, today.month
-        last_day_of_the_month = calendar.monthrange(year, month)[1]
-
-        weekday = first_day_of_the_month.weekday()
-   
-        for day in range(1, last_day_of_the_month+1, 1):
-            calender_days.append(day)
-
-        while weekday != 6:
-            first_day_of_the_month = first_day_of_the_month-timedelta(days=1)
-            calender_days.insert(0, first_day_of_the_month.day)
-            weekday = first_day_of_the_month.weekday()
-            
-        next_month_days = 1    
-        for day in range(len(calender_days)+1, 43, 1):
-            calender_days.append(next_month_days)   
-            next_month_days += 1
-
-
-        context['calender_days'] = calender_days    
-        context['calendar_month'] = today
-       
-        context['prev_month'] = today.month - 1
-        context['next_month'] = today.month + 1
         training_course = TrainingCourse.objects.get(pk=self.kwargs['pk'])
         context['course'] = training_course
-        training_events = TrainingEvent.objects.filter(training_course = training_course, fully_booked=False)
-        data = serializers.serialize('json', training_events, use_natural_foreign_keys=True, indent=4)
-        context['training_events'] = json.dumps(data, separators=(',', ':'))
-        context['booking_form'] = TrainingBookingForm(initial={
-            'training_dates': training_events,
-        })
-       
+      
+        _year, _month = self.kwargs['year'], self.kwargs['month']
+
+        curr_month = datetime(int(_year), int(_month), 1)
+        prevdate = datetime(int(_year-1 if _month - 1 < 1 else _year ), int(12 if _month-1 < 1 else _month-1), 1)
+        nextdate = datetime(int(_year+1 if _month + 1 > 12 else _year ), int(1 if _month+1 > 12 else _month+1), 1)
+        
+        context['prevdate'] = prevdate
+        context['nextdate'] = nextdate
+            
+        _calendar = HTMLCalendar(firstweekday=6)
+        context['calendar_dates'] = _calendar.itermonthdates(_year, _month)
+        context['calendar'] = _calendar
+        context['curr_month'] = curr_month
+        context['trainingdates'] = TrainingDays.objects.filter(training_slot__month__gte=prevdate.month, training_slot__month__lte=nextdate.month, event__fully_booked=False, event__training_course=training_course)
+        
         return context
+
+
 
     def get(self, request, **kwargs):
         context = self.get_context_data()
@@ -115,3 +90,36 @@ class GetTimes(View):
         print(date)
 
 
+# this view handles the actual booking process.
+class Booking(View, ContextMixin):
+    template_name ="booking.html"
+    form_class = TrainingBookingForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        utc = pytz.utc
+        _date = utc.localize(datetime.strptime(self.kwargs['date'], "%Y-%m-%d"))
+        context['date'] = _date
+        course = TrainingCourse.objects.get(pk=self.kwargs['pk'])
+        context['course'] = course
+        trdates = TrainingDays.objects.filter(training_slot__date=context['date'].date())
+        context['trdates'] = trdates
+        bookingform = self.form_class(found_dates=trdates, course=course)
+        context['bookingform'] = bookingform
+        return context
+
+    def get(self, request, **kwargs):
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
+
+    def post(self, request, **kwargs):
+        context = self.get_context_data()
+        trainingform = self.form_class(request.POST, found_dates=context['trdates'], course=context['course'])
+
+        if trainingform.is_valid():
+            eventpk = trainingform.cleaned_data['training_dates']
+            times = trainingform.cleaned_data['times']
+            event = TrainingEvent.objects.get(pk=eventpk)
+            TrainingBooking.objects.create(client=request.user, training_event=event, booking_id=random.randint(100000000000,999999999999), stime=times)
+            messages.success(request, "Booking successful")
+            return HttpResponseRedirect(reverse('booking', kwargs={'pk': context['course'].pk, 'date': kwargs['date']}))

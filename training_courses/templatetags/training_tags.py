@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from django import template
 from training_courses.models import TrainingDays
 
@@ -14,28 +14,12 @@ def find_prev_next(days, counter):
 
 # this filter checks if a date is booked for training or not.
 @register.simple_tag
-def check_booking(day, month, year):
-    date = datetime.date(year, month, day)
-    # will retrieve events from a training day object
-    trdays = TrainingDays.objects.filter(training_slot__date=date)
-
-    events = []
-
-    for trday in trdays:
-        events.append(trday.trainingevent_set.all())
-    
-    eventdata = []
-    # for event in events:
-    #     eventdata.append(
-    #         {
-    #             'pk': event.pk,
-    #             'trtimes': event.
-    #         }
-    #     )
-
-    # for event in events:
-    #     for eventdate in event.slots.all():
-    #         if date == eventdate.training_slot.date():
-    #             return
+def check_booking(cdate, trainingdates):
+    event_num = []
+    for trdate in trainingdates:
+        if cdate == trdate.training_slot.date():
+            print(cdate, trdate.training_slot.date())
+            event_num.append("a")
+    return event_num
 
 

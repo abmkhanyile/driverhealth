@@ -10,6 +10,8 @@ from django.urls import reverse
 from training_courses.forms import PostTrainingForm
 from datetime import datetime
 from django.contrib import messages
+import pytz
+from django.conf import settings
 
 
 class DHDashboard(View, ContextMixin):
@@ -50,8 +52,7 @@ class PostTraining(BookTraining, ContextMixin):
         context = self.get_context_data()
         trainingdates = request.POST.getlist('trainingdate')
         training_form = self.form_class(request.POST)
-        print(trainingdates)
-        
+               
         if training_form.is_valid():
             training_event = training_form.save(commit=False)
             training_event.training_course = context['course']
@@ -60,16 +61,19 @@ class PostTraining(BookTraining, ContextMixin):
 
             for datestr in trainingdates:
                 datestr_list = datestr.split(',')
-                training_date = TrainingDays.objects.create(training_slot=datetime.strptime(datestr_list[0].strip(), "%Y-%m-%d"), event=training_event)
+                # africa_eastern = pytz.timezone(settings.TIME_ZONE)
+                utc = pytz.utc
+
+                training_date = TrainingDays.objects.create(training_slot=utc.localize(datetime.strptime(datestr_list[0].strip(), "%Y-%m-%d")), event=training_event)
                 if len(datestr_list) > 1:
                     for timestr in datestr_list[1:]:
-                       time = TrainingTime.objects.create(time_slot=datetime.strptime(datestr_list[0]+timestr, "%Y-%m-%d%H:%M"), date=training_date)
+                       time = TrainingTime.objects.create(time_slot=utc.localize(datetime.strptime(datestr_list[0]+timestr, "%Y-%m-%d%H:%M")), date=training_date)
 
             messages.success(request, "Training event successfully created.")
             return HttpResponseRedirect(reverse('post-training', kwargs={
                 'pk': context['course'].pk,
-                'month': context['calendar_month'].month,
-                'year': context['calendar_month'].year,
+                'month': context['curr_month'].month,
+                'year': context['curr_month'].year,
             }))
 
     

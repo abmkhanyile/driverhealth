@@ -1,5 +1,5 @@
 from django import forms
-from .models import TrainingEvent, TrainingBooking
+from .models import TrainingEvent, TrainingBooking, TrainingTime
 
 class PostTrainingForm(forms.ModelForm):
     training_slots = forms.CharField(max_length=1500, required=False, widget=forms.HiddenInput(attrs={
@@ -11,7 +11,6 @@ class PostTrainingForm(forms.ModelForm):
             'training_course',
             'slots',
             'date_created',
-            'enrollees',
         )
         fields = (
             'comment',
@@ -24,16 +23,37 @@ class PostTrainingForm(forms.ModelForm):
             }),
             'enrollees_num': forms.NumberInput(attrs={
                 'class': 'form-control',
-            })
+            }),
+        
         }
 
 # this form handles the booking.
 class TrainingBookingForm(forms.Form):
-    TRAINING_EVENTS = []
-    # training_dates = forms.ModelChoiceField(queryset=TrainingEvent.objects.none(), empty_label="", widget=forms.RadioSelect(attrs={
-    #     # 'class': 'form-control',
-    # }))
-    times = forms.IntegerField(required=False, widget=forms.Select(attrs={
+    def __init__(self, found_dates, course, *args, **kwargs):
+        super(TrainingBookingForm, self).__init__(*args, **kwargs)
+        events = []
+        for date in found_dates:
+            if date.event is not None and date.event.fully_booked == False and date.event.training_course == course:
+                events.append(date.event)
+
+        field_choices = []
+        for event in events:
+            dates_str = ''
+            event_dates = event.training_event_dates.all()
+            for d in event_dates:
+                dates_str += '{}, '.format(d.training_slot.date())
+            event_data = tuple((event.pk, dates_str))
+            field_choices.append(event_data)
+        self.fields['training_dates'].widget.choices = field_choices
+        if course.hourly_training == True:
+            self.fields['times'].queryset = found_dates[0].training_date_times.all()
+            self.fields['times'].required = True
+        
+
+    training_dates = forms.IntegerField(widget=forms.RadioSelect(attrs={
+        
+    }))
+    times = forms.ModelChoiceField(queryset=TrainingTime.objects.none(), empty_label="Choose Time Slot", required=False, widget=forms.Select(attrs={
         'class': 'form-control',
     }))
 

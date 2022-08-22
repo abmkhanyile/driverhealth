@@ -10,6 +10,7 @@ class TrainingCourse(models.Model):
     duration = models.CharField(max_length=30, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     course_details = RichTextField()
+    hourly_training = models.BooleanField(default=False)
     date_created = models.DateTimeField(default=timezone.now, blank=False)
 
     def __str__(self):
@@ -41,13 +42,13 @@ class TrainingEvent(models.Model):
     comment = models.CharField(max_length=1000, blank=True)
     fully_booked = models.BooleanField(default=False)
     enrollees_num = models.IntegerField(null=True)
+    # hourly_training = models.BooleanField(default=False)
     date_created = models.DateTimeField(default=timezone.now, blank=False)
 
     def __str__(self) -> str:
         return self.training_course.course_name
 
-    def natural_key(self):
-        return (self.training_course.course_name)
+    
 
 
 # holds the dates for the training 
@@ -58,8 +59,7 @@ class TrainingDays(models.Model):
     def __str__(self):
         return str(self.training_slot)
 
-    def natural_key(self):
-        return (self.training_slot)
+    
 
 # holds time slots
 class TrainingTime(models.Model):
@@ -69,8 +69,7 @@ class TrainingTime(models.Model):
     def __str__(self):
         return str(self.time_slot)
 
-    def natural_key(self):
-        return (self.time_slot)
+    
 
 # holds all the training bookings 
 class TrainingBooking(models.Model):

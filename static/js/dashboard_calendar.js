@@ -4,12 +4,12 @@ function selectday(elem){
     if(day.attr("data-dayselected") == "0"){
         day.css("background-color", "green")
         day.attr("data-dayselected", "1")
-        document.getElementById('selectedates').innerHTML += '<div class="seldate-container" id="'+date+'"><div class="seldate">'+date+'</div><div class="times-container"><div class="input-group mb-3" style="width: 15%;"><input type="time" class="form-control trainingtime" aria-describedby="basic-addon2"><div class="input-group-append"> <button class="btn btn-outline-secondary" type="button"  onclick="addtime(this)">Add</button></div></div></div></div>'
+        document.getElementById('selectedates').innerHTML += '<div class="seldate-container" data-date="'+date+'" id="'+date+'sd'+'"><div class="seldate">'+date+'</div><div class="times-container"><div class="input-group mb-3" style="width: 15%;"><input type="time" class="form-control trainingtime" aria-describedby="basic-addon2"><div class="input-group-append"> <button class="btn btn-outline-secondary" type="button"  onclick="addtime(this)">Add</button></div></div></div></div>'
         
     }else if(day.attr("data-dayselected") == "1"){
         day.css("background-color", "white")
         day.attr("data-dayselected", "0")
-        document.getElementById(date).remove()
+        document.getElementById(''+date+'sd').remove()
     }
     
 }
@@ -21,7 +21,7 @@ frm.onsubmit = function(e){
     $('.seldate-container').each( function(index, val){
         
         let dates_arr = []
-        dates_arr.push($(this).attr('id'))
+        dates_arr.push($(this).attr('data-date'))
         
         let times = val.querySelectorAll('.timelabel')
         console.log(times)
