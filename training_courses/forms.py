@@ -29,7 +29,7 @@ class PostTrainingForm(forms.ModelForm):
 
 # this form handles the booking.
 class TrainingBookingForm(forms.Form):
-    def __init__(self, found_dates, course, *args, **kwargs):
+    def __init__(self, *args, found_dates, course, **kwargs):
         super(TrainingBookingForm, self).__init__(*args, **kwargs)
         events = []
         for date in found_dates:
@@ -49,9 +49,8 @@ class TrainingBookingForm(forms.Form):
             self.fields['times'].queryset = found_dates[0].training_date_times.all()
             self.fields['times'].required = True
         
-
     training_dates = forms.IntegerField(widget=forms.RadioSelect(attrs={
-        
+        'onclick': 'getComments(this)',
     }))
     times = forms.ModelChoiceField(queryset=TrainingTime.objects.none(), empty_label="Choose Time Slot", required=False, widget=forms.Select(attrs={
         'class': 'form-control',

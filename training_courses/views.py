@@ -100,10 +100,12 @@ class Booking(View, ContextMixin):
         utc = pytz.utc
         _date = utc.localize(datetime.strptime(self.kwargs['date'], "%Y-%m-%d"))
         context['date'] = _date
+        context['datestr'] = self.kwargs['date']
         course = TrainingCourse.objects.get(pk=self.kwargs['pk'])
         context['course'] = course
-        trdates = TrainingDays.objects.filter(training_slot__date=context['date'].date())
+        trdates = TrainingDays.objects.filter(training_slot__date=context['date'].date(), event__fully_booked=False)
         context['trdates'] = trdates
+    
         bookingform = self.form_class(found_dates=trdates, course=course)
         context['bookingform'] = bookingform
         return context
@@ -120,6 +122,5 @@ class Booking(View, ContextMixin):
             eventpk = trainingform.cleaned_data['training_dates']
             times = trainingform.cleaned_data['times']
             event = TrainingEvent.objects.get(pk=eventpk)
-            TrainingBooking.objects.create(client=request.user, training_event=event, booking_id=random.randint(100000000000,999999999999), stime=times)
-            messages.success(request, "Booking successful")
-            return HttpResponseRedirect(reverse('booking', kwargs={'pk': context['course'].pk, 'date': kwargs['date']}))
+            training_booking = TrainingBooking.objects.create(client=request.user, training_event=event, booking_id=random.randint(100000000000,999999999999), stime=times)
+            return HttpResponseRedirect(reverse("booking-success", kwargs={'pk': training_booking.pk}))

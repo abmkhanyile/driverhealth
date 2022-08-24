@@ -7,20 +7,55 @@
     p{
         max-inline-size: 100% !important;
     }
+    .comment-container{
+        min-height: 250px;
+        padding: 10px;
+        background-color: antiquewhite;
+        border: 1px solid #ccc;
+    }
+
+
+
 </style>
 {% endblock css %}
 
 {% block content %}
 
 
-    <div class="about universal-padding" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <div class="about universal-padding" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
+        {% include 'errors.html' %}
         <h3>Book Training</h3>
         <br>
         <br>
-       <form method="post" action="{% url 'booking' pk=course.pk date=date %}">
+       <form method="post" action="{% url 'booking' pk=course.pk date=datestr %}" style="min-width: 50%;">
         {% csrf_token %}
-        {{bookingform.as_p}}
+       
+        <label>Choose training date(s):</label>
+        <p>
+            {{bookingform.training_dates}}
+        </p>
+        <br>
+   
+        {% if course.hourly_training == True %}
+      
+            <label>Choose time slot:</label>
+            <p>        
+                {{bookingform.times}}
+            </p>
+            <br>
+        {% endif %}
+       
+        <label>Training notice:</label>
 
+        <div class="comment-container">
+            {% for tdate in trdates %}
+            <div class="comment" id="{{tdate.event.pk}}" style="display: none">{{tdate.event.comment}}</div>
+            {% empty %}
+            <div class="comment text-danger" id="{{tdate.event.pk}}">No training notice</div>
+            {% endfor %}
+        </div>
+        
+        <br>
         <div style="text-align: center;">
             <input type="submit" class="btn btn-primary" value="Book Training">
         </div>
@@ -29,3 +64,9 @@
     </div>
 
 {% endblock %}
+
+
+{% block js %}
+<script type="text/javascript" src="{% static 'js/calendar.js' %}"></script>
+
+{% endblock js %}

@@ -31,3 +31,11 @@ function getTimes(elem){
     };
     xhr.send(fdata);
 }
+
+function getComments(elem){
+  let rbtn = $(elem)  
+  for(let i=0; i < document.querySelectorAll('.comment').length; i++){
+    document.querySelectorAll('.comment')[i].style.display = "none"
+  }
+  $("#"+rbtn.val()+"").css('display', 'block')
+}
