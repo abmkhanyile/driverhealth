@@ -62,7 +62,7 @@
                 <label for="{{ user_form.terms.id_for_label }}" class="mb-0 mt-4">By clicking <strong>Agree and Register:</strong>, I hereby:</label>
                 
                 <ul>
-                    <li>Agree and consent to the <a href="#">Terms and Conditions</a>, the <a href="#">Terms of Service</a>, it's policies, and the <a href="#">Privacy Policy</a>  </li>
+                    <li>Agree and consent to the <a href="{% url 'ts-and-cs' %}">Terms and Conditions</a>, the <a href="{% url 'terms-of-service' %}">Terms of Service</a>, it's policies, and the <a href="{% url 'privacy-policy' %}">Privacy Policy</a>  </li>
                     <li>Expressly instruct DriverHealth to communicate specific information about me and my account to third parties in accordance with the Privacy Policy and the Protection of Personal Information Act 4 of 2013
 
                     </li>

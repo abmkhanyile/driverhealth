@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'gallery',
     'users',
     'dh_dashboard',
+    'legal',
 ]
 
 MIDDLEWARE = [
@@ -95,8 +96,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
 }
-
-
 
 
 WSGI_APPLICATION = 'driver_health.wsgi.application'

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Cookie Policy{% endblock %}
+
+{% block css %}
+<style>
+    p{
+        max-inline-size: 100% !important;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+
+
+    <div class="about universal-padding">
+        {{cookie_policy.doc_text|safe}}
+    </div>
+
+{% endblock %}

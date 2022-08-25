@@ -700,6 +700,14 @@ footer ul{
   justify-content: center;
   align-items: center;
   margin-top: 30px;
+  width: 50%;
+  margin: auto;
+}
+
+@media only screen and (max-width: 750px) {
+  .formcontainer{
+    width: 100%;
+  }
 }
 
 .prof-upper{

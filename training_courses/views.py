@@ -122,5 +122,15 @@ class Booking(View, ContextMixin):
             eventpk = trainingform.cleaned_data['training_dates']
             times = trainingform.cleaned_data['times']
             event = TrainingEvent.objects.get(pk=eventpk)
-            training_booking = TrainingBooking.objects.create(client=request.user, training_event=event, booking_id=random.randint(100000000000,999999999999), stime=times)
-            return HttpResponseRedirect(reverse("booking-success", kwargs={'pk': training_booking.pk}))
+            if TrainingBooking.objects.filter(training_event=event, client=request.user).exists():
+                messages.warning(request, "You've already booked this training.")
+                return HttpResponseRedirect(reverse("booking", kwargs={'pk':context['course'].pk, 'date': context['datestr']}))
+
+            if event.enrollees_num > 0 and event.fully_booked == False:
+                training_booking = TrainingBooking.objects.create(client=request.user, training_event=event, booking_id=random.randint(100000000000,999999999999), stime=times)
+                event.enrollees_num -= 1
+                if event.enrollees == 0:
+                    event.fully_booked = True
+                event.save()
+                return HttpResponseRedirect(reverse("booking-success", kwargs={'pk': training_booking.pk}))
+            
