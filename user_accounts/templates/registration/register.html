@@ -43,7 +43,9 @@
 
                 {{ client_form.location.errors }}
                 <label for="{{ client_form.location.id_for_label }}" class="mb-0 mt-4">Nearest City or Town <span class="required">*</span></label>
-                {{ client_form.location }}    
+                {{ client_form.location }}  
+                
+                
                 
                 {{ client_form.postal_code.errors }}
                 <label for="{{ client_form.postal_code.id_for_label }}" class="mb-0 mt-4">What is your Postal Code? <span class="required">*</span></label>
@@ -81,3 +83,11 @@
     </div>
 
 {% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/geolocation.js' %}"></script>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBA4UiuR4j_5veSQb6hjx-k4izHptNOqdE&libraries=places&callback=initMap">
+    </script>
+    
+{% endblock js %}

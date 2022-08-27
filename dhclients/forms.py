@@ -38,8 +38,10 @@ class DHClientRegForm(forms.ModelForm):
 
             'location': forms.TextInput(attrs={
                 'class': 'form-control',
-                'id': 'origin',
+                'id': 'places_search_field',
             }),
+
+           
 
             'postal_code': forms.TextInput(attrs={
                 'class': 'form-control',

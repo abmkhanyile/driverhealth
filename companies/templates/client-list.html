@@ -70,15 +70,16 @@
             </div>
             
         </div>
+
         {% include 'list-shared-code.html' %}
     </div>
 
 {% endblock %}
 
 {% block js %}
-
-    <script async
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBaKIPpLou17iUCnqWPIEdZgSlZUrg4ChY&libraries=places&callback=initAutocomplete">
-    </script>
     <script type="text/javascript" src="{% static 'js/geolocation.js' %}"></script>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBA4UiuR4j_5veSQb6hjx-k4izHptNOqdE&libraries=places&callback=initMap">
+    </script>
+    
 {% endblock js %}

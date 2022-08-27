@@ -84,6 +84,18 @@ class ClientList(View, ContextMixin):
             context['page_obj'] = page_obj
         return render(request, self.template_name, context)
 
+    def post(self, request, **kwargs):
+        context = self.get_context_data()
+        filterform = ClientFilterForm(request.POST)
+        if filterform.is_valid():
+            search_term = filterform.cleaned_data['search_field']
+            term_split = search_term.split(',')
+            clients = DHClient.objects.filter(user__is_active = True)
+            for client in clients:
+                if len(term_split) > 0:
+                    pass
+        
+
 
 # displays a list of all the jobs posted by a company.
 class PostedJobs(View, ContextMixin):
