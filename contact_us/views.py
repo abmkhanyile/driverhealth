@@ -25,18 +25,14 @@ class ContactUs(View, ContextMixin):
     def post(self, request, **kwargs):
         contact_form = ContactForm(request.POST)
         if contact_form.is_valid():
-            name = contact_form.cleaned_data['name']
-            surname = contact_form.cleaned_data['surname']
-            email = contact_form.cleaned_data['email']
-            contact_num = contact_form.cleaned_data['contact_num']
-            message = contact_form.cleaned_data['message']
-
+            contact_msg = contact_form.save(commit=True)
+            
             params = {
-                'message': message,
-                'name': name,
-                'surname': surname,
-                'email': email,
-                'contact_num': contact_num
+                'message': contact_msg.message,
+                'name': contact_msg.name,
+                'surname': contact_msg.surname,
+                'email': contact_msg.email,
+                'contact_num': contact_msg.contact_num
             }
 
             html = Template('<!DOCTYPE html><html lang=en><meta charset=UTF-8><meta content="IE=edge"http-equiv=X-UA-Compatible><meta content="width=device-width,initial-scale=1"name=viewport><title>Truck Stop Email</title><p>{{message}}</p><br><br><h4>Sender\'s Details</h4><table><tr><td>Name:<td>{{name}} {{surname}}<tr><td>Contact Number:<td>{{contact_num}}<tr><td>Email Address:<td>{{email}}</table>')
@@ -48,8 +44,8 @@ class ContactUs(View, ContextMixin):
                 'WEBSITE ENQUIRY',
                 html_message,
                 settings.DEFAULT_FROM_EMAIL,
-                ['asante.dgl@gmail.com'],
-                reply_to=[email],
+                ['info@driverhealth.co.za', 'asante.dgl@gmail.com', 'ayatech.co@gmail.com'],
+                reply_to=[contact_msg.email],
                 headers={'Message-ID': 'DH00'},
                 connection=connection
             )

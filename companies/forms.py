@@ -1,5 +1,6 @@
 from django import forms
 from .models import Company
+from countries.models import Country
 
 # this form collects data for a company registration.
 class CompanyRegForm(forms.ModelForm):
@@ -50,3 +51,17 @@ class CompanyRegForm(forms.ModelForm):
                 'class': 'form-control',
             }),
         }
+
+
+# this form is for filtering drivers by location.
+class ClientFilterForm(forms.Form):
+    search_field = forms.CharField(required=False, widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'id': 'places_search_field',
+        'placeholder': 'Filter by DriverHealth ID or Location',
+        'aria-label': 'Filter by DriverHealth ID or Location',
+        'aria-describedby': 'basic-addon2'
+    }))
+    nationality = forms.ModelChoiceField(queryset=Country.objects.all(), required=False, widget=forms.Select(attrs={
+        'class': 'form-control',
+    }))

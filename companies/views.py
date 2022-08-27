@@ -9,6 +9,8 @@ from django.contrib import messages
 from dhclients.models import DHClient
 from django.core.paginator import Paginator
 from careers.models import Job
+from .forms import ClientFilterForm
+from countries.models import Country
 
 
 class Dashboard(View, ContextMixin):
@@ -63,8 +65,9 @@ class ClientList(View, ContextMixin):
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         context['page_obj'] = page_obj
-
+        context['countries'] = Country.objects.all()
         context['stars_list'] = [1,2,3,4,5]
+        context['filterform'] = ClientFilterForm()
 
         return context
 
@@ -72,6 +75,13 @@ class ClientList(View, ContextMixin):
         if not request.user.is_company():
             raise PermissionDenied
         context = self.get_context_data()
+        if 'country' in request.GET:
+            country = Country.objects.get(pk=request.GET.get('country'))
+            clients = DHClient.objects.filter(user__is_active = True, nationality=country)
+            paginator = Paginator(clients, 25) # Show 25 clients per page.
+            page_number = self.request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+            context['page_obj'] = page_obj
         return render(request, self.template_name, context)
 
 

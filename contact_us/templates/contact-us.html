@@ -7,12 +7,16 @@
     p{
         max-inline-size: 100% !important;
     }
+    textarea, .django-ckeditor-widget{
+        width: 100% !important;
+    }
 </style>
 {% endblock css %}
 
 {% block content %}
 
     <div class="universal-padding">
+        {% include 'errors.html' %}
         <div class="row">
             <div class="col-md-6">
                 {% if user.is_authenticated %}
@@ -22,31 +26,7 @@
                     {% endif %}
                     {% csrf_token %}
     
-                    {{ contact_form.name.errors }}
-                    <label for="{{ contact_form.name.id_for_label }}">Name</label>
-                    {{ contact_form.name }}
-                    <br>
-    
-                    {{ contact_form.surname.errors }}
-                    <label for="{{ contact_form.surname.id_for_label }}">Surname</label>
-                    {{ contact_form.surname }}
-                    <br>
-    
-                    {{ contact_form.email.errors }}
-                    <label for="{{ contact_form.email.id_for_label }}">Email</label>
-                    {{ contact_form.email }}
-                    <br>
-    
-                    {{ contact_form.contact_num.errors }}
-                    <label for="{{ contact_form.contact_num.id_for_label }}">Contact Number</label>
-                    {{ contact_form.contact_num }}
-                    <br>
-    
-                    {{ contact_form.message.errors }}
-                    <label for="{{ contact_form.message.id_for_label }}">Message</label>
-                    {{ contact_form.message }}
-    
-                    <br>
+                    {{contact_form.as_p}}
     
                     <input class="btn btn-primary pull-right" type="submit" value="Send"/>
                 </form>

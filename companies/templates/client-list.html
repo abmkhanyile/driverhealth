@@ -19,6 +19,20 @@
     .greystar{
         font-size: 20px;
     }
+    .countries-container, .filterform-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .clientfilter-form{
+        width: 50%;
+    }
+    @media only screen and (max-width: 750px) {
+        .clientfilter-form{
+            width: 100%;
+        }
+    }
 </style>
 {% endblock css %}
 
@@ -37,7 +51,34 @@
 
 
     <div class="universal-padding">
+        <div class="filter-container">
+            <div class="countries-container">
+                {% for country in countries %}
+                    <a href="?country={{country.pk}}">| {{country.long_name}}&nbsp </a>
+                {% endfor %}
+            </div>
+            <div class="filterform-container">
+                <form class="clientfilter-form" method="post">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        {{filterform.search_field}}
+                        <div class="input-group-append">
+                          <button class="btn btn-primary" type="button">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
         {% include 'list-shared-code.html' %}
     </div>
 
 {% endblock %}
+
+{% block js %}
+
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBaKIPpLou17iUCnqWPIEdZgSlZUrg4ChY&libraries=places&callback=initAutocomplete">
+    </script>
+    <script type="text/javascript" src="{% static 'js/geolocation.js' %}"></script>
+{% endblock js %}

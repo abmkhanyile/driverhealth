@@ -14,8 +14,8 @@ from .forms import UserCreationForm
 from dhclients.forms import DHClientRegForm
 from companies.forms import CompanyRegForm
 import random
-
-
+import threading
+from .email_notifications import registration_notification
 
 
 # displays the login page.
@@ -132,6 +132,8 @@ class Register(View, ContextMixin):
             client = clientform.save(commit=False)
             client.user = user
             client.save()
+            email_thread = threading.Thread(target = registration_notification, args=[user, 'A new user {} has just registered'.format(user)], daemon=True)
+            email_thread.start()
             return HttpResponseRedirect(reverse('registration-success'))
         else:
             return render(request, self.template_name, {'user_form': userform, 'client_form': clientform})
