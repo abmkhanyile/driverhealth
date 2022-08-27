@@ -6,7 +6,7 @@
       document.getElementById('places_search_field'),
       {
         types: ['geocode', 'regions', 'cities'],
-        componentRestrictions : ['ZA', 'ZM', 'ZW', 'BW', 'NA'],
+        componentRestrictions : {country: ['ZA', 'ZM', 'ZW', 'BW', 'NA']},
         fields: ['place_id', 'name', 'types'],
       }
     )
