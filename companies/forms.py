@@ -62,6 +62,6 @@ class ClientFilterForm(forms.Form):
         'aria-label': 'Filter by DriverHealth ID or Location',
         'aria-describedby': 'basic-addon2'
     }))
-    nationality = forms.ModelChoiceField(queryset=Country.objects.all(), required=False, widget=forms.Select(attrs={
-        'class': 'form-control',
+    placeid = forms.CharField(max_length=150, required=False, widget=forms.HiddenInput(attrs={
+        'id': 'placeid',
     }))

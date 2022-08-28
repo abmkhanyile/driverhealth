@@ -11,6 +11,9 @@ from django.core.paginator import Paginator
 from careers.models import Job
 from .forms import ClientFilterForm
 from countries.models import Country
+import requests
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 
 class Dashboard(View, ContextMixin):
@@ -54,6 +57,7 @@ class CreateJob(View, ContextMixin):
 
 
 # displays a list of all the drivers.
+@method_decorator(csrf_exempt, name='dispatch')
 class ClientList(View, ContextMixin):
     template_name = "client-list.html"
 
@@ -89,13 +93,18 @@ class ClientList(View, ContextMixin):
         filterform = ClientFilterForm(request.POST)
         if filterform.is_valid():
             search_term = filterform.cleaned_data['search_field']
+            place_id = filterform.cleaned_data['placeid']
             term_split = search_term.split(',')
             clients = DHClient.objects.filter(user__is_active = True)
-            for client in clients:
-                if len(term_split) > 0:
-                    pass
-        
+            url = "https://maps.googleapis.com/maps/api/place/details/json?place_id={}&key=*****************".format(place_id)
 
+            payload={}
+            headers = {}
+
+            response = requests.request("GET", url, headers=headers, data=payload)
+
+            print(response.text)
+            return render(request, self.template_name, context)
 
 # displays a list of all the jobs posted by a company.
 class PostedJobs(View, ContextMixin):
@@ -109,7 +118,6 @@ class PostedJobs(View, ContextMixin):
         paginator = Paginator(postedjobs, 25) # Show 25 jobs per page.
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-
         context['page_obj'] = page_obj
         return context
 

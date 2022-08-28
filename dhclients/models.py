@@ -20,7 +20,14 @@ class DHClient(models.Model):
     passport_num = models.CharField(max_length=30, blank=True)
     crossborder = models.BooleanField(default=True)
     location = models.CharField(max_length=150, blank=False)
-    postal_code = models.CharField(max_length=15, blank=True)
+    # Beginning of the filtering fields
+    locality = models.CharField(max_length=250, blank=True)
+    sublocality = models.CharField(max_length=250, blank=True)
+    postal_code = models.CharField(max_length=250, blank=True)
+    country = models.CharField(max_length=250, blank=True)
+    administrative_area_level_1 = models.CharField(max_length=250, blank=True)
+    administrative_area_level_2 = models.CharField(max_length=250, blank=True)
+    # End of the filtering filtering fields
     rating = models.SmallIntegerField(default=0, blank=False, null=True, choices=STAR_CHOICES)
     dh_test_comment = models.CharField(max_length=1500, blank=True) 
     tested = models.BooleanField(default=False, blank=True)
