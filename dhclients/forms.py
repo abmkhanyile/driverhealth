@@ -40,6 +40,7 @@ class DHClientRegForm(forms.ModelForm):
             'location': forms.TextInput(attrs={
                 'class': 'form-control',
                 'id': 'places_search_field',
+                'placeholder': 'Enter nearest City or Town',
             }),           
         }
 
@@ -80,9 +81,7 @@ class EditClientForm(forms.ModelForm):
             'location': forms.TextInput(attrs={
                 'class': 'form-control',
             }),  
-            'postal_code': forms.TextInput(attrs={
-                'class': 'form-control',
-            }),  
+            
             'in_job_market': forms.RadioSelect(
                 choices=CHOICES
                 ),  
