@@ -149,7 +149,7 @@ class Register(View, ContextMixin):
                     elif "administrative_area_level_2" in addr_comp['types']:
                         client.administrative_area_level_2 = addr_comp["long_name"]
                     elif "administrative_area_level_1" in addr_comp['types']:
-                        client.administrative_area_level_2 = addr_comp["long_name"]
+                        client.administrative_area_level_1 = addr_comp["long_name"]
                     elif "country" in addr_comp['types']:
                         client.country = addr_comp["long_name"]
             client.save()
