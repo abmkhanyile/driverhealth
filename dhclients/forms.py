@@ -55,6 +55,11 @@ class EditClientForm(forms.ModelForm):
             'profile_picture',
             'rating',
             'dh_test_comment',
+            'locality', 
+            'sublocality', 
+            'country', 
+            'administrative_area_level_1', 
+            'administrative_area_level_2',
         )
         fields = '__all__'
 
@@ -123,9 +128,9 @@ class ClientDocForm(forms.ModelForm):
 
 # collects data of previous work experience.
 class EmploymentHistoryForm(forms.ModelForm):
-    duties = forms.CharField(widget=CKEditorWidget(attrs={
-        'class': 'form-control',
-    }))
+    # duties = forms.CharField(widget=CKEditorWidget(attrs={
+    #     'class': 'form-control',
+    # }))
     contact_permission = forms.BooleanField(required=False, label="Do you give permission to contact this person?", widget=forms.RadioSelect(
         choices=CHOICES
     ))
@@ -149,6 +154,9 @@ class EmploymentHistoryForm(forms.ModelForm):
             }),
             'role': forms.TextInput(attrs={
                 'class': 'form-control'
+            }),
+            'duties': forms.Textarea(attrs={
+                'class': 'form-control',
             }),
              'contact_person': forms.TextInput(attrs={
                 'class': 'form-control'

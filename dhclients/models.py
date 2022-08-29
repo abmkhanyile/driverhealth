@@ -78,7 +78,7 @@ class EmploymentHistory(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     role = models.CharField(max_length=100, blank=False)
-    duties = RichTextField(blank=False)
+    duties = models.CharField(max_length=2000, blank=False)
     contact_person = models.CharField(max_length=50, blank=False)
     contact_num = models.CharField(max_length=50, blank=False)
     contact_permission = models.BooleanField(blank=False)
