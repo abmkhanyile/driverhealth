@@ -50,6 +50,8 @@ class EditClientForm(forms.ModelForm):
         model = DHClient
         exclude = (
             'user',
+            'nationality',
+            'location',
             'date_created',
             'tested',
             'profile_picture',
