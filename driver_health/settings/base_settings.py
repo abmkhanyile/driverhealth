@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'users',
     'dh_dashboard',
     'legal',
-    'aiohttp',
 ]
 
 MIDDLEWARE = [
