@@ -258,30 +258,30 @@
                                     
                                 </tr>
                                 <tr>
-                                    <td style="width: 15%;">Period</td>
+                                    <td style="width: 15%;"><strong>Period</strong></td>
                                     <td>
                                         <span>{{work_exp.start_date}} to </span>
                                         <span>{{work_exp.end_date}}</span>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Role</td>
-                                    <td><h5>{{work_exp.role}}</h5></td>
+                                    <td><strong>Role</strong></td>
+                                    <td>{{work_exp.role}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Duties</td>
-                                    <td style="font-size: .95em;">{{work_exp.duties}}</td>
+                                    <td><strong>Duties</strong></td>
+                                    <td>{{work_exp.duties}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Contact Person</td>
-                                    <td><h5>{{work_exp.contact_person}}</h5></td>
+                                    <td><strong>Contact Person</strong> </td>
+                                    <td>{{work_exp.contact_person}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Contact Number</td>
-                                    <td><h5>{{work_exp.contact_num}}</h5></td>
+                                    <td><strong>Contact Number</strong></td>
+                                    <td>{{work_exp.contact_num}}</td>
                                 </tr>
                                 <tr>
-                                    <td><h6>Can this person be contacted for a reference?</h6></td>
+                                    <td><strong>Can this person be contacted for a reference?</strong></td>
                                     <td>{% if work_exp.contact_permission == True %}Yes{% else %}No{% endif %}</td>
                                 </tr>
                             </table>
