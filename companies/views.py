@@ -101,11 +101,17 @@ class ClientList(View, ContextMixin):
             if place_id is not None:
                 location_data = self.getDetailedLocations(placeid=place_id)
 
+            db_regions = ['locality', 'sublocality', 'country', 'administrative_area_level_1', 'administrative_area_level_2']
+
             searchterm = {}
             
             if location_data is not None:
-                for addr_comp in location_data['result']['address_components']:
-                    searchterm.update({addr_comp['types'][0]: addr_comp['long_name']})
+                for addr_comp in location_data['result']['address_components']:  
+                    region_type = list(set(db_regions) & set(addr_comp['types']))
+                    if len(region_type) > 0:
+                        searchterm.update({region_type[0]: addr_comp['long_name']})
+                    else:
+                        continue
 
             clients = None
             if len(searchterm) > 0:

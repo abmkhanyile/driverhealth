@@ -133,7 +133,6 @@ class Register(View, ContextMixin):
             detailed_location = None
             if place_id is not None:
                 detailed_location = self.getDetailedLocations(placeid=place_id)
-            
 
             user = userform.save(commit=False)
             user.dh_id = random.randint(100000000,999999999)
@@ -146,12 +145,15 @@ class Register(View, ContextMixin):
                 for addr_comp in detailed_location['result']['address_components']:
                     if "locality" in addr_comp['types']:
                         client.locality = addr_comp["long_name"]
+                    elif "sublocality" in addr_comp['types']:
+                        client.sublocality = addr_comp["long_name"]
                     elif "administrative_area_level_2" in addr_comp['types']:
                         client.administrative_area_level_2 = addr_comp["long_name"]
                     elif "administrative_area_level_1" in addr_comp['types']:
                         client.administrative_area_level_1 = addr_comp["long_name"]
                     elif "country" in addr_comp['types']:
                         client.country = addr_comp["long_name"]
+         
             client.save()
             email_thread = threading.Thread(target = registration_notification, args=[user, 'A new user {} has just registered'.format(user)], daemon=True)
             email_thread.start()
