@@ -65,3 +65,23 @@ class ClientFilterForm(forms.Form):
     placeid = forms.CharField(max_length=150, required=False, widget=forms.HiddenInput(attrs={
         'id': 'placeid',
     }))
+    locality = forms.CharField(max_length=150, required=False, widget=forms.HiddenInput(attrs={
+        'id': 'locality',
+    }))
+    sublocality = forms.CharField(max_length=150, required=False, widget=forms.HiddenInput(attrs={
+        'id': 'sublocality',
+    }))
+    country = forms.CharField(max_length=150, required=False, widget=forms.HiddenInput(attrs={
+        'id': 'country',
+    }))
+    administrative_area_level_1 = forms.CharField(max_length=150, required=False, widget=forms.HiddenInput(attrs={
+        'id': 'administrative_area_level_1',
+    }))
+    administrative_area_level_2 = forms.CharField(max_length=150, required=False, widget=forms.HiddenInput(attrs={
+        'id': 'administrative_area_level_2',
+    }))
+
+
+
+
+

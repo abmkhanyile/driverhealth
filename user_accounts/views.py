@@ -16,6 +16,9 @@ from companies.forms import CompanyRegForm
 import random
 import threading
 from .email_notifications import registration_notification
+import requests
+from django.conf import settings
+
 
 
 # displays the login page.
@@ -125,18 +128,48 @@ class Register(View, ContextMixin):
         clientform = DHClientRegForm(request.POST)
 
         if userform.is_valid() and clientform.is_valid():
+            place_id = clientform.cleaned_data['placeid']
+
+            detailed_location = None
+            if place_id is not None:
+                detailed_location = self.getDetailedLocations(placeid=place_id)
+            
+
             user = userform.save(commit=False)
             user.dh_id = random.randint(100000000,999999999)
             user.save()
 
             client = clientform.save(commit=False)
             client.user = user
+
+            if detailed_location is not None:
+                for addr_comp in detailed_location['result']['address_components']:
+                    if "locality" in addr_comp['types']:
+                        client.locality = addr_comp["long_name"]
+                    elif "administrative_area_level_2" in addr_comp['types']:
+                        client.administrative_area_level_2 = addr_comp["long_name"]
+                    elif "administrative_area_level_1" in addr_comp['types']:
+                        client.administrative_area_level_2 = addr_comp["long_name"]
+                    elif "country" in addr_comp['types']:
+                        client.country = addr_comp["long_name"]
             client.save()
             email_thread = threading.Thread(target = registration_notification, args=[user, 'A new user {} has just registered'.format(user)], daemon=True)
             email_thread.start()
             return HttpResponseRedirect(reverse('registration-success'))
         else:
             return render(request, self.template_name, {'user_form': userform, 'client_form': clientform})
+
+
+    def getDetailedLocations(self, placeid):
+        url = "https://maps.googleapis.com/maps/api/place/details/json?place_id={}&key={}".format(placeid, settings.GOOGLE_MAPS_API)
+        payload={}
+        headers = {}
+        response = requests.request("GET", url, headers=headers, data=payload)
+        data = response.json()
+        print(type(data))
+        return data
+
+
 
 
 # displays a success message after registration.

@@ -10,6 +10,9 @@ CHOICES=[
 
 # this form collect client details on registration.
 class DHClientRegForm(forms.ModelForm):
+    placeid = forms.CharField(required=False, widget=forms.HiddenInput(attrs={
+        'id': 'placeid',
+    }))
     class Meta:
         model = DHClient
         exclude = (
@@ -23,11 +26,9 @@ class DHClientRegForm(forms.ModelForm):
         )
         fields = (
             'nationality',
-            'location',
-            'postal_code',          
+            'location',        
         )
        
-
         widgets = {
             'nationality': forms.Select(attrs={
                 'class': 'form-control',
@@ -39,13 +40,7 @@ class DHClientRegForm(forms.ModelForm):
             'location': forms.TextInput(attrs={
                 'class': 'form-control',
                 'id': 'places_search_field',
-            }),
-
-           
-
-            'postal_code': forms.TextInput(attrs={
-                'class': 'form-control',
-            }),            
+            }),           
         }
 
 # this form handles editing client details

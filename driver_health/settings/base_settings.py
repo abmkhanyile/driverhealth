@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'users',
     'dh_dashboard',
     'legal',
+    'aiohttp',
 ]
 
 MIDDLEWARE = [
@@ -220,7 +221,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-# STATIC_URL = 'static/'
+STATIC_URL = 'static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -249,14 +250,14 @@ AWS_DEFAULT_ACL = None
 # Tell the staticfiles app to use S3Boto3 storage when writing the collected static files (when
 # you run `collectstatic`).
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'      #this line enables files to be served from aws s3
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'      #this line enables files to be served from aws s3
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'   
 
 STATICFILES_LOCATION = 'static'         
 # STATICFILES_STORAGE = 'farmerzone.custom_storages.StaticStorage'
-STATIC_URL = 'https://{}/'.format(AWS_S3_CUSTOM_DOMAIN)       #uncomment this line to enable serving from aws s3
+# STATIC_URL = 'https://{}/'.format(AWS_S3_CUSTOM_DOMAIN)       #uncomment this line to enable serving from aws s3
 
 MEDIAFILES_LOCATION = 'media'  
 MEDIA_URL = 'htts://{}/{}/'.format(AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)    
@@ -275,7 +276,7 @@ import django_heroku
 TEST_RUNNER = 'django_heroku.HerokuDiscoverRunner'
 # django_heroku.settings(locals(), staticfiles=False)
 
-
+GOOGLE_MAPS_API = os.environ.get('GOOGLE_MAPS_API')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

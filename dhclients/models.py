@@ -23,7 +23,6 @@ class DHClient(models.Model):
     # Beginning of the filtering fields
     locality = models.CharField(max_length=250, blank=True)
     sublocality = models.CharField(max_length=250, blank=True)
-    postal_code = models.CharField(max_length=250, blank=True)
     country = models.CharField(max_length=250, blank=True)
     administrative_area_level_1 = models.CharField(max_length=250, blank=True)
     administrative_area_level_2 = models.CharField(max_length=250, blank=True)
