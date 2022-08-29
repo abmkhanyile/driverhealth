@@ -56,6 +56,7 @@
                 {% for country in countries %}
                     <a href="?country={{country.pk}}">| {{country.long_name}}&nbsp </a>
                 {% endfor %}
+                <a href="{% url 'client-list' %}">| All Countries | </a>
             </div>
             <div class="filterform-container">
                 <form class="clientfilter-form" method="post">
