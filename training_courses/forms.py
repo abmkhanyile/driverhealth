@@ -1,10 +1,13 @@
 from django import forms
-from .models import TrainingEvent, TrainingBooking, TrainingTime
+from .models import TrainingEvent, TrainingBooking, TrainingTime, ElearningEnquiries
 
 class PostTrainingForm(forms.ModelForm):
-    training_slots = forms.CharField(max_length=1500, required=False, widget=forms.HiddenInput(attrs={
-        'id': 'dates_input',
-    }))
+    # training_slots = forms.CharField(max_length=1500, required=False, widget=forms.HiddenInput(attrs={
+    #     'id': 'dates_input',
+    # }))
+    # seldate = forms.DateField(required=False, widget=forms.DateInput(attrs={
+    #     'class': 'form-control',
+    # }))
     class Meta:
         model = TrainingEvent
         exclude = (
@@ -56,3 +59,24 @@ class TrainingBookingForm(forms.Form):
         'class': 'form-control',
     }))
 
+
+class ElearningForm(forms.ModelForm):
+    class Meta:
+        model = ElearningEnquiries
+        fields = (
+            'full_name',
+            'contact_num',
+            'message',
+        )
+        widgets = {
+            'full_name': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+            'contact_num': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+            'message': forms.Textarea(attrs={
+                'class': 'form-control'
+            }),
+        }
+    

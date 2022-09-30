@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}About Us{% endblock %}
+
+{% block css %}
+<style>
+    p{
+        max-inline-size: 100% !important;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+
+
+    <div class="about universal-padding">
+
+        {% include 'errors.html' %}
+
+       <div class="frm-container">
+        <h4 class="text-danger">{{course}}</h4>
+        <form method="post">{% csrf_token %}
+            {{form.as_p}}
+
+            <div style="text-align: center;">
+                <input type="submit" class="btn btn-secondary">
+            </div>
+            
+        </form>
+       </div>
+    </div>
+
+{% endblock %}

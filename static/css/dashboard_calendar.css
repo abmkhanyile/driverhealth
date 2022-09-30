@@ -37,3 +37,25 @@
     align-items: center;
     cursor: pointer;
 }
+
+.formset-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    background-color: antiquewhite;
+    padding: 5px;
+    margin-bottom: 10px;
+    min-height: 30px;
+    width: 100%;
+    overflow-x: auto;
+}
+
+
+.trtime{
+    min-width: 110px;
+}
+
+@media only screen and (max-width: 750px) {
+    /* .trtime{
+        width: 40%;
+    } */
+}

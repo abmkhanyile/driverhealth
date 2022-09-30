@@ -12,6 +12,8 @@ from datetime import datetime
 from django.contrib import messages
 import pytz
 from django.conf import settings
+from django.forms import formset_factory
+from .forms import PostTraining_Form
 
 
 class DHDashboard(View, ContextMixin):
@@ -45,29 +47,40 @@ class PostTraining(BookTraining, ContextMixin):
 
     def get(self, request, **kwargs):
         context = self.get_context_data()
-        context['training_form'] = self.form_class()                
+        context['training_form'] = self.form_class()    
+        context['training_dates_formset'] = formset_factory(PostTraining_Form)            
         return render(request, self.template_name, context)
 
     def post(self, request, **kwargs):
         context = self.get_context_data()
         trainingdates = request.POST.getlist('trainingdate')
         training_form = self.form_class(request.POST)
-               
-        if training_form.is_valid():
+        training_date_formset =  formset_factory(PostTraining_Form)
+        trainingdate_formset = training_date_formset(request.POST)
+
+        if training_form.is_valid() and trainingdate_formset.is_valid():
             training_event = training_form.save(commit=False)
             training_event.training_course = context['course']
+            print(trainingdate_formset.cleaned_data)
             
-            training_event.save()
+            # training_event.save()
 
-            for datestr in trainingdates:
-                datestr_list = datestr.split(',')
-                # africa_eastern = pytz.timezone(settings.TIME_ZONE)
-                utc = pytz.utc
+            date_objs = set()
+            for dateform in trainingdate_formset.cleaned_data:
+                if dateform.get('seldate') is not None or dateform.get('seltime') is not None:
+                    print(dateform['seldate'])
+                    date_objs.add(str(dateform.get('seldate')))
+                    # date_objs[].append(dateform.get('seltime'))
+            print(date_objs)
+            # for datestr in trainingdates:
+            #     datestr_list = datestr.split(',')
+            #     # africa_eastern = pytz.timezone(settings.TIME_ZONE)
+            #     utc = pytz.utc
 
-                training_date = TrainingDays.objects.create(training_slot=utc.localize(datetime.strptime(datestr_list[0].strip(), "%Y-%m-%d")), event=training_event)
-                if len(datestr_list) > 1:
-                    for timestr in datestr_list[1:]:
-                       time = TrainingTime.objects.create(time_slot=utc.localize(datetime.strptime(datestr_list[0]+timestr, "%Y-%m-%d%H:%M")), date=training_date)
+            #     training_date = TrainingDays.objects.create(training_slot=utc.localize(datetime.strptime(datestr_list[0].strip(), "%Y-%m-%d")), event=training_event)
+            #     if len(datestr_list) > 1:
+            #         for timestr in datestr_list[1:]:
+            #            time = TrainingTime.objects.create(time_slot=utc.localize(datetime.strptime(datestr_list[0]+timestr, "%Y-%m-%d%H:%M")), date=training_date)
 
             messages.success(request, "Training event successfully created.")
             return HttpResponseRedirect(reverse('post-training', kwargs={
@@ -75,6 +88,8 @@ class PostTraining(BookTraining, ContextMixin):
                 'month': context['curr_month'].month,
                 'year': context['curr_month'].year,
             }))
+        else:
+            print("no valid form")
 
     
 

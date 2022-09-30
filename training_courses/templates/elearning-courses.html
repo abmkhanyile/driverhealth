@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}E-Learning Courses{% endblock %}
+
+{% block css %}
+<style>
+    p{
+        max-inline-size: 100% !important;
+    }
+    
+</style>
+{% endblock css %}
+
+{% block content %}
+
+
+    <div class="about universal-padding">
+        <div class="course-outer-container">
+            {% for course in elearning_courses %}
+                <div class="course-container">
+                <h6 style="text-align: center;"><strong>{{course.course_name}}</strong></h6>
+                <h6>Duration {{course.duration}}</h6>
+                <h4 style="color:#00b0f0">R{{course.price}}</h4>
+                <div style="font-size: .85em !important; color:rgba(0, 0, 0) !important;">
+                    {{course.course_details|safe}}
+                </div>
+                <a href="{% url 'elearning-enquiry' course_id=course.pk %}" class="btn btn-danger btn-sm text-white">Book Training</a>
+                </div>
+            {% endfor %}
+        </div>
+        
+
+    </div>
+
+{% endblock %}
+
+
+
+
+

@@ -1,19 +1,3 @@
-function selectday(elem){
-    let day = $(elem)
-    let date = day.attr("data-day")
-    if(day.attr("data-dayselected") == "0"){
-        day.css("background-color", "green")
-        day.attr("data-dayselected", "1")
-        document.getElementById('selectedates').innerHTML += '<div class="seldate-container" data-date="'+date+'" id="'+date+'sd'+'"><div class="seldate">'+date+'</div><div class="times-container"><div class="input-group mb-3" style="width: 15%;"><input type="time" class="form-control trainingtime" aria-describedby="basic-addon2"><div class="input-group-append"> <button class="btn btn-outline-secondary" type="button"  onclick="addtime(this)">Add</button></div></div></div></div>'
-        
-    }else if(day.attr("data-dayselected") == "1"){
-        day.css("background-color", "white")
-        day.attr("data-dayselected", "0")
-        document.getElementById(''+date+'sd').remove()
-    }
-    
-}
-
 let frm = document.getElementById("trainingform")
 
 frm.onsubmit = function(e){
@@ -39,42 +23,76 @@ frm.onsubmit = function(e){
 }
 
 
-// function compile_dates(elem, e){
-//     // compilation goes here
-//     let curr_ele = $(elem)
-//     e.preventDefault();
+let seldate_form = document.querySelectorAll(".formset-container")
+let seldates_form = document.querySelector("#trainingform")
+let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
+let formNum = seldate_form.length-1
 
-//     // return true
-//     $('.seldate-container').each( function(index){
+function selectday(elem){
+    let day = $(elem)
+    let date = day.attr("data-day")
+    if(day.attr("data-dayselected") == "0"){
+        day.css("background-color", "green")
+        day.attr("data-dayselected", "1")
+        let newForm = seldate_form[0].cloneNode(true)
+        let formRegex = RegExp(`form-(\\d+)-`,'g')
+        formNum++
+        newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
+        newForm.style.display = "grid"
+        newForm.querySelector(`#id_form-${formNum}-seldate`).value = date
+        newForm.setAttribute('id', `${date}sd`)
         
-//         let dates_arr = []
-//         dates_arr.push($(this).attr('id'))
+        seldates_form.prepend(newForm)
+        totalForms.setAttribute('value', `${formNum+1}`)
         
-//         let times = $(this).querySelectorAll('.timelabel')
-//         console.log(times)
-//         // times.each(function(i, val){
-//         //     console.log("hello")
-//         // })
-//         // if($(this).attr("data-dayselected") == "1"){
-//         //     dates_arr.push($(this).attr('data-day'))
-//         // }
-//         // $('#dates_input').val(dates_arr)
-//     });
-    
-// }
+    }else if(day.attr("data-dayselected") == "1"){
+        day.css("background-color", "white")
+        day.attr("data-dayselected", "0")
+        document.getElementById(''+date+'sd').remove()
+        document.querySelector("#id_form-TOTAL_FORMS").value = formNum--
+    } 
+}
 
 function addtime(elem){
+    
     let day = $(elem)
-    let time = day.closest('.times-container').find('.trainingtime').val()
+    let container = day.closest('.formset-container')
+    let datestr = container.attr('id').slice(0, -2)
+
+    let time_input = $(container).find(".trtime")
+    let times_container = $(container).find(".times-container")
+    
+    let newForm = seldate_form[0].cloneNode(true)
+    let formRegex = RegExp(`form-(\\d+)-`,'g')
+    formNum++
+    newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
+    
+    newForm.querySelector(`#id_form-${formNum}-seldate`).value = datestr
+    newForm.classList.add(`${datestr}sd`)
+    
+    seldates_form.prepend(newForm)
+    totalForms.setAttribute('value', `${formNum+1}`)
+    
+    newForm.querySelector(`#id_form-${formNum}-seltime`).value = time_input.val()
+    let time = time_input.val()
+  
     if(time != ""){
-        day.closest('.times-container')[0].innerHTML += '<div class="timelabel" data-time="'+time+'">"'+time+'"<span class="close" onclick=removetime(this)>&times;</span><div/>'
+        times_container.append('<div class="timelabel" data-datestr="'+datestr+'" data-time="'+time+'">"'+time+'"<span class="close" onclick=removetime(this)>&times;</span><div/>')
     }
 
 }
 
 function removetime(elem){
     let time = $(elem)
-    time.closest('.timelabel')[0].remove()
+    let timelbl = time.closest('.timelabel')[0]
+    let datestr = $(timelbl).attr("data-datestr")
+    let dateinput = $("."+datestr+"sd")[0]
+    dateinput.remove()
+    timelbl.remove()
+    // time.closest('.timelabel')[0].remove()
+
 }
 
-
+function distime(elem){
+    console.log($(elem).val())
+}

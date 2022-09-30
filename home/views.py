@@ -13,7 +13,7 @@ class Home(ContextMixin, View):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['animated_txt'] = AnimatedText.objects.all()
-        context['training_course'] = TrainingCourse.objects.all()
+        context['training_course'] = TrainingCourse.objects.filter(elearning=False)
         context['code14courses'] = Code14Course.objects.all()
         jobs = list(Job.objects.filter(active_listing=True, closing_date__gte=timezone.now()))
         context['available_jobs'] = jobs[:12]

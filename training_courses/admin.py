@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import TrainingCourse, Code14Course, TrainingEvent, Course_Enrollees, TrainingDays, TrainingBooking, TrainingTime
+from .models import TrainingCourse, Code14Course, ElearningEnquiries, TrainingEvent, Course_Enrollees, TrainingDays, TrainingBooking, TrainingTime
 
 admin.site.register(TrainingCourse)
 admin.site.register(Code14Course)
@@ -14,3 +14,4 @@ admin.site.register(TrainingTime)
 #     filter_horizontal = ('slots',)
 
 admin.site.register(TrainingEvent)
+admin.site.register(ElearningEnquiries)

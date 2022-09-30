@@ -63,7 +63,7 @@
   }
 
   .home-img-container{
-    background-color: rgb(152, 175, 199, .5); 
+    background-color: #f0f0f0; 
     padding: 5px;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -91,57 +91,7 @@
 
   
 
-  .embedded-header{
-    color: #00b0f0;
-    font-weight: 500;
-  }
 
-  .inner-header{
-    color: #00b0f0;
-    font-size: 1.1em;
-    font-weight: 500;
-  }
-  .course-container{
-    border: 1px solid #00b0f0;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    min-height: 150px;
-    font-size: 1em !important;
-  }
-
-  .course-container span{
-    font-size: .85em !important;
-  }
-
-  .course-outer-container{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    /* grid-template-rows: minmax(50px, auto); */
-    grid-gap: 10px;
-  }
-
-  @media only screen and (max-width: 750px) {
-      .course-outer-container{
-          grid-template-columns: 1fr 1fr;
-          /* grid-template-rows: minmax(200px, auto);         */
-      }
-  }
-
-  .code14course-container{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    /* grid-template-rows: minmax(50px, auto); */
-    grid-gap: 10px;
-  }
-
-  @media only screen and (max-width: 550px) {
-      .course-outer-container, .code14course-container{
-          grid-template-columns: 1fr;
-          /* grid-template-rows: minmax(200px, auto);         */
-      }
-  }
 
   .home-btns{
     display: flex;
@@ -186,8 +136,7 @@
                 <h1 class="home-text animate__animated animate__fadeInDown" style="font-size: 2.5em; text-shadow: 2px 2px 8px #000;">{{home_text.line1|safe}}</h1>
                 <h3 class="home-text-sm animate__animated animate__fadeInUp" style="font-size: 2.0em; text-shadow: 2px 2px 8px #000;">{{home_text.line2|safe}}</h3>
             </div>
-            {% endfor %}
-            
+            {% endfor %} 
           </div>
 
           <div class="home-btns">
@@ -221,8 +170,6 @@
             {% if available_jobs|length_is:"12" %}
             <span class="seemore"><a href="{% url 'jobs-list' %}">See More &#8250;</a> </span>
             {% endif %}
-
-                
             </div>
         </div>
     </div>
@@ -306,7 +253,7 @@
             <div style="font-size: .85em !important; color:rgba(0, 0, 0) !important;">
               {{course.course_details|safe}}
             </div>
-            <a href="{% url 'book-training' pk=course.pk month=current_date.month year=current_date.year %}" class="btn btn-danger btn-sm text-white">Register</a>
+            <a href="{% url 'book-training' pk=course.pk month=current_date.month year=current_date.year %}" class="btn btn-danger btn-sm text-white">Book Training</a>
           </div>
         {% endfor %}
         </div>
@@ -315,7 +262,7 @@
       
     </div>
     
-    <div id="page-contents" class="universal-padding" style="background-color: rgb(152, 175, 199);">
+    <div id="page-contents" class="universal-padding" style="background-color: #f0f0f0;">
       <div class="page-segment">
         <div class="code14-container">
           <div>
@@ -331,7 +278,7 @@
                       <div>
                         {{course.course_details|safe}}
                       </div>
-                      <a href="#" class="btn btn-danger btn-sm text-white">Register</a>
+                      <a href="#" class="btn btn-danger btn-sm text-white">Book Training</a>
                     </div>
                   {% endfor %}
               </div>
@@ -344,8 +291,40 @@
       </div>
     </div>
 
-    <div class="page-contents universal-padding" style="background-color: #fff;">
-      <h4 class="mt-4 page-title">Careers</h4>
+    <div class="universal-padding" style="background-color: #fff;">
+      <h4 class="mt-4 page-title">E-Learning Online Courses</h4>
+      <div class="row">
+        <div class="col-sm-6 mb-2">
+          <p style="font-size: .95em;">
+            Our E-Learn training program is also accessible on-line, from
+            anywhere and at any time. We deliver the most relevant,
+            leading-edge courses to motivate and educate employees to be safe, and responsible drivers.
+            <br><br>
+            Our courses aid in keeping drivers safe on the roads, reduces
+            the risk of accidents and traffic violations, reduces exposure
+            to liability risks and costs, lowers insurance premiums and
+            accident claims, and lowers fleet maintenance costs.
+            <br><br>
+            Study from Anywhere<br>
+            Study at Anytime<br>
+            Accredited Training<br>
+            Certificate at Completion<br>
+            <br>
+            To view our courses and register, click the button below.
+          </p>
+          <div style="text-align: center;">
+            <a href="{% url 'elearning-courses' %}" class="btn btn-outline-danger btn-sm">View Courses</a>
+          </div>
+        </div>
+        <div class="col-sm-6 mb-2">
+          <img src="https://ik.imagekit.io/2mjln4gew/media/images/elearning_img.jpg" class="truckimg">
+        </div>
+      </div>
+  
+    </div>
+    
+    <div class="page-contents universal-padding" style="background-color: #f0f0f0;">
+      <h4 class="mt-2 page-title">Careers</h4>
                     
             <div class="row">
                 <div class="col-sm-6 mb-2">

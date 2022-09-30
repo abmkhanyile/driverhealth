@@ -18,7 +18,7 @@ import threading
 from .email_notifications import registration_notification
 import requests
 from django.conf import settings
-
+from django.utils.decorators import method_decorator
 
 
 # displays the login page.
@@ -93,6 +93,10 @@ class UserType(View, ContextMixin):
     template_name = "registration/choose-usertype.html"
     form_class = PreRegistrationForm
 
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(UserType, self).dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['pre_reg_form'] = self.form_class()
@@ -110,9 +114,17 @@ class UserType(View, ContextMixin):
             elif ans == "Company":
                 return HttpResponseRedirect(reverse("company-registration"))
 
+
+
 # this view handles user registration i.e. DHClient
+
+
 class Register(View, ContextMixin):
     template_name = "registration/register.html"
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super(Register, self).dispatch(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -122,6 +134,7 @@ class Register(View, ContextMixin):
 
     def get(self, request, **kwargs):
         return render(request, self.template_name, self.get_context_data())
+
 
     def post(self, request, **kwargs):
         userform = UserCreationForm(request.POST)

@@ -18,7 +18,6 @@ def check_booking(cdate, trainingdates):
     event_num = []
     for trdate in trainingdates:
         if cdate == trdate.training_slot.date():
-            print(cdate, trdate.training_slot.date())
             event_num.append("a")
     return event_num
 

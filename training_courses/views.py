@@ -14,10 +14,12 @@ from rest_framework.renderers import JSONRenderer
 import json
 import random
 from django.contrib import messages
-from .forms import TrainingBookingForm
+from .forms import TrainingBookingForm, ElearningForm
 from calendar import HTMLCalendar
 from dateutil.relativedelta import relativedelta
 import pytz
+import threading
+from .notification_emails import elearning_enquiry_notification
 
 
 # handles booking for training.
@@ -134,3 +136,48 @@ class Booking(View, ContextMixin):
                 event.save()
                 return HttpResponseRedirect(reverse("booking-success", kwargs={'pk': training_booking.pk}))
             
+
+# handles the booking of elearning courses
+class ElearningCourses(View, ContextMixin):
+    template_name = "elearning-courses.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['elearning_courses'] = TrainingCourse.objects.filter(elearning=True)
+        return context
+
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+# handles the process of sending an elearning enquiry
+class ElearningEnquiry(View, ContextMixin):
+    template_name = "elearning-enquiry.html"
+    form_class = ElearningForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        course = TrainingCourse.objects.get(pk=self.kwargs['course_id'])
+        context['course'] = course
+        context['form'] = self.form_class(initial={
+            'message': 'Hi, I am interested in the course {}. Please contact me regarding this course.'.format(course)
+        })
+        return context
+
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+    def post(self, request, **kwargs):
+        elearning_form = self.form_class(request.POST)
+        if elearning_form.is_valid():
+            el_enq = None
+            if request.user is not None:
+                el_enq = elearning_form.save(commit=False)
+                el_enq.user = request.user
+                el_enq.save()
+            else:
+                el_enq.save()
+                
+            email_thread = threading.Thread(target = elearning_enquiry_notification, args=[el_enq.full_name, el_enq.contact_num, el_enq.message], daemon=True)
+            email_thread.start()
+            messages.success(request, "Enquiry sent succeccfully.")
+            return HttpResponseRedirect(reverse('elearning-enquiry', kwargs={'course_id': self.kwargs['course_id']}))
