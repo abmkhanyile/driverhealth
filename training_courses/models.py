@@ -12,6 +12,7 @@ class TrainingCourse(models.Model):
     course_details = RichTextField()
     hourly_training = models.BooleanField(default=False)
     elearning = models.BooleanField(default=False)
+    thirdparty_course = models.BooleanField(default=False)
     date_created = models.DateTimeField(default=timezone.now, blank=False)
 
     def __str__(self):
@@ -90,6 +91,7 @@ class ElearningEnquiries(models.Model):
     user = models.ForeignKey('user_accounts.CustomUser', related_name="enquired_users", on_delete=models.CASCADE, blank=True, null=True)
     full_name = models.CharField(max_length=100, blank=False)
     contact_num = models.CharField(max_length=25, blank=False)
+    email = models.EmailField(max_length=200 ,blank=True, null=True)
     message = models.CharField(max_length=500, blank=False)
     date_created = models.DateTimeField(default=timezone.now, blank=False)
 

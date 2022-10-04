@@ -66,6 +66,7 @@ class ElearningForm(forms.ModelForm):
         fields = (
             'full_name',
             'contact_num',
+            'email',
             'message',
         )
         widgets = {
@@ -73,6 +74,9 @@ class ElearningForm(forms.ModelForm):
                 'class': 'form-control'
             }),
             'contact_num': forms.TextInput(attrs={
+                'class': 'form-control'
+            }),
+             'email': forms.EmailInput(attrs={
                 'class': 'form-control'
             }),
             'message': forms.Textarea(attrs={

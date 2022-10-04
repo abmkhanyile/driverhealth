@@ -177,7 +177,7 @@ class ElearningEnquiry(View, ContextMixin):
             else:
                 el_enq.save()
                 
-            email_thread = threading.Thread(target = elearning_enquiry_notification, args=[el_enq.full_name, el_enq.contact_num, el_enq.message], daemon=True)
+            email_thread = threading.Thread(target = elearning_enquiry_notification, args=[el_enq.full_name, el_enq.contact_num, el_enq.email, el_enq.message], daemon=True)
             email_thread.start()
             messages.success(request, "Enquiry sent succeccfully.")
             return HttpResponseRedirect(reverse('elearning-enquiry', kwargs={'course_id': self.kwargs['course_id']}))
