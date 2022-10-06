@@ -15,6 +15,8 @@ from django.conf import settings
 from django.forms import formset_factory
 from .forms import PostTraining_Form
 
+TIMEZONE  = pytz.timezone(settings.TIME_ZONE)
+
 
 class DHDashboard(View, ContextMixin):
     template_name = "dhdashboard.html"
@@ -61,26 +63,26 @@ class PostTraining(BookTraining, ContextMixin):
         if training_form.is_valid() and trainingdate_formset.is_valid():
             training_event = training_form.save(commit=False)
             training_event.training_course = context['course']
-            print(trainingdate_formset.cleaned_data)
-            
-            # training_event.save()
+                        
+            training_event.save()
 
             date_objs = set()
             for dateform in trainingdate_formset.cleaned_data:
                 if dateform.get('seldate') is not None or dateform.get('seltime') is not None:
-                    print(dateform['seldate'])
-                    date_objs.add(str(dateform.get('seldate')))
-                    # date_objs[].append(dateform.get('seltime'))
-            print(date_objs)
-            # for datestr in trainingdates:
-            #     datestr_list = datestr.split(',')
-            #     # africa_eastern = pytz.timezone(settings.TIME_ZONE)
-            #     utc = pytz.utc
-
-            #     training_date = TrainingDays.objects.create(training_slot=utc.localize(datetime.strptime(datestr_list[0].strip(), "%Y-%m-%d")), event=training_event)
-            #     if len(datestr_list) > 1:
-            #         for timestr in datestr_list[1:]:
-            #            time = TrainingTime.objects.create(time_slot=utc.localize(datetime.strptime(datestr_list[0]+timestr, "%Y-%m-%d%H:%M")), date=training_date)
+                    date_objs.add(dateform.get('seldate'))
+           
+            data = {}
+            for date_obj in date_objs:
+                data.update({date_obj: set()})
+     
+            for dateform in trainingdate_formset.cleaned_data:
+                if dateform.get('seltime') is not None:
+                    data[dateform.get('seldate')].add(dateform.get('seltime'))
+            
+            for key, value in data.items():
+                trday = TrainingDays.objects.create(training_slot=key, event=training_event)
+                for time in value:
+                    trtime = TrainingTime.objects.create(time_slot=time, date=trday)
 
             messages.success(request, "Training event successfully created.")
             return HttpResponseRedirect(reverse('post-training', kwargs={

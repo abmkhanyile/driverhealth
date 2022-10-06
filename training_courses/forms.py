@@ -44,7 +44,7 @@ class TrainingBookingForm(forms.Form):
             dates_str = ''
             event_dates = event.training_event_dates.all()
             for d in event_dates:
-                dates_str += '{}, '.format(d.training_slot.date())
+                dates_str += '{}, '.format(d.training_slot)
             event_data = tuple((event.pk, dates_str))
             field_choices.append(event_data)
         self.fields['training_dates'].widget.choices = field_choices

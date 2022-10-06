@@ -258,7 +258,7 @@
             <h6 style="text-align: center;"><strong>{{course.course_name}}</strong></h6>
             <h6>Duration {{course.duration}}</h6>
             <h4 style="color:#00b0f0">R{{course.price}}</h4>
-            <div style="font-size: .85em !important; color:rgba(0, 0, 0) !important;">
+            <div>
               {{course.course_details|safe}}
             </div>
             <a href="{% url 'book-training' pk=course.pk month=current_date.month year=current_date.year %}" class="btn btn-danger btn-sm text-white">Book Training</a>

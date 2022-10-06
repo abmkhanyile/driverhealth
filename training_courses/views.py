@@ -105,7 +105,7 @@ class Booking(View, ContextMixin):
         context['datestr'] = self.kwargs['date']
         course = TrainingCourse.objects.get(pk=self.kwargs['pk'])
         context['course'] = course
-        trdates = TrainingDays.objects.filter(training_slot__date=context['date'].date(), event__fully_booked=False)
+        trdates = TrainingDays.objects.filter(training_slot=context['date'].date(), event__fully_booked=False)
         context['trdates'] = trdates
     
         bookingform = self.form_class(found_dates=trdates, course=course)

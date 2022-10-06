@@ -55,7 +55,7 @@ class TrainingEvent(models.Model):
 
 # holds the dates for the training 
 class TrainingDays(models.Model):
-    training_slot = models.DateTimeField(blank=False)
+    training_slot = models.DateField(blank=False)
     event = models.ForeignKey('training_courses.TrainingEvent', related_name="training_event_dates", on_delete=models.CASCADE, blank=False, null=True)
    
     def __str__(self):

@@ -17,7 +17,7 @@ def find_prev_next(days, counter):
 def check_booking(cdate, trainingdates):
     event_num = []
     for trdate in trainingdates:
-        if cdate == trdate.training_slot.date():
+        if cdate == trdate.training_slot:
             event_num.append("a")
     return event_num
 
