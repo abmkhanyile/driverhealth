@@ -133,3 +133,11 @@
 [data-dayselected="1"] > a:hover{
   background-color: #ff6961;
 }
+
+/* hourly training calendar css */
+.hr-training-day{
+  background-color: rgba(202, 203, 205, 0.724);
+  margin-bottom: 10px;
+  padding: 5px;
+}
+/* end of hourly training calendar css */

@@ -12,3 +12,22 @@ class PostTraining_Form(forms.Form):
         # 'onchange': 'distime(this)',
     }))
 
+
+# remark form and star rating
+class RemarkForm(forms.Form):
+    STAR_RATING = [
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5, 5),
+    ]
+    star_rating = forms.IntegerField(required=False, label="Star Rating", widget=forms.Select(
+        choices=STAR_RATING,
+        attrs={
+        'class': 'form-control',
+    }))
+    remark = forms.CharField(required=False, label="DH Remarks", widget=forms.Textarea(attrs={
+        'class': 'form-control',
+    }))
+

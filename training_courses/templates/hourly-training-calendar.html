@@ -1,0 +1,7 @@
+{% load static %}
+
+<div class="hr-trianing-calendar">
+    {% for date in calendar_dates %}
+        <div class="hr-training-day">{{date.day}}</div>
+    {% endfor %}
+</div>

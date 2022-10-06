@@ -8,7 +8,7 @@ from .views import (
     EditClient,
     EditWorkExp,
     JobApplications,
-)
+    )
 
 urlpatterns = [
     path('', ClinetProfile.as_view(), name="client-profile"),
@@ -19,5 +19,4 @@ urlpatterns = [
     path('edit-client/', EditClient.as_view(), name='edit-client'),
     path('edit-workexp/<pk>/', EditWorkExp.as_view(), name='edit-workexp'),
     path('job-applications/', JobApplications.as_view(), name='job-applications'),
-
 ]

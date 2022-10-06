@@ -1,4 +1,5 @@
 from email import message
+from multiprocessing import context
 from django.forms import DateTimeField
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -13,7 +14,13 @@ from django.contrib import messages
 import pytz
 from django.conf import settings
 from django.forms import formset_factory
-from .forms import PostTraining_Form
+from .forms import PostTraining_Form, RemarkForm
+from companies.views import ClientList
+from dhclients.models import DHClient
+from django.core.paginator import Paginator
+from django.core.exceptions import PermissionDenied
+from countries.models import Country
+from dhclients.views import ClinetProfile
 
 TIMEZONE  = pytz.timezone(settings.TIME_ZONE)
 
@@ -95,3 +102,52 @@ class PostTraining(BookTraining, ContextMixin):
 
     
 
+# driver list.
+class DriverList(ClientList):
+    template_name = "clientlist.html"
+
+    def get(self, request, **kwargs):
+        if not request.user.is_staff:
+            raise PermissionDenied
+        context = self.get_context_data()
+        if 'country' in request.GET:
+            country = Country.objects.get(pk=request.GET.get('country'))
+            clients = DHClient.objects.filter(user__is_active = True, nationality=country)
+            paginator = Paginator(clients, 25) # Show 25 clients per page.
+            page_number = self.request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+            context['page_obj'] = page_obj
+        return render(request, self.template_name, context)
+
+
+# driver profile
+class DProfile(ClinetProfile):
+    template_name = "dhdriver-profile.html"
+
+    def get(self, request, **kwargs):
+        context = self.get_context_data()
+        context['remark_form'] = RemarkForm(initial={
+            'star_rating': context['client'].rating,
+            'remark': context['client'].dh_test_comment,
+        })
+        return render(request, self.template_name, context)
+
+
+# add DH Remark and star rating
+class AddRemark(View, ContextMixin):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['client'] = DHClient.objects.get(pk=self.kwargs['pk'])
+        return context
+
+    def post(self, request, **kwargs):
+        context = self.get_context_data()
+        remark_form = RemarkForm(request.POST)
+        if remark_form.is_valid():
+            client = context['client']
+            client.rating = remark_form.cleaned_data['star_rating']
+            client.dh_test_comment = remark_form.cleaned_data['remark']
+            client.save()
+
+        messages.success(request, "DH Remarks added successfully...")
+        return HttpResponseRedirect(reverse('driverprofile', kwargs={'pk': context['client'].pk}))

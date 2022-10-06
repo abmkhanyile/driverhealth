@@ -12,6 +12,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
+from user_accounts.models import CustomUser
 
 
 # displays the client profile.
@@ -21,7 +22,12 @@ class ClinetProfile(View, ContextMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        client = self.request.user.dhclient
+        client = None
+        try:
+            client = self.request.user.dhclient
+        except DHClient.DoesNotExist:
+            client = DHClient.objects.get(pk=self.kwargs['pk'])
+
         context['client'] = client
         context['stars_list'] = [1,2,3,4,5]
         context['docform'] = self.form_class()

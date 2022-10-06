@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Driver List{% endblock %}
+
+{% block css %}
+<style>
+      .shortcut-links-container{
+        display: flex !important;
+        flex-wrap: nowrap;
+        /* justify-content: left; */
+        align-items: center;
+    }
+    .subheader-contianer{
+        color: #fff;
+    }
+    .goldstar{
+        font-size: 20px;
+    }
+    .greystar{
+        font-size: 20px;
+    }
+    .countries-container, .filterform-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .clientfilter-form{
+        width: 50%;
+    }
+    @media only screen and (max-width: 750px) {
+        .clientfilter-form{
+            width: 100%;
+        }
+    }
+</style>
+{% endblock css %}
+
+{% block submenu %}
+{% include 'dhdashboard-menu.html' %}
+{% endblock submenu %}
+
+{% block entity_name %}
+    <div class="comp_name">{{request.user.company}}</div>
+{% endblock entity_name %}
+{% block dashboard_menu %}    
+    {% include 'dhdashboard-menu.html' %}
+{% endblock dashboard_menu %} 
+
+{% block content %}
+
+<div class="universal-padding">
+    <div class="filter-container">
+        <div class="countries-container">
+            {% for country in countries %}
+                <a href="?country={{country.pk}}">| {{country.long_name}}&nbsp </a>
+            {% endfor %}
+            <a href="{% url 'driverlist' %}">| All Countries | </a>
+        </div>
+        <div class="filterform-container">
+            <form class="clientfilter-form" method="post">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    {{filterform.search_field}}
+                    {{filterform.placeid}}
+                    <div class="input-group-append">
+                      <input class="btn btn-primary" type="submit" value="Search">
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+
+    
+<ul style="list-style-type: none; padding-left: 0px;">
+    {% for client in page_obj %}
+    <li>
+        <a href="{% url 'driverprofile' pk=client.pk %}" class="cli-container">
+            <div class="profimg" style="background-image: url('https://ik.imagekit.io/2mjln4gew/{{client.profile_picture}}?tr=q-50?tr=w-0.5,h-0.5');"></div>
+            <div class="dh-accreditation" style="padding: 10px 0px;">
+               <div>
+                {% for i in stars_list %}
+                    {{ forloop.counter1 }}
+                    {% if i <= client.rating %}
+                    <i class="fa fa-star goldstar" aria-hidden="true"></i>
+                    {% else %}  
+                    <i class="fa fa-star-o greystar" aria-hidden="true"></i>
+                    {% endif %}
+                {% endfor %}
+                </div>
+                
+                <span class="mb-1" style="color: #ddd; display: block;">DriverHealth Rating</span>   
+                <span class="text-dark" style="font-size: .9em; display: block;">DriverHealth ID: {{client.user.dh_id}}</span>
+                <span class="text-dark" style="font-size: .9em; display: block;">Nationality: {{client.nationality}}</span>
+                {% if client.tested %}<span class="badge bg-success">Driver Tested</span> {% else %} <span class="badge bg-warning text-dark">Driver Not Tested</span>{% endif %}
+                
+               
+         
+            </div>
+            <div class="driverinfo">
+                
+                <div class="clientrating">
+                                        
+                    <div class="dhremarks" style="width: 100%;">
+                        <h5 class="text-primary" style="font-size: 1em; font-weight: 700; letter-spacing: 1px;">DriverHealth Remarks</h5>
+                        <div class="accr-text" style="height: 100px; width: 100%;">
+                            {% if client.dh_test_comment %}
+                                <p class="text-primary" style="font-size: .9em;">{{client.dh_test_comment|safe }}</p>
+                            {% else %}
+                                <span class="text-danger">No available remarks for this driver. </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </li>
+    {% empty %}
+    <span class="text-danger">No drivers</span>
+    {% endfor %}
+</ul>
+
+{% include 'paginator.html' %}
+</div>
+
+{% endblock content %}
+
+{% block js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="{% static 'js/geolocation.js' %}"></script>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBA4UiuR4j_5veSQb6hjx-k4izHptNOqdE&libraries=places&callback=initMap">
+    </script>
+    
+{% endblock js %}

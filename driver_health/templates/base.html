@@ -61,7 +61,7 @@
             <div class="menuitems-container">
                 <a href="{% url 'home' %}" class="menu-item">Home</a>
                 <a href="{% url 'about-us' %}" class="menu-item">About Us</a>
-                <a href="#" class="menu-item">Training</a>
+                <a href="#tdriver-courses" class="menu-item">Training</a>
                 <a href="{% url 'jobs-list' %}" class="menu-item">Jobs</a>
                 <a href="{% url 'gallery' %}" class="menu-item">Gallery</a>
                 <a href="{% url 'contact-us' %}" class="menu-item">Contact Us</a>
@@ -105,7 +105,7 @@
                 {% if request.user.is_authenticated %}
                 <span><a href="#" class="header-links">Hello, {{request.user.ret_acc_name|truncatechars:14}}</a> <br>
                     <a href="{% url 'logout' %}" class="header-links" style="font-size: .85em;">Logout</a> | {% if request.user.is_company %}<a href="{% url 'company-dashboard' %}" class="header-links" style="font-size: .85em;">Dashboard</a>{% elif request.user.is_staff %}
-                    <a class="header-links" href="{% url 'dh-dashboard' %}" style="font-size: .85em;">Dashboard</a>{% else %}<a href="{% url 'client-profile' %}" class="header-links" style="font-size: .85em;">My Profile</a>{% endif %}
+                    <a class="header-links" href="{% url 'driverlist' %}" style="font-size: .85em;">Dashboard</a>{% else %}<a href="{% url 'client-profile' %}" class="header-links" style="font-size: .85em;">My Profile</a>{% endif %}
                 </span>
                 {% else %}
                 <span><a href="#" class="header-links">My DriverHealth</a> <br>

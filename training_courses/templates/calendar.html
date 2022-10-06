@@ -63,6 +63,7 @@
         <div class="training-lbl" style="display: inline-block; margin: 0px;"></div><span>&#9;&#9;Training Scheduled</span>
         <br><br>
         <input type="hidden" id="training_dates">
+        {% if course.hourly_training == False %}
         <div class="calendar">
             <div class="calendar-header">
                 <div class="scrolling-arrows">
@@ -114,6 +115,9 @@
                 
             </div>
         </div>
+        {% else %}
+            {% include 'hourly-training-calendar.html' %}
+        {% endif %}
     </div>
 
 {% endblock %}
