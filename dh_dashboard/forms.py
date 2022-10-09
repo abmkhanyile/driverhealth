@@ -30,4 +30,7 @@ class RemarkForm(forms.Form):
     remark = forms.CharField(required=False, label="DH Remarks", widget=forms.Textarea(attrs={
         'class': 'form-control',
     }))
+    tested = forms.BooleanField(required=False, label="Driver Tested?", widget=forms.CheckboxInput(attrs={
+        
+    }))
 

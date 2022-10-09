@@ -39,3 +39,53 @@ function getComments(elem){
   }
   $("#"+rbtn.val()+"").css('display', 'block')
 }
+
+let tform = document.querySelectorAll(".time-cont")
+let times_form = document.querySelector("#timesform")
+let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
+let formNum = tform.length-1
+
+function addtime_form(elem, i){  
+  let newForm = tform[0].cloneNode(true)
+  newForm.style.display = "flex"
+  let formRegex = RegExp(`form-(\\d+)-`,'g')
+  formNum++
+  
+  newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
+    
+  let trtimes_container = elem.closest('.tr-times')
+  let timestags = elem.children('.timeobjs') 
+  
+  $(newForm).find('[for="'+`id_form-${formNum}-time`+'"]')[0].innerHTML = timestags[i].dataset.time
+
+  newForm.querySelector(`#id_form-${formNum}-timepk`).value = timestags[i].dataset.timepk
+   
+  trtimes_container.prepend(newForm)
+  totalForms.setAttribute('value', `${formNum+1}`)
+}
+
+
+$('.times-qty').each(function(index){
+  let times_qtys = parseInt($(this).attr("data-timeslen"))
+  if(times_qtys > 0){
+    for(let i=0; i<times_qtys; i++){
+      addtime_form($(this), i)
+    }
+  }
+})
+
+function display_tot(){
+  document.getElementById("booking-summary").style.display = "block"
+  let cboxes = document.querySelectorAll('.timecb')
+  let hrs = 0
+  for(let i=0; i<cboxes.length; i++){
+    if(cboxes[i].checked){
+      hrs++
+    }
+  }
+  document.getElementById('hrs-num').innerHTML = hrs
+  let cprice = parseFloat(document.getElementById('course-price').getAttribute('data-courseprice'))
+  let tot = cprice * hrs
+  document.getElementById('coursecost').innerHTML = tot
+  
+}

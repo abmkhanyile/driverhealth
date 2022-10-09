@@ -7,19 +7,20 @@ from django.views.generic.detail import DetailView
 from django.utils import timezone
 
 import calendar
-from training_courses.models import TrainingBooking, TrainingCourse, TrainingEvent, TrainingDays
+from training_courses.models import TrainingBooking, TrainingCourse, BookingTransaction, TrainingEvent, TrainingDays, TrainingTime
 from django.core import serializers
 from .serializers import TrainingEventSerializer, TrainingDaysSerializer
 from rest_framework.renderers import JSONRenderer
 import json
 import random
 from django.contrib import messages
-from .forms import TrainingBookingForm, ElearningForm
+from .forms import TrainingBookingForm, ElearningForm, TimeSelectionForm
 from calendar import HTMLCalendar
 from dateutil.relativedelta import relativedelta
 import pytz
 import threading
-from .notification_emails import elearning_enquiry_notification
+from .notification_emails import booking_confirmation, elearning_enquiry_notification, booking_confirmation
+from django.forms import formset_factory
 
 
 # handles booking for training.
@@ -40,9 +41,27 @@ class BookTraining(View, ContextMixin):
         
         context['prevdate'] = prevdate
         context['nextdate'] = nextdate
+        context['time_formset'] = formset_factory(TimeSelectionForm)
             
         _calendar = HTMLCalendar(firstweekday=6)
+        calendar_dates = _calendar.itermonthdates(_year, _month)
+
+        events = TrainingEvent.objects.filter(fully_booked=False, training_course=training_course)
+
+        data = []
+        for date in calendar_dates:
+            if events.exists():
+                datestr = (date,)
+                events_list = []
+                for event in events:
+                    dates = event.training_event_dates.filter(training_slot=date)
+                    if len(dates) > 0:
+                        events_list.append(event)
+                data.append(datestr + (events_list,) + (dates,))
+        
+        context['data'] = data              
         context['calendar_dates'] = _calendar.itermonthdates(_year, _month)
+        
         context['calendar'] = _calendar
         context['curr_month'] = curr_month
         context['trainingdates'] = TrainingDays.objects.filter(training_slot__month__gte=prevdate.month, training_slot__month__lte=nextdate.month, event__fully_booked=False, event__training_course=training_course)
@@ -75,11 +94,37 @@ class BookTraining(View, ContextMixin):
             return HttpResponseRedirect(reverse("booking-success", kwargs={'pk': training_booking.pk}))
         return render(request, self.template_name, self.get_context_data())
 
+    # handles the process of booking for training.
+    def post(self, request, **kwargs):
+        context = self.get_context_data()
+        trtime_formset =  formset_factory(TimeSelectionForm)
+        trainingtime_formset = trtime_formset(request.POST)
+        
+        if trainingtime_formset.is_valid():
+            btransaction = BookingTransaction.objects.create(trans_id=random.randint(100000000000,999999999999)) 
+            booking_num = 0
+            evnt = None
+            for timeform in trainingtime_formset.cleaned_data:
+                if timeform.get('time') == True:
+                    trtime = TrainingTime.objects.get(pk=int(timeform.get('timepk')))
+                    trdate = trtime.date
+                    trevent = trdate.event
+                    evnt = trevent
+                    TrainingBooking.objects.create(client=request.user, training_event=trevent, booking_transaction=btransaction, tdate=trdate, stime=trtime, paid=False)
+                    booking_num += 1
+            btransaction.trans_tot = booking_num * context['course'].price
+            btransaction.save()
+            email_thread = threading.Thread(target = booking_confirmation, args=[evnt.training_course, btransaction], daemon=True)
+            email_thread.start()
+            return HttpResponseRedirect(reverse("booking-success", kwargs={'pk': btransaction.pk}))
+        else:
+            print("form invalid")
+
 
 
 class BookingSuccess(DetailView):
     template_name = "booking-success.html"
-    model = TrainingBooking
+    model = BookingTransaction
 
 
 class GetTimes(View):

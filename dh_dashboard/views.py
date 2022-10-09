@@ -129,6 +129,7 @@ class DProfile(ClinetProfile):
         context['remark_form'] = RemarkForm(initial={
             'star_rating': context['client'].rating,
             'remark': context['client'].dh_test_comment,
+            'tested': context['client'].tested,
         })
         return render(request, self.template_name, context)
 
@@ -147,6 +148,7 @@ class AddRemark(View, ContextMixin):
             client = context['client']
             client.rating = remark_form.cleaned_data['star_rating']
             client.dh_test_comment = remark_form.cleaned_data['remark']
+            client.tested = remark_form.cleaned_data['tested']
             client.save()
 
         messages.success(request, "DH Remarks added successfully...")

@@ -83,4 +83,14 @@ class ElearningForm(forms.ModelForm):
                 'class': 'form-control'
             }),
         }
-    
+
+
+# this form handles the booking process for hourly trainings.
+class TimeSelectionForm(forms.Form):
+    time = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={
+        'class': 'timecb m-2',
+        'onchange': 'display_tot()',
+    }))
+    timepk = forms.IntegerField(required=False, widget=forms.HiddenInput(attrs={
+        'class': 'time_pk',
+    }))

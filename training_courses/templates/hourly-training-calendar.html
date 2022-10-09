@@ -1,7 +1,63 @@
 {% load static %}
+{% load training_tags %}
 
 <div class="hr-trianing-calendar">
-    {% for date in calendar_dates %}
-        <div class="hr-training-day">{{date.day}}</div>
-    {% endfor %}
+    <div class="calendar-header">
+        <div class="scrolling-arrows">
+            <a href="{% url 'book-training' pk=course.pk month=prevdate.month year=prevdate.year %}" class="text-white">
+                <i class="fa fa-chevron-left" aria-hidden="true" style="font-size: 36px;"></i>
+            </a>
+        </div>
+        <div class="calendar-header-middle">
+            <div class="month_lbl"> {{curr_month|date:"F"}} {{curr_month|date:"Y"}}</div>
+             
+        </div>
+        <div class="scrolling-arrows">
+            <a href="{% url 'book-training' pk=course.pk month=nextdate.month year=nextdate.year %}" class="text-white">
+                <i class="fa fa-chevron-right" aria-hidden="true" style="font-size: 36px;"></i>
+            </a>
+        </div>
+        <!-- <div class="booking-summary"></div> -->
+    </div>
+    <form id="timesform" method="post" action="">{% csrf_token %}
+        {{time_formset.management_form}}
+        {% for form in time_formset %}
+            <div class="time-cont" style="display: none;">
+                {{form.as_table}}
+            </div>
+        {% endfor %}
+        {% for date in data %}
+            <div class="hr-training-day">
+                <div class="date-box-container"><div class="date-box"> <span class="wday">{{date.0.day}}</span> <span>{% ret_weekday date.0.weekday %}</span>  </div> {% if date.1|length > 0 %}<div class="led-green"></div>{% endif %} </div> 
+                <div class="tr-times">
+                    {% if date.1|length > 0 %}
+                        <span class="times-qty" data-timeslen="{{date.2.0.training_date_times.all|length}}">
+                            {% for time in date.2.0.training_date_times.all %}
+                                <span class="timeobjs" data-timepk="{{time.pk}}" data-time="{{time.time_slot|time:'H:i'}}"></span>
+                            {% endfor %}
+                        </span>
+                    {% endif %}
+                </div>
+                <div class="tr-comment">{{date.1.0.comment}}</div>
+            </div>
+        {% endfor %}
+    </form>
+
+    <span id="course-price" data-courseprice="{{course.price}}"></span>
+   
+    <div id="booking-summary">
+        <h4 class="text-danger">Booking Total</h4>
+        <table class="table table-responsinve table-sm">
+            <tr>
+                <td><span id="hrs-num"></span> Hours</td>
+                <td>R<span id="coursecost"></span> </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit"  form="timesform" class="btn btn-outline-primary btn-sm" value="Confirm Booking"> </td>
+            </tr>
+        </table>
+    </div>
+   
+
 </div>

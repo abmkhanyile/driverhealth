@@ -1,3 +1,4 @@
+from enum import unique
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.utils import timezone
@@ -40,11 +41,9 @@ class Course_Enrollees(models.Model):
 # holds all training events.
 class TrainingEvent(models.Model):
     training_course = models.ForeignKey('training_courses.TrainingCourse', related_name="course_events", on_delete=models.CASCADE, blank=False)
-    enrollees = models.ManyToManyField('dhclients.DHClient', through='Course_Enrollees', blank=True)
     comment = models.CharField(max_length=1000, blank=True)
     fully_booked = models.BooleanField(default=False)
     enrollees_num = models.IntegerField(null=True)
-    # hourly_training = models.BooleanField(default=False)
     date_created = models.DateTimeField(default=timezone.now, blank=False)
 
     def __str__(self) -> str:
@@ -61,7 +60,7 @@ class TrainingDays(models.Model):
     def __str__(self):
         return str(self.training_slot)
 
-    
+
 
 # holds time slots
 class TrainingTime(models.Model):
@@ -71,13 +70,23 @@ class TrainingTime(models.Model):
     def __str__(self):
         return str(self.time_slot)
 
-    
+
+# records all booking transactions.
+class BookingTransaction(models.Model):
+    trans_id = models.CharField(max_length=50, blank=False, unique=True)
+    trans_tot = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, blank=False)
+    date_created = models.DateTimeField(default=timezone.now, blank=False)
+
+    def ret_course(self):
+        return self.transaction_bookings.all()[0].training_event.training_course
+
 
 # holds all the training bookings 
 class TrainingBooking(models.Model):
     client = models.ForeignKey('user_accounts.CustomUser', related_name="client_training_bookings", on_delete=models.CASCADE, blank=True)
     training_event = models.ForeignKey('training_courses.TrainingEvent', related_name="training_event_bookings", on_delete=models.CASCADE, blank=True)
-    booking_id = models.CharField(max_length=20, unique=True, blank=False)
+    booking_transaction = models.ForeignKey('training_courses.BookingTransaction', related_name="transaction_bookings", on_delete=models.CASCADE, blank=False, null=True)
+    tdate = models.ForeignKey('training_courses.TrainingDays', related_name="date_bookings", on_delete=models.CASCADE, blank=True, null=True)
     stime = models.ForeignKey('training_courses.TrainingTime', related_name="booking_times", on_delete=models.CASCADE, blank=True, null=True)
     paid = models.BooleanField(default=False)
     date_created = models.DateTimeField(default=timezone.now, blank=False)

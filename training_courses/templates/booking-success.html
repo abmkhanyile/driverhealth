@@ -15,9 +15,9 @@
 
     <div class="about universal-padding">
         <h5 class="text-success">Booking successful</h5>
-        <h5 class="text-danger">{{object.training_event.training_course.course_name}}</h5>
+        <h5 class="text-danger">{{object.ret_course}}</h5>
         <p>
-            Please make a payment within the next 48 hours to confirm your booking. Use <span class="text-danger">{{object.booking_id}}</span> as a reference for the payment. 
+            Please make a payment within the next 48 hours to confirm your booking. Use <span class="text-danger">{{object.trans_id}}</span> as a reference for the payment. 
         </p>
         <p>
             You can make a payment into the following bank account
@@ -41,9 +41,10 @@
             </tr>
             <tr>
                 <td>Referrence </td>
-                <td>{{object.booking_id}}</td>
+                <td>{{object.trans_id}}</td>
             </tr>
         </table>
+        <h3 class="text-success">Amount to Pay: R{{object.trans_tot}}</h3>
     </div>
 
 {% endblock %}

@@ -21,4 +21,10 @@ def check_booking(cdate, trainingdates):
             event_num.append("a")
     return event_num
 
+# returns a weekday in string format.
+@register.simple_tag
+def ret_weekday(day):
+    weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    return weekdays[int(day)]
+
 
