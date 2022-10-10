@@ -167,19 +167,19 @@ class Booking(View, ContextMixin):
 
         if trainingform.is_valid():
             eventpk = trainingform.cleaned_data['training_dates']
-            times = trainingform.cleaned_data['times']
             event = TrainingEvent.objects.get(pk=eventpk)
             if TrainingBooking.objects.filter(training_event=event, client=request.user).exists():
                 messages.warning(request, "You've already booked this training.")
                 return HttpResponseRedirect(reverse("booking", kwargs={'pk':context['course'].pk, 'date': context['datestr']}))
 
             if event.enrollees_num > 0 and event.fully_booked == False:
-                training_booking = TrainingBooking.objects.create(client=request.user, training_event=event, booking_id=random.randint(100000000000,999999999999), stime=times)
+                btransaction = BookingTransaction.objects.create(trans_id=random.randint(100000000000,999999999999)) 
+                TrainingBooking.objects.create(client=request.user, training_event=event, booking_transaction=btransaction)
                 event.enrollees_num -= 1
-                if event.enrollees == 0:
+                if event.enrollees_num == 0:
                     event.fully_booked = True
                 event.save()
-                return HttpResponseRedirect(reverse("booking-success", kwargs={'pk': training_booking.pk}))
+                return HttpResponseRedirect(reverse("booking-success", kwargs={'pk': btransaction.pk}))
             
 
 # handles the booking of elearning courses
