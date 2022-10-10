@@ -25,8 +25,8 @@ frm.onsubmit = function(e){
 
 let seldate_form = document.querySelectorAll(".formset-container")
 let seldates_form = document.querySelector("#trainingform")
-let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
-let formNum = seldate_form.length-1
+let totForms = document.querySelector("#id_form-TOTAL_FORMS")
+let frmNum = seldate_form.length-1
 
 function selectday(elem){
     let day = $(elem)
@@ -36,20 +36,20 @@ function selectday(elem){
         day.attr("data-dayselected", "1")
         let newForm = seldate_form[0].cloneNode(true)
         let formRegex = RegExp(`form-(\\d+)-`,'g')
-        formNum++
-        newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
+        frmNum++
+        newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${frmNum}-`)
         newForm.style.display = "grid"
-        newForm.querySelector(`#id_form-${formNum}-seldate`).value = date
+        newForm.querySelector(`#id_form-${frmNum}-seldate`).value = date
         newForm.setAttribute('id', `${date}sd`)
         
         seldates_form.prepend(newForm)
-        totalForms.setAttribute('value', `${formNum+1}`)
+        totForms.setAttribute('value', `${frmNum+1}`)
         
     }else if(day.attr("data-dayselected") == "1"){
         day.css("background-color", "white")
         day.attr("data-dayselected", "0")
         document.getElementById(''+date+'sd').remove()
-        document.querySelector("#id_form-TOTAL_FORMS").value = formNum--
+        document.querySelector("#id_form-TOTAL_FORMS").value = frmNum--
     } 
 }
 
@@ -64,16 +64,16 @@ function addtime(elem){
     
     let newForm = seldate_form[0].cloneNode(true)
     let formRegex = RegExp(`form-(\\d+)-`,'g')
-    formNum++
-    newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
+    frmNum++
+    newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${frmNum}-`)
     
-    newForm.querySelector(`#id_form-${formNum}-seldate`).value = datestr
+    newForm.querySelector(`#id_form-${frmNum}-seldate`).value = datestr
     newForm.classList.add(`${datestr}sd`)
     
     seldates_form.prepend(newForm)
-    totalForms.setAttribute('value', `${formNum+1}`)
+    totForms.setAttribute('value', `${frmNum+1}`)
     
-    newForm.querySelector(`#id_form-${formNum}-seltime`).value = time_input.val()
+    newForm.querySelector(`#id_form-${frmNum}-seltime`).value = time_input.val()
     let time = time_input.val()
   
     if(time != ""){
