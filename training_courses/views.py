@@ -173,7 +173,7 @@ class Booking(View, ContextMixin):
                 return HttpResponseRedirect(reverse("booking", kwargs={'pk':context['course'].pk, 'date': context['datestr']}))
 
             if event.enrollees_num > 0 and event.fully_booked == False:
-                btransaction = BookingTransaction.objects.create(trans_id=random.randint(100000000000,999999999999)) 
+                btransaction = BookingTransaction.objects.create(trans_id=random.randint(100000000000,999999999999), trans_tot = context['course'].price) 
                 TrainingBooking.objects.create(client=request.user, training_event=event, booking_transaction=btransaction)
                 event.enrollees_num -= 1
                 if event.enrollees_num == 0:
