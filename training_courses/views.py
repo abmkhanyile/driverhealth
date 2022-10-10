@@ -179,6 +179,8 @@ class Booking(View, ContextMixin):
                 if event.enrollees_num == 0:
                     event.fully_booked = True
                 event.save()
+                email_thread = threading.Thread(target = booking_confirmation, args=[event.training_course, btransaction], daemon=True)
+                email_thread.start()
                 return HttpResponseRedirect(reverse("booking-success", kwargs={'pk': btransaction.pk}))
             
 
