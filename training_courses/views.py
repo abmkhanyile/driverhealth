@@ -50,15 +50,18 @@ class BookTraining(View, ContextMixin):
 
         data = []
         for date in calendar_dates:
+            datestr = (date,)
             if events.exists():
-                datestr = (date,)
                 events_list = []
                 for event in events:
                     dates = event.training_event_dates.filter(training_slot=date)
                     if len(dates) > 0:
                         events_list.append(event)
                 data.append(datestr + (events_list,) + (dates,))
+            else:
+                data.append(datestr + () + ())
         
+        print("data contents ", data)
         context['data'] = data              
         context['calendar_dates'] = _calendar.itermonthdates(_year, _month)
         
@@ -104,14 +107,21 @@ class BookTraining(View, ContextMixin):
             btransaction = BookingTransaction.objects.create(trans_id=random.randint(100000000000,999999999999)) 
             booking_num = 0
             evnt = None
+
             for timeform in trainingtime_formset.cleaned_data:
                 if timeform.get('time') == True:
                     trtime = TrainingTime.objects.get(pk=int(timeform.get('timepk')))
                     trdate = trtime.date
                     trevent = trdate.event
                     evnt = trevent
+                    if evnt.enrollees_num > 0:
+                        evnt.enrollees_num -= 1
+                        if evnt.enrollees_num == 0:
+                            evnt.fully_booked = True
+                        evnt.save()
                     TrainingBooking.objects.create(client=request.user, training_event=trevent, booking_transaction=btransaction, tdate=trdate, stime=trtime, paid=False)
                     booking_num += 1
+
             btransaction.trans_tot = booking_num * context['course'].price
             btransaction.save()
             email_thread = threading.Thread(target = booking_confirmation, args=[evnt.training_course, btransaction], daemon=True)
@@ -228,3 +238,18 @@ class ElearningEnquiry(View, ContextMixin):
             email_thread.start()
             messages.success(request, "Enquiry sent succeccfully.")
             return HttpResponseRedirect(reverse('elearning-enquiry', kwargs={'course_id': self.kwargs['course_id']}))
+
+
+# displays all courses on offer
+class Courses(View, ContextMixin):
+    template_name = "courses.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['training_course'] = TrainingCourse.objects.filter(elearning=False, thirdparty_course=False)
+        context['code14courses'] = TrainingCourse.objects.filter(thirdparty_course=True)
+        context['current_date'] = timezone.now()
+        return context
+
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, self.get_context_data())

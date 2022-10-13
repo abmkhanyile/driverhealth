@@ -67,6 +67,9 @@ class TrainingTime(models.Model):
     time_slot = models.TimeField(blank=False)
     date = models.ForeignKey('training_courses.TrainingDays', related_name="training_date_times", on_delete=models.CASCADE, blank=False, null=True)
 
+    class Meta:
+        ordering = ("-time_slot",)
+
     def __str__(self):
         return str(self.time_slot)
 
@@ -92,7 +95,7 @@ class TrainingBooking(models.Model):
     date_created = models.DateTimeField(default=timezone.now, blank=False)
 
     def __str__(self) -> str:
-        return self.booking_id
+        return self.client.get_full_name()
 
 
 # stores all elearning training enquiries

@@ -16,6 +16,7 @@ import requests
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.conf import settings
+from dhclients.views import ClinetProfile
 
 
 class Dashboard(View, ContextMixin):
@@ -175,3 +176,16 @@ class JobApplicants(View, ContextMixin):
             raise PermissionDenied
         return render(request, self.template_name, self.get_context_data())
 
+
+# displays the driver profile for companies
+class CompanyClientProfile(ClinetProfile):
+    template_name = "clientprofile.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get(self, request, **kwargs):
+        # if not request.user.is_dhclient():
+        #     raise PermissionDenied
+        return render(request, self.template_name, self.get_context_data())

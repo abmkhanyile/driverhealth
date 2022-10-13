@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import BookTraining, BookingSuccess, GetTimes, Booking, ElearningCourses, ElearningEnquiry
+from .views import BookTraining, BookingSuccess, GetTimes, Booking, ElearningCourses, ElearningEnquiry, Courses
 
 urlpatterns = [
     path('<pk>/<int:month>/<int:year>/', BookTraining.as_view(), name="book-training"),
@@ -8,4 +8,5 @@ urlpatterns = [
     path('booking/<pk>/<str:date>/', Booking.as_view(), name="booking"),
     path('elearning-courses', ElearningCourses.as_view(), name="elearning-courses"),
     path('elearning-enquiry/<int:course_id>/', ElearningEnquiry.as_view(), name="elearning-enquiry"),
+    path('', Courses.as_view(), name="courses"),
 ]

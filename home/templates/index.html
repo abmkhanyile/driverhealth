@@ -56,17 +56,16 @@
     letter-spacing: 1px;
   }
 
-  .home-img, .truckimg{
-    max-width: 100%;
-    /* height: 450px; */
+  .home-img{
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
 
   .home-img-container{
-    background-color: #f0f0f0; 
-    padding: 5px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    height: 350px;
+    overflow: hidden;
+        
     /* grid-gap: 10px; */
   }
 
@@ -77,21 +76,6 @@
     grid-template-columns: 2fr 1fr;
     grid-gap: 10px;
   }
-
-  @media only screen and (max-width: 750px) {
-      .home-img-container, .code14-container{
-          display: grid;
-          width: 100%;
-          grid-template-columns: 1fr;
-          grid-template-rows: minmax(200px, auto);
-          margin-bottom: 20px;
-        
-      }
-  }
-
-  
-
-
 
   .home-btns{
     display: flex;
@@ -121,6 +105,29 @@
   .course-container > div > p{
     font-size: .9em;
   }
+
+  p{
+        max-inline-size: 100% !important;
+        font-size: 1em;
+        text-align: center;
+    }
+
+  .page-title-subtext{
+    text-align: center;
+    font-size: 1.4em;
+    color: #1c1a1a;
+    margin-bottom: 25px;
+  }
+
+  .emb-header{
+    font-size: 1.4em;
+    color: #00b0f0;
+  }
+
+  .listcont{
+
+  }
+ 
  
 </style>
 
@@ -183,160 +190,161 @@
     </div>
   </div>
 
-    <div id="page-contents" class="universal-padding">
-      <div class="page-segment">
-          <h4 class="mt-4 page-title">Truck Driver Training Academy</h4>
-          <div style="text-align: center; width: 75%;">The Truck Driver Training Academy offers 1 – 4 weeks truck driving courses. Our goal being simply to train truck drivers to a new exciting and paying career. We focus on the skills, knowledge, and duties of a professional truck driver. Our courses cover the fundamentals of tractor and trailer operations, tractor and trailer regulations and safety, cross-border knowledge, day and night driving and lastly general employability skills. We train drivers from all Southern African countries</div>
-          <br>
-          <div class="row">
-            <div class="col-sm-8">
-           
-                
-                  <div class="home-img-container">
-                  
-                      <img src="https://ik.imagekit.io/2mjln4gew/media/images/truck-img.webp" class="home-img" />
+   
+  
+  <div id="page-contents" class="universal-padding">
+    <div class="page-segment">
+        <h4 class="mt-4 page-title">Welcome to DriverHealth</h4>
+        <h3 class="page-title-subtext">Your Leading Partner in Truck Driver Training</h3>
+        <div class="row">
+          <div class="col-sm-6">
+            <p>DriverHealth provides quality driver training for light and heavy-duty vehicles for the experienced and beginner driver in a professional manner and at an affordable rate to members of the public and corporate organizations – to produce safe, healthy, and responsible drivers for the transport and logistics industry in South Africa and beyond.
+              <br><br>
+              Currently there are just a few accredited truck driver training schools offering professional training to truck drivers. Almost none of these schools have the correct training equipment needed to produce quality drivers and their training fees are out of reach for many.
+              <br><br>
+              We make use of the E-Learn training program, truck training simulators, and Superlink trucks for on-road training. When trainees prove competent, they are then be put on trucks with qualified drivers for a certain period. This provides trainees with the much-needed on-the-road experience, preparing them for full time employment.
+            </p>
 
-                   
-
-                    <div class="home-txt" style="padding-left: 20px;">
-                      <h5 class="embedded-header mt-3">WHAT WE OFFER</h5>
-                      <ul style="font-size: .95em;">
-                        <li>Beginner (Novice) code 14 truck driver training </li>
-                        <li>Beginner (Novice) code 10 truck driver training </li>
-                        <li>Upskilling drivers from code 10 to code 14</li>
-                        <li>Defensive and professional truck driving training</li>
-                        <li>Periodic driver refresher training</li>
-                        <li>Convey dangerous goods training</li>
-                        <li>Fatigue management</li>
-                        <li>Rollover prevention</li>
-                        <li>Economic driving</li>
-                        <li>Road safety</li>
-                        <li>Speed management</li>
-                        <li>Route assessments</li>
-                        <li>In-cab assessments</li>
-                        <li>Other training – basic first-aid, basic firefighting etc.</li>
-                        <li>Driver medical examinations</li>
-                        <li>Learnership programs</li>
-                        <li>Employment opportunities</li>
-                      </ul>
-
-                      <h5 class="embedded-header mt-3">WHY CHOOSE US?</h5>
-                      <ul style="font-size: .95em;">
-                        <li>South Africa’s leading truck driver training centre</li>
-                        <li>Affordable training fees</li>
-                        <li>Accredited trainers</li>
-                        <li>Personalised training</li>
-                      </ul>
-                     
-                    </div>
-                  </div>
-              
-           
+            <div style="text-align: center;">
+              <a href="#" class="btn btn-outline-danger btn-sm">Contact Us</a>
             </div>
-            <div class="col-sm-4">
-              <h4 class="embedded-header">Our Training Plan</h4>
-              <p style="font-size: 1em">
-                <span class="inner-header"> E-Learning</span> – this develops the theoretical base knowledge of the trainee. Teaches the trainee the theory, vehicle basics and terminology.
-                <br><br>
-                <span class="inner-header">Truck Inspection Trainer</span> – this teaches the trainee how to perform pre-trip and post-trip vehicle inspections and how to report the findings.
-      <br><br>
-      <span class="inner-header">Advanced Training Truck Simulator</span> – this develops the driving skills of the trainee in a focused, rapid and comprehensive way. Our integrated driver training program addresses basic to advanced topics including reversing, parking, docking, risky situations, crash avoidance with other vehicles, pedestrians and animals, as well as driving in adverse weather, at night, hauling oversize or overweight loads, and much more. 
-      <br><br>
-      <span class="inner-header">Superlink Truck</span> – this gives the trainee the opportunity to transfer the skills learnt from the E-learning, the truck inspection trainer and the advanced truck training simulator into reality. 
+            
+          </div>
+          <div class="col-sm-6">
+            <div class="home-img-container">
+              <img src="https://ik.imagekit.io/2mjln4gew/media/images/truckimg_hp.jfif" class="home-img" />
+
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <hr>
+    <div class="page-segment">
+      <h4 class="mt-4 page-title">Our Training Plan</h4>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="home-img-container">
+            <img src="https://ik.imagekit.io/2mjln4gew/media/images/tuckimg_hp2.webp" class="home-img" />
+          </div>
+        </div>
+        <div class="col-sm-6">
+                    
+            <div class="hp-subsection">
+              <span class="inner-header"> E-Learning</span>
+              <p>
+                This develops the theoretical base knowledge of the trainee. Teaches the trainee the theory, vehicle basics and terminology.
+
+              </p>
+              <span class="inner-header"> Truck Inspection Trainer</span>
+              <p>
+                This teaches the trainee how to perform pre-trip and post-trip vehicle inspections and how to report the findings.
+
+              </p>
+              <span class="inner-header">Advanced Training Truck Simulator </span>
+              <p>
+                This develops the driving skills of the trainee in a focused, rapid, and comprehensive way. Our integrated driver training program addresses basic to advanced topics including reversing, parking, docking, risky situations, crash avoidance with other vehicles, pedestrians, and animals, as well as driving in adverse weather, at night, hauling oversize or overweight loads, and much more.
+
+              </p>
+              <span class="inner-header">Superlink Truck </span>
+              <p>
+                This gives the trainee the opportunity to transfer the skills learnt from the E-learning, the truck inspection trainer, and the advanced truck training simulator into reality.
+
               </p>
             </div>
-          </div>
-      </div>
-      <hr />
-      <div id="tdriver-courses" class="page-segment">
-        <h4 class="mt-4 page-title">Truck Driver Training Courses</h4>
-        <div style="text-align: center; width: 75%;">We offer affordable courses focusing on the skills, knowledge, and duties of a professional truck driver. Our training covers the fundamentals of tractor and trailer operations, tractor and trailer regulations and safety, theoretical basics of a vehicle, inspections, coupling and uncoupling, right & left turns, lane changing, shifting gears up and down, maneuvering and load securing among other. Register today and start your journey to an exciting paying career.</div>
-        <br>
-        <div class="course-outer-container">
-          {% for course in training_course %}
-          <div class="course-container">
-            <h6 style="text-align: center;"><strong>{{course.course_name}}</strong></h6>
-            <h6>Duration {{course.duration}}</h6>
-            <h4 style="color:#00b0f0">R{{course.price}}</h4>
-            <div>
-              {{course.course_details|safe}}
-            </div>
-            <a href="{% url 'book-training' pk=course.pk month=current_date.month year=current_date.year %}" class="btn btn-danger btn-sm text-white">Book Training</a>
-          </div>
-        {% endfor %}
+            
+          
         </div>
-        
       </div>
-      
     </div>
-    
-    <div id="page-contents" class="universal-padding" style="background-color: #f0f0f0;">
-      <div class="page-segment">
-        <div class="code14-container">
-          <div>
-            <h4 class="mt-2 page-title">Get your Code 14 with us!</h4>
-            <div class="mb-3" style="text-align: center;">
-              We have helped thousands of drivers pass their tests and drive around safely. Our structured lessons emphasize safety and skills preparation, so you can confidently pass your test.
+
+    <hr>
+
+    <div class="page-segment">
+      <h4 class="mt-4 page-title">Training</h4>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="listcont">
+            <h5 class="embedded-header mt-3">WHAT WE OFFER</h5>
+            <ul style="font-size: .95em;">
+              <li>Beginner (Novice) code 14 truck driver training </li>
+              <li>Beginner (Novice) code 10 truck driver training </li>
+              <li>Upskilling drivers from code 10 to code 14</li>
+              <li>Defensive and professional truck driving training</li>
+              <li>Periodic driver refresher training</li>
+              <li>Convey dangerous goods training</li>
+              <li>Fatigue management</li>
+              <li>Rollover prevention</li>
+              <li>Economic driving</li>
+              <li>Road safety</li>
+              <li>Speed management</li>
+              <li>Route assessments</li>
+              <li>In-cab assessments</li>
+              <li>Other training – basic first-aid, basic firefighting etc.</li>
+              <li>Driver medical examinations</li>
+              <li>Learnership programs</li>
+              <li>Employment opportunities</li>
+            </ul>
+            <div style="text-align: center;">
+              <a href="{% url 'courses' %}" class="btn btn-outline-danger btn-sm">View Courses</a>
             </div>
-                <div class="code14course-container">
-                  {% for course in code14courses %}
-                    <div class="course-container bg-white">
-                      <h6 style="text-align: center;"><strong>{{course.course_name}}</strong></h6>
-                      <h4 style="color:#00b0f0">R{{course.price}}</h4>
-                      <div>
-                        {{course.course_details|safe}}
-                      </div>
-                      <a href="{% url 'elearning-enquiry' course_id=course.pk %}" class="btn btn-danger btn-sm text-white">Book Training</a>
-                    </div>
-                  {% endfor %}
-              </div>
           </div>
-          <div>
-            <img src="https://ik.imagekit.io/2mjln4gew/media/images/truckimg.webp" class="truckimg"/>
+                    
+        </div>
+        <div class="col-sm-6">
+          <div class="home-img-container">
+            <img src="https://ik.imagekit.io/2mjln4gew/media/images/DriverTraining7.jfif" class="home-img" />
           </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="page-segment">
+      <div class="emb-header">Why do truck drivers need training?</div>
+      <p>The majority of other road users truck drivers will encounter when driving will be non-professional drivers who will not have as much training as they do. Professional drivers need to be courteous and drive in a defensive manner. Driving in such a manner encourages a more tolerant attitude towards the Road Transport Industry and people employed in it.</p>
+      <div class="emb-header">Definition of a Defensive Driver</div>
+      <p>A defensive truck driver is one who not only avoids causing accidents, but also avoids becoming involved in accidents caused by other road users. Trained truck drivers know and observe the laws and regulations relating to the road, the vehicles they drive, and the goods they are transporting. Being technically or legally in the right is no compensation for the death, injury, or property damage that road accidents can cause. The defensive truck driver is prepared to give way to avoid the possibility of an accident, even if by law, the other motorist is at fault.</p>
+      <h3 class="page-title-subtext">Do not take driver training for granted!</h3>
+      <h5>Talk to our team today on 086 100 5164</h5>
+      <h5>info@driverhealth.co.za</h5>
+      <h3 class="emb-header">WHAT MAKES US UNIQUE?</h3>
+      <h6 style="text-align: center;">South Africa’s leading truck driver training school</h6>
+      <h6>Fully equipped training facility</h6>
+      <h6>Affordable training fees</h6>
+      <h6>Accredited trainers</h6>
+      <h6>Personalised training</h6>
+    </div>
+
+    <hr>
+
+    
+    <div class="page-segment">
+      <h4 class="mt-2 page-title">Driver Fitness</h4>
+      <h3 class="page-title-subtext">Medical Screenings</h3>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="home-img-container">
+            <img src="https://ik.imagekit.io/2mjln4gew/media/images/HealthCheck.jpg" class="home-img" />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <p>
+            Mostly employers focus on the need to check vehicles regularly for defects and to have them serviced often, but very few ensure that the person driving the vehicle remains healthy.
+            <br><br>
+            If your business requires employees to drive as part of their work, whether that be in a company car, a heavy goods vehicle or anything in between, then you are responsible for ensuring that those drivers are fit for their roles, and the best way to validate a driver’s health is by conducting a full medical examination.
+            <br><br>
+            By requiring your drivers to undergo regular health checks, your business demonstrates compliance with health and safety regulations and is better equipped to defend itself if the worst happens and your driver is involved in a collision.
+
+          </p>
         </div>
         
       </div>
     </div>
 
-    <div class="universal-padding" style="background-color: #fff;">
-      <h4 class="mt-4 page-title">E-Learning Online Courses</h4>
-      <div class="row">
-        <div class="col-sm-6 mb-2">
-          <div style="text-align: center;">
-            <p style="font-size: .95em;" >
-              Our E-Learn training program is also accessible on-line, from
-              anywhere and at any time. We deliver the most relevant,
-              leading-edge courses to motivate and educate employees to be safe, and responsible drivers.
-              <br><br>
-              Our courses aid in keeping drivers safe on the roads, reduces
-              the risk of accidents and traffic violations, reduces exposure
-              to liability risks and costs, lowers insurance premiums and
-              accident claims, and lowers fleet maintenance costs.
-              <br><br>
-              Study from Anywhere<br>
-              Study at Anytime<br>
-              Accredited Training<br>
-              Certificate at Completion<br>
-              <br>
-              To view our courses and register, click the button below.
-  
-            </p>
-  
-            <div style="text-align: center;">
-              <a href="{% url 'elearning-courses' %}" class="btn btn-outline-danger btn-sm">View Courses</a>
-            </div>
-          </div>
-          
-        </div>
-        <div class="col-sm-6 mb-2">
-          <img src="https://ik.imagekit.io/2mjln4gew/media/images/elearning_img.jpg" class="truckimg">
-        </div>
-      </div>
-  
-    </div>
-    
-    <div class="page-contents universal-padding" style="background-color: #f0f0f0;">
+    <hr>
+    <div class="page-segment">
       <h4 class="mt-2 page-title">Careers</h4>
                     
             <div class="row">
@@ -364,7 +372,7 @@
                 <div class="col-sm-6">
                     <div class="internship-container">
                         
-                            <h5 style="text-align: center;">Available Drivers</h5>
+                            <h5 style="text-align: center;">Companies</h5>
                                                           
                             <p class="text-dark" style="text-align: center; font-size: .95em;">
                                                                   
@@ -381,6 +389,20 @@
                 </div>
             </div>
     </div>
+
+ 
+
+
+  </div>
+
+ 
+  
+
+
+    
+  
+    
+    
 
   
    

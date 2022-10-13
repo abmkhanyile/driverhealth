@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Client Profile{% endblock %}
+
+{% block css %}
+<style>
+
+</style>
+{% endblock css %}
+
+{% block submenu %}
+{% include 'dashboard-menu.html' %}
+{% endblock submenu %}
+
+{% block entity_name %}
+    <div class="comp_name">{{request.user.company}}</div>
+{% endblock entity_name %}
+{% block dashboard_menu %}    
+    {% include 'dashboard-menu.html' %}
+{% endblock dashboard_menu %} 
+
+{% block content %}
+
+
+    <div class="universal-padding">
+        {% include 'errors.html' %}
+        <div class="prof-upper">
+            <div>
+                
+                <div class="imgcontainer" data-loaded="false" data-original_fn="">
+
+                    <input type="text" class="aws_url" name="aws_url" hidden />
+                    <progress class="progressbar file" style="display: none;"></progress>
+
+                    {% if not client.profile_picture %}
+                        <span>Upload Profile Picture</span>
+                        <div id="profpic_overlay">
+                            <input type="button" class="btn btn-secondary btn-sm" onclick="selfile()" value="Upload Profile Pic" />
+                        </div>
+                    {% else %}
+                        <div id="profpic_overlay">
+                            <input type="button" class="btn btn-secondary btn-sm" onclick="selfile()" value="Upload Profile Pic" />
+                        </div>
+                    {% endif %}
+                </div>
+                <input type="number" value="{{client.pk}}" id="clientId" style="display: none;"> 
+               
+                <input type="file" id="profpic_file" onchange="upload_img(this)" style="display: none;">
+                
+            </div>
+            <div class="prof-upper-inner" style="border-bottom: 1px solid #ddd;">
+                <div>
+                    <h3 class="prof-title mb-3">{{client.user.get_full_name}}</h3>
+                    <div class="dh-accreditation">
+                        {% for i in stars_list %}
+                            {{ forloop.counter1 }}
+                            {% if i <= client.rating %}
+                            <i class="fa fa-star goldstar" aria-hidden="true"></i>
+                            {% else %}  
+                            <i class="fa fa-star-o greystar" aria-hidden="true"></i>
+                            {% endif %}
+                        {% endfor %}
+                        <span style="color: #ddd; display: block;">DriverHealth Rating</span>  
+                    </div>
+                </div>
+                <div>
+                    <span class="dh-accre-title" style="font-family: roboto; color: red;">Driver Health Remarks</span><a href="javascript:void(0)" class="edit-icon" data-bs-toggle="modal" data-bs-target="#remarkmodal"><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 20px;"></i></a>                           
+
+                    <div class="accr-text">
+                        {% if client.dh_test_comment %}
+                            {{client.dh_test_comment|safe }}
+                        {% else %}
+                            <div class="alert alert-danger" role="alert"><i>Has NOT been tested by DriverHealth yet.</i></div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+        <div class="prof-mid">
+            <div></div>
+            <div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="personal-details">
+
+
+                            <table class="table table-sm table-borderless mt-4" style="font-size: .85em;">
+                        
+                                <tr>
+                                    <td>
+                                        DriverHealth ID             
+                                    </td>
+                                    <td>
+                                        {{client.user.dh_id}}
+                                    </td>
+                                </tr>
+                                                        
+                                <tr>
+                                    <td>
+                                        Nationality            
+                                    </td>
+                                    <td>
+                                        {{client.nationality}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Location</td>
+                                    <td>{{client.location}}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Contact Number             
+                                    </td>
+                                    <td>
+                                        {{client.user.contactNumber}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Email             
+                                    </td>
+                                    <td>
+                                        {{client.user.email}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Own a Passport</td>
+                                    <td>{% if client.has_passport == True %}Yes{% else %}No{% endif %}</td>
+                                </tr>
+                                <tr>
+                                    <td>Passport Number</td>
+                                    <td>{{client.passport_num}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Looking for a job?</td>
+                                    <td>{% if client.in_job_market == True %}Yes{% else %}No{% endif %}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div class="cv-title-container">
+                            <h4>Employment History <span class="text-danger">(Max of 3 entries)</span> </h4>
+                           
+                        </div>
+                        {% for work_exp in work_history %}
+                        <div class="employment-box"> 
+                            
+                            <table class="table table-responsive table-borderless">
+                                <tr>
+                                    <td colspan="2">
+                                        <h5>{{work_exp.company_name}}</h5>
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td style="width: 15%;"><strong>Period</strong></td>
+                                    <td>
+                                        <span>{{work_exp.start_date}} to </span>
+                                        <span>{{work_exp.end_date}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Role</strong></td>
+                                    <td>{{work_exp.role}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Duties</strong></td>
+                                    <td>{{work_exp.duties}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Contact Person</strong> </td>
+                                    <td>{{work_exp.contact_person}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Contact Number</strong></td>
+                                    <td>{{work_exp.contact_num}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Can this person be contacted for a reference?</strong></td>
+                                    <td>{% if work_exp.contact_permission == True %}Yes{% else %}No{% endif %}</td>
+                                </tr>
+                            </table>
+
+                        </div>
+                        {% empty %}
+                            <span class="text-danger">Currently no work experience</span>
+
+                        {% endfor %}
+                    </div>
+                    <div class="col-sm-6">
+                        <h5 class="text-dark mt-4">Upload a document</h5>
+                        <div class="doc-upload">
+                            <div class="form-overlay"></div>
+                            <img src="{% static 'media/images/loader.gif' %}" class="loader-icon" alt="uploader icon" />
+                            <span class="text-success success-msg" style="display: none;">Document successfully uploaded. (Fresh the page to see document below).</span>
+                            <span id="client_id" data-clientid="{{client.pk}}"></span>
+                            <form method="post" class="clientdocs-form" action="/dhclients/upload-client-doc/">{% csrf_token %}
+                              
+                                    <div class="half-input-container">
+                      
+                                      <p>
+                                        <label for="id_doc_type">Document Type</label>
+                                        {{docform.doc_type}}
+                                      </p>
+                        
+                                      <p>
+                                        <label for="id_document">Document</label>
+                                        {{docform.document}}
+                                      </p>
+                        
+                                    </div>
+                                  
+                                
+                                    <label for="othertype">Other</label>
+                                    {{docform.other_type}}
+                                    <div class="mt-3" style="text-align: center;">
+                                        <input type="submit" onclick="get_signed_AWS_url()" class="btn btn-secondary btn-sm" value="Upload Document">                               
+                                    </div>
+                            </form>
+                        </div>
+                        <div class="docs-container">
+                            <table class="table table-responsive table-bordered border-primary doctable">
+                                {% for doc in clientdocs %}
+                                <tr>
+                                    {% if doc.doc_type == 6 %}
+                                    <td style="width: 20%;">Other ({{ doc.other_type|truncatechars:25 }})</td>
+                                    {% else %}
+                                    <td style="width: 20%;">{{ doc.get_doc_type_display }}</td>
+                                    {% endif %}
+                                    <td><a href="{{doc.retDocument}}" class="homepage_link" >{{doc.doc_name|truncatechars:30 }}</a>  </td>
+                                    <td style="width: 10%;">
+                                        
+                                        <div class="form-check">
+                                            
+                                            <input class="form-check-input" type="radio" data-docid="{{doc.pk}}" onclick=setDoc_visibility(this) name="flexRadioDefault{{doc.pk}}" id="flexRadioDefault{{doc.pk}}" {% if doc.doc_visibility == 1 %} checked {% endif %}>                               
+                                            <label class="form-check-label" for="flexRadioDefault{{doc.pk}}">
+                                              Public
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            
+                                            <input class="form-check-input" type="radio" data-docid="{{doc.pk}}" onclick=setDoc_visibility(this) name="flexRadioDefault{{doc.pk}}" id="flex_RadioDefault{{doc.pk}}" {% if doc.doc_visibility == 2 %} checked {% endif %}>
+                                            <label class="form-check-label" for="flex_RadioDefault{{doc.pk}}">
+                                              Private
+                                            </label>
+                                        </div>
+            
+                                    </td>
+                                    <td style="width: 10%;"><a href="{% url 'delete-document' pk=doc.pk %}" class="btn btn-outline-danger btn-sm">Delete</a> </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

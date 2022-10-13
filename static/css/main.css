@@ -1098,6 +1098,8 @@ footer ul{
   color: #00b0f0;
   font-size: 1.1em;
   font-weight: 500;
+  display: block;
+  text-align: center;
 }
 .course-container{
   border: 1px solid #00b0f0;
