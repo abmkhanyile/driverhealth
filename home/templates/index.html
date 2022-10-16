@@ -112,7 +112,7 @@
         text-align: center;
     }
 
-  h3{
+  h3, h4, h5{
     max-inline-size: 100%;
   }
 
@@ -212,7 +212,7 @@
             </p>
 
             <div style="text-align: center;">
-              <a href="#" class="btn btn-outline-danger btn-sm">Contact Us</a>
+              <a href="{% url 'contact-us' %}" class="btn btn-outline-danger btn-sm">Contact Us</a>
             </div>
             
           </div>
@@ -336,39 +336,39 @@
           </div>
         </div>
         <div class="col-sm-6">
-          <p>
+          <!-- <p>
             Mostly employers focus on the need to check vehicles regularly for defects and to have them serviced often, but very few ensure that the person driving the vehicle remains healthy.
             <br><br>
             If your business requires employees to drive as part of their work, whether that be in a company car, a heavy goods vehicle or anything in between, then you are responsible for ensuring that those drivers are fit for their roles, and the best way to validate a driver’s health is by conducting a full medical examination.
             <br><br>
             By requiring your drivers to undergo regular health checks, your business demonstrates compliance with health and safety regulations and is better equipped to defend itself if the worst happens and your driver is involved in a collision.
 
-          </p>
+          </p> -->
+          <h4>Our Services include:</h4>
+          <ul style="list-style-type: none; padding-left: 0px; font-size: 1em;">
+            <li>Pre-Employment Health Assessments</li>
+            <li>Periodic Health Assessments</li>
+            <li>Exit Employment Health Assessments</li>
+            <li>Wellness Days</li>
+          </ul>
+          <br>
+          <h4 class="text-info">Full examinations include the following tests:</h4>
+          <ul style="font-size: 1em;">
+            <li>Occupational &amp; Medical history documentation</li>
+            <li>Height, Weight, Blood Pressure &amp; Urine Analysis</li>
+            <li>Lung function test, (FEV1, FVC &amp; FEV / FVC %)</li>
+            <li>Vision screening – Snellen eye test &amp; Keystone screening
+              for operators / drivers</li>
+              <li>Audiometric screening</li>
+              <li>Physical examinations</li>
+          </ul>
+          <div style="text-align: right;">
+            <a href="{% url 'contact-us' %}" class="btn btn-outline-danger btn-sm">Contact Us</a>
+          </div>
+
           
         </div>
-        
-        <div>
-          <br><br>
-          <h3 class="medical-cont">Our comprehensive screening assessment includes:</h3>
-          <div class="medical-cont">
-            
-            <div>
-              <ul>
-                <li>Blood pressure</li>
-                <li>Eyesight</li>
-                <li>Diabetes (Urine test)
-                </li>
-              </ul>
-            </div>
-            <div>
-              <ul>
-                <li>Detailed medical history</li>
-                <li>Review of medications</li>
-                <li>Mental health</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+      
         
       </div>
     </div>
