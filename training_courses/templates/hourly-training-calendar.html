@@ -31,8 +31,8 @@
                 <div class="date-box-container"><div class="date-box"> <span class="wday">{{date.0.day}}</span> <span>{% ret_weekday date.0.weekday %}</span>  </div> {% if date.1|length > 0 %}<div class="led-green"></div>{% endif %} </div> 
                 <div class="tr-times">
                     {% if date.1|length > 0 %}
-                        <span class="times-qty" data-timeslen="{{date.2.0.training_date_times.all|length}}">
-                            {% for time in date.2.0.training_date_times.all %}
+                        <span class="times-qty" data-timeslen="{{date.1.0.ret_training_dates.0.ret_times|length}}">
+                            {% for time in date.1.0.ret_training_dates.0.ret_times %}
                                 <span class="timeobjs" data-timepk="{{time.pk}}" data-time="{{time.time_slot|time:'H:i'}}"></span>
                             {% endfor %}
                         </span>

@@ -49,6 +49,10 @@ class TrainingEvent(models.Model):
     def __str__(self) -> str:
         return self.training_course.course_name
 
+    # returns training dates
+    def ret_training_dates(self):
+        return self.training_event_dates.all()
+
     
 
 
@@ -59,6 +63,10 @@ class TrainingDays(models.Model):
    
     def __str__(self):
         return str(self.training_slot)
+    
+    # returns times 
+    def ret_times(self):
+        return self.training_date_times.all()
 
 
 
@@ -72,6 +80,8 @@ class TrainingTime(models.Model):
 
     def __str__(self):
         return str(self.time_slot)
+
+    
 
 
 # records all booking transactions.

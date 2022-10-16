@@ -114,6 +114,17 @@ class BookTraining(View, ContextMixin):
                     trdate = trtime.date
                     trevent = trdate.event
                     evnt = trevent
+
+                    trbooking = TrainingBooking.objects.filter(client=request.user, training_event=trtime.date.event)
+                    if trbooking.exists():
+                        messages.warning(request, "You've booked {} on {}".format(trtime, trtime.date))
+                        return HttpResponseRedirect(reverse("book-training", kwargs={
+                            'pk': context['course'].pk,
+                            'month': context['curr_month'].month,
+                            'year': context['curr_month'].year,
+                        }))
+
+
                     if evnt.enrollees_num > 0:
                         evnt.enrollees_num -= 1
                         if evnt.enrollees_num == 0:
