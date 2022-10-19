@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'users',
     'dh_dashboard',
     'legal',
+    'driver_requests',
 ]
 
 MIDDLEWARE = [

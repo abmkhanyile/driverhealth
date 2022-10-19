@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Requests List{% endblock %}
+
+{% block css %}
+<style>
+    .shortcut-links-container{
+        display: flex !important;
+        flex-wrap: nowrap;
+        /* justify-content: left; */
+        align-items: center;
+    }
+    .subheader-contianer{
+        color: #fff;
+    }
+</style>
+{% endblock css %}
+
+{% block submenu %}
+{% include 'dashboard-menu.html' %}
+{% endblock submenu %}
+
+{% block entity_name %}
+    <div class="comp_name">{{request.user.company}}</div>
+{% endblock entity_name %}
+{% block dashboard_menu %}    
+    {% include 'dashboard-menu.html' %}
+{% endblock dashboard_menu %} 
+
+{% block content %}
+
+
+    <div class="flex-page universal-padding">
+        {% include 'errors.html' %}
+
+        <table class="table table-responsive table-sm" style="font-size: .85em;">
+            <thead>
+                <th>Request Date</th>
+                <th>Request ID</th>
+                <th>Requested Driver</th>
+                <th>Status</th>
+            </thead>
+            <tbody>
+                {% for req in page_obj %}
+                <tr>
+                    <td>{{req.date_created}}</td>
+                    <td>{{req.req_id}}</td>
+                    <td><a href="{% url 'clientprofile' pk=req.driver.pk %}">{{req.driver.user.dh_id}}</a> </td>
+                    <td><span class="text-info">{{req.ret_last_status.get_status_display}}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% include 'paginator.html' %}
+        
+    </div>
+
+{% endblock %}

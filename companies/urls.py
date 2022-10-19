@@ -6,6 +6,7 @@ from .views import (
     PostedJobs,
     JobApplicants,
     CompanyClientProfile,
+    RequestsList,
 )
 
 urlpatterns = [
@@ -15,4 +16,5 @@ urlpatterns = [
     path('clientprofile/<pk>/', CompanyClientProfile.as_view(), name='clientprofile'),
     path('posted-jobs/', PostedJobs.as_view(), name='posted-jobs'),
     path('job-applicants/<pk>/', JobApplicants.as_view(), name='job-applicants'),
+    path('requests-list', RequestsList.as_view(), name='requests-list'),
 ]

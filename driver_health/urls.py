@@ -52,6 +52,7 @@ urlpatterns = [
     path('training_courses/', include('training_courses.urls')),
     path('dh_dashboard/', include('dh_dashboard.urls')),
     path('legal/', include('legal.urls')),
+    path('driver_requests/', include('driver_requests.urls')),
 ]
 
 

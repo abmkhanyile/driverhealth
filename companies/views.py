@@ -17,6 +17,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.conf import settings
 from dhclients.views import ClinetProfile
+from driver_requests.forms import DriverRequestForm
+from driver_requests.models import Driver_Request, RequestStatus
 
 
 class Dashboard(View, ContextMixin):
@@ -183,9 +185,33 @@ class CompanyClientProfile(ClinetProfile):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        driver_req = Driver_Request.objects.filter(driver=context['client'], company=self.request.user.company, closed=False)
+        
+        if driver_req.exists():
+            context['driver_req'] = driver_req
+        
+
+        context['reqform'] = DriverRequestForm()
         return context
 
     def get(self, request, **kwargs):
         # if not request.user.is_dhclient():
         #     raise PermissionDenied
+        return render(request, self.template_name, self.get_context_data())
+
+# displays a list of all requests.
+class RequestsList(View, ContextMixin):
+    template_name = "requests-list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        driver_req = Driver_Request.objects.filter(company=self.request.user.company)
+        paginator = Paginator(driver_req, 25) # Show 25 jobs per page.
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context['page_obj'] = page_obj
+
+        return context
+
+    def get(self, request, **kwargs):
         return render(request, self.template_name, self.get_context_data())
