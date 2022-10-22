@@ -40,9 +40,12 @@ class RequestStatus(models.Model):
         (5, 'All necessary checks done (i.e. criminal, medical, etc)'),
         (6, 'Driver employed'),
         (7, 'Other'),
+        (8, 'Request Accepted'),
+        (9, 'Request Rejected'),
     ]
     status = models.SmallIntegerField(choices=STATUS, blank=False)
     driver_req = models.ForeignKey('driver_requests.Driver_Request', related_name="request_statuses", on_delete=models.CASCADE, blank=False)
+    note = models.CharField(max_length=150, blank=True, null=True)
     date_created = models.DateTimeField(default=timezone.now, blank=False)
 
     class Meta:

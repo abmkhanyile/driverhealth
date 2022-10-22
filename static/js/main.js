@@ -365,3 +365,17 @@ function changeImg(change) {
   getLatestOpenedImg = calNewImg;
 }
 // end of gallery js
+
+// checks if "Other" was selected from a dropdown of statuses for requested drivers.
+function check_status(elem){
+  if(elem.value == "7"){
+    let note_input = document.getElementById("status-note")
+    note_input.disabled = false
+    note_input.required = true
+  }else{
+    let note_input = document.getElementById("status-note")
+    note_input.disabled = true
+    note_input.required = false
+    note_input.value = ''
+  }
+}

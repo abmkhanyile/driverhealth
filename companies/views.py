@@ -188,7 +188,7 @@ class CompanyClientProfile(ClinetProfile):
         driver_req = Driver_Request.objects.filter(driver=context['client'], company=self.request.user.company, closed=False)
         
         if driver_req.exists():
-            context['driver_req'] = driver_req
+            context['driver_req'] = driver_req[0]
         
 
         context['reqform'] = DriverRequestForm()

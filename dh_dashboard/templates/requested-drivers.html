@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Requests List{% endblock %}
+{% load training_tags %}
+{% block title %}Requested Drivers{% endblock %}
 
 {% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard_calendar.css' %}"/>
 <style>
     .shortcut-links-container{
         display: flex !important;
@@ -13,31 +16,34 @@
     .subheader-contianer{
         color: #fff;
     }
+
+
 </style>
 {% endblock css %}
 
 {% block submenu %}
-{% include 'dashboard-menu.html' %}
+{% include 'dhdashboard-menu.html' %}
 {% endblock submenu %}
 
 {% block entity_name %}
     <div class="comp_name">{{request.user.company}}</div>
 {% endblock entity_name %}
 {% block dashboard_menu %}    
-    {% include 'dashboard-menu.html' %}
+    {% include 'dhdashboard-menu.html' %}
 {% endblock dashboard_menu %} 
 
 {% block content %}
 
+    
 
-    <div class="flex-page universal-padding">
+    <div class="universal-padding">
         {% include 'errors.html' %}
-
-        <table class="table table-responsive table-sm" style="font-size: .85em;">
+    
+        <table class="table table-responsive">
             <thead>
-                <th>Request Date</th>
+                <th>Date</th>
                 <th>Request ID</th>
-                <th>Requested Driver</th>
+                <th>Driver</th>
                 <th>Request Type</th>
                 <th>Status</th>
             </thead>
@@ -45,16 +51,17 @@
                 {% for req in page_obj %}
                 <tr>
                     <td>{{req.date_created}}</td>
-                    <td>{{req.req_id}}</td>
-                    <td><a href="{% url 'clientprofile' pk=req.driver.pk %}">{{req.driver.user.dh_id}}</a> </td>
+                    <td><a href="{% url 'driver-req' pk=req.pk %}">{{req.req_id}}</a> </td>
+                    <td>{{req.driver.user.get_full_name}}</td>
                     <td>{{req.get_employment_type_display}}</td>
-                    <td><span class="text-info">{{req.ret_last_status.get_status_display}}</span></td>
+                    <td>{{req.ret_last_status.get_status_display}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         {% include 'paginator.html' %}
-        
+     
     </div>
 
 {% endblock %}
+

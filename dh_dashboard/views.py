@@ -21,6 +21,8 @@ from django.core.paginator import Paginator
 from django.core.exceptions import PermissionDenied
 from countries.models import Country
 from dhclients.views import ClinetProfile
+from driver_requests.models import Driver_Request, RequestStatus
+from driver_requests.forms import DRStatusForm
 
 TIMEZONE  = pytz.timezone(settings.TIME_ZONE)
 
@@ -153,3 +155,79 @@ class AddRemark(View, ContextMixin):
 
         messages.success(request, "DH Remarks added successfully...")
         return HttpResponseRedirect(reverse('driverprofile', kwargs={'pk': context['client'].pk}))
+
+
+# this view displays all driver requests made made by companies.
+class RequestedDrivers(View, ContextMixin):
+    template_name = "requested-drivers.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        driver_reqs = Driver_Request.objects.all()
+        paginator = Paginator(driver_reqs, 25) # Show 25 clients per page.
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context['page_obj'] = page_obj
+        return context
+
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+# displays the actual request.
+class DriverReq(View, ContextMixin):
+    template_name = "driver-req.html"
+    form_class = DRStatusForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        req = Driver_Request.objects.get(pk=self.kwargs['pk'])
+        context['req'] = req
+        request_statuses = req.request_statuses.all()
+      
+        paginator = Paginator(request_statuses, 25) # Show 25 clients per page.
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context['page_obj'] = page_obj
+     
+        context['status_form'] = self.form_class()
+        return context
+
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+    def post(self, request, **kwargs):
+        context = self.get_context_data()
+        statusform = self.form_class(request.POST)
+
+        if statusform.is_valid():
+            status = statusform.save(commit=False)
+            status.driver_req = context['req']
+            status.save()
+            messages.success(request, "Status captured successfully.")
+            return HttpResponseRedirect(reverse("driver-req", kwargs={'pk': context['req'].pk}))
+
+# accepts a driver request.
+class AcceptRequest(View, ContextMixin):
+    def get(self, request, **kwargs):
+        if not request.user.is_staff == True:
+            raise PermissionDenied
+        req = Driver_Request.objects.get(pk=kwargs['pk'])
+        req.access_granted = True
+        req.save()
+        RequestStatus.objects.create(status=8, driver_req=req)
+        messages.success(request, "Request Accepted")
+        return HttpResponseRedirect(reverse("driver-req", kwargs={'pk': req.pk}))
+
+
+# accepts a driver request.
+class RejectRequest(View, ContextMixin):
+    def get(self, request, **kwargs):
+        if not request.user.is_staff == True:
+            raise PermissionDenied
+        req = Driver_Request.objects.get(pk=kwargs['pk'])
+        req.access_granted = False
+        req.save()
+        RequestStatus.objects.create(status=9, driver_req=req)
+        messages.success(request, "Request Rejected")
+        return HttpResponseRedirect(reverse("driver-req", kwargs={'pk': req.pk}))
+        

@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
@@ -17,6 +18,7 @@ class Company(models.Model):
     address = models.CharField(max_length=500, blank=False)
     country = models.ForeignKey('countries.Country', on_delete=models.CASCADE, blank=False)
     note = models.CharField(max_length=500, blank=True)
+    driver_requests_limit = models.SmallIntegerField(default=10, blank=False)
     creation_date = models.DateTimeField(default=timezone.now, blank=False)
 
     class Meta:

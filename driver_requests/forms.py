@@ -1,5 +1,5 @@
 from django import forms
-from .models import Driver_Request
+from .models import Driver_Request, RequestStatus
 
 # handles the creation of requests.
 class DriverRequestForm(forms.ModelForm):
@@ -26,3 +26,33 @@ class DriverRequestForm(forms.ModelForm):
                 
             })
         }
+
+# handles the capturing of a request status.
+class DRStatusForm(forms.ModelForm):
+
+    class Meta:
+        model = RequestStatus
+        exclude = (
+            'driver_req',
+            'date_created',
+        )
+        fields = (
+            'status',
+            'note',
+        )
+        widgets = {
+            'status': forms.Select(attrs={
+                'class': 'form-control status-dropdown',
+                'id': 'statuses_id',
+                'onchange': 'check_status(this)',
+            }),
+            'note': forms.TextInput(attrs={
+                'class': 'form-control',
+                'id': 'status-note',
+                'disabled': True,
+                'placeholder': 'Enter Request Status',
+                'aria-label': "Recipient's username",
+                'aria-describedby': "button-addon2",
+            }),
+        }
+    

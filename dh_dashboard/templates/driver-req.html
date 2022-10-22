@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+{% load training_tags %}
+{% block title %}Driver Request{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard_calendar.css' %}"/>
+<style>
+    .shortcut-links-container{
+        display: flex !important;
+        flex-wrap: nowrap;
+        /* justify-content: left; */
+        align-items: center;
+    }
+    .subheader-contianer{
+        color: #fff;
+    }
+
+
+</style>
+{% endblock css %}
+
+{% block submenu %}
+{% include 'dhdashboard-menu.html' %}
+{% endblock submenu %}
+
+{% block entity_name %}
+    <div class="comp_name">{{request.user.company}}</div>
+{% endblock entity_name %}
+{% block dashboard_menu %}    
+    {% include 'dhdashboard-menu.html' %}
+{% endblock dashboard_menu %} 
+
+{% block content %}
+
+    
+
+    <div class="universal-padding">
+        {% include 'errors.html' %}
+    
+
+        <div class="req-container">
+            <div class="resp-btns">
+                {% if req.access_granted == False %}
+                <a href="{% url 'accept-req' pk=req.pk %}" class="btn btn-success btn-sm text-white">Grant Access</a>
+                {% else %}
+                <span class="text-secondary">Access Granted</span>
+                {% endif %}
+
+                {% if req.access_granted == False %}
+                <a href="{% url 'reject-req' pk=req.pk %}" class="btn btn-secondary btn-sm text-white">Reject Access</a>
+                {% else %}
+                <a href="{% url 'reject-req' pk=req.pk %}" class="btn btn-danger btn-sm text-white">Revoke Access</a>
+                {% endif %}
+            </div>
+            <table class="table table-responsive table-sm">
+                <tr>
+                    <td class="tdheader">Date</td>
+                    <td colspan="3">{{req.date_created}}</td>
+                </tr>
+                <tr>
+                    <td class="tdheader">Request ID</td>
+                    <td colspan="3">{{req.req_id}}</td>
+                </tr>
+                <tr>
+                    <td class="tdheader">Company</td>
+                    <td>{{req.company}}</td>
+                    <td class="tdheader">Driver</td>
+                    <td><a href="{% url 'driverprofile' pk=req.driver.pk %}">{{req.driver}}</a> </td>
+                </tr>
+            </table>
+            <div class="status-cont">
+                <form method="post" action="/dh_dashboard/driver-req/{{req.pk}}/">{% csrf_token %}
+                    
+                    <div class="input-group mb-3">
+                        <!-- <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Select Status</button> -->
+                        {{status_form.status}}
+                        {{status_form.note}}
+                        <button class="btn btn-secondary" type="submit" id="button-addon2">Add Status</button>
+                      </div>
+                </form>
+                <div class="status-box">
+                    <table class="table table-responsive table-sm table-borderless" style="font-size: .8em;">
+                        {% for reqstatus in page_obj %}
+                        <tr>
+                            <td style="width: 20%;">{{reqstatus.date_created|date:"SHORT_DATE_FORMAT"}} {{ reqstatus.date_created|time:"H:i" }}</td>
+                            <td>
+                                {% if reqstatus.status == 7 %}
+                                {{reqstatus.note}}
+                                {% else %}
+                                {{reqstatus.get_status_display}}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        
+                        {% endfor %}
+                    </table>
+                    {% include 'paginator.html' %}
+                </div>
+            </div>
+           
+        </div>
+     
+    </div>
+
+{% endblock %}
+

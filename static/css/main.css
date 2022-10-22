@@ -1149,3 +1149,35 @@ footer ul{
   align-items: center;
   justify-content: center;
 }
+
+/* formats for driver request container div */
+.req-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  /* background-color: #c8bee0; */
+}
+
+.tdheader{
+  font-size: 1em;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #00b0f0;
+}
+
+.status-cont{
+  background-color: blanchedalmond;
+  padding: 5px;
+  min-width: 50%;
+  min-height: 200px;
+  border-radius: 5px;
+}
+
+.status-box{
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #fff;
+  min-height: 200px;
+}
+
