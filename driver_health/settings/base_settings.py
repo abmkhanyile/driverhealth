@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'dh_dashboard',
     'legal',
     'driver_requests',
+    'django_celery_beat',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -350,3 +352,7 @@ CKEDITOR_CONFIGS = {
         ]),
     }
 }
+
+CELERY_BROKER_URL = os.environ.get('REDIS_URI')
+
+CELERY_RESULT_BACKEND = "django-db"

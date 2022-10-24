@@ -61,7 +61,6 @@ class BookTraining(View, ContextMixin):
             else:
                 data.append(datestr + () + ())
         
-        print("data contents ", data)
         context['data'] = data              
         context['calendar_dates'] = _calendar.itermonthdates(_year, _month)
         
