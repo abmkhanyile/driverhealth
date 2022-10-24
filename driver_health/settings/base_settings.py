@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     'dh_dashboard',
     'legal',
     'driver_requests',
-    'celery',
     'django_celery_beat',
     'django_celery_results',
 ]
