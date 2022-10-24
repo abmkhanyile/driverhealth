@@ -353,6 +353,6 @@ CKEDITOR_CONFIGS = {
     }
 }
 
-CELERY_BROKER_URL = os.environ.get('REDIS_URI')
+CELERY_BROKER_URL = os.environ.get('REDIS_URL')
 
 CELERY_RESULT_BACKEND = "django-db"
