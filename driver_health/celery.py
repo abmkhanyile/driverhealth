@@ -12,3 +12,8 @@ app = Celery('driver_health', broker=settings.CELERY_BROKER_URL)
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
 app.autodiscover_tasks()
+
+
+@app.task(bind=True)
+def debug_task(self):
+    print(f'Request: {self.request!r}')
