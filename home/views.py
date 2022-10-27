@@ -4,6 +4,7 @@ from .models import AnimatedText
 
 from careers.models import Job
 from django.utils import timezone
+from contact_us.forms import ContactForm
 
 
 # displays the homepage.
@@ -16,6 +17,7 @@ class Home(ContextMixin, View):
         jobs = list(Job.objects.filter(active_listing=True, closing_date__gte=timezone.now()))
         context['available_jobs'] = jobs[:12]
         context['current_date'] = timezone.now()
+        context['contact_form'] = ContactForm()
         return context
 
     def get(self, request, **kwargs):

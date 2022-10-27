@@ -1,0 +1,470 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+  #header_section{
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  #home-video {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: -12;
+  }
+
+  .home-ovelay{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgb(0,0,0,.7);
+    z-index: -10;
+  }
+  #main-content{
+    opacity: 1 !important;
+  }
+
+  .advertising_txt{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 350px;
+    text-align: center;
+    position: relative;
+    z-index: 5;
+  }
+
+  .home-text-container{
+    position: relative;
+  }
+  .home-text{
+    color: #fff;
+    letter-spacing: 1px;
+  }
+  .home-text-sm{
+    color: #00b0f0;
+    letter-spacing: 1px;
+  }
+
+  .home-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .home-img-container{
+    height: 350px;
+    overflow: hidden;
+        
+    /* grid-gap: 10px; */
+  }
+
+
+  .code14-container{
+    padding: 5px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 10px;
+  }
+
+  .home-btns{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .seemore a{
+    display: block;
+    text-align: center;
+    color: #00b0f0 !important;
+  }
+
+
+  .joblink{
+    color:#fff !important;
+  }
+
+  .joblink:hover{
+    color: #000 !important;
+  }
+
+  .course-container > div > ul > li{
+    font-size: .85em;
+  }
+
+  .course-container > div > p{
+    font-size: .9em;
+  }
+
+  p{
+        max-inline-size: 100% !important;
+        font-size: 1em;
+        text-align: center;
+    }
+
+  h3, h4, h5{
+    max-inline-size: 100%;
+  }
+
+  .page-title-subtext{
+    text-align: center;
+    font-size: 1.4em;
+    color: #1c1a1a;
+    margin-bottom: 25px;
+  }
+
+  .emb-header{
+    font-size: 1.4em;
+    color: #00b0f0;
+  }
+
+  .medical-cont{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+ 
+ 
+</style>
+
+{% endblock css %}
+
+{% block content %}
+
+
+<video autoplay muted loop id="home-video">
+  <source src="{% static 'media/images/home-video.mp4' %}" type="video/mp4">
+  Your browser does not support HTML5 video.
+</video>
+<div class="home-ovelay"></div>
+<div class="home-container universal-padding">
+  
+    <div class="row">
+        <div class="col-sm-7">
+          <div class="advertising_txt">
+            {% for home_text in animated_txt %}
+            <div class="home-text-container" style="display: none;">
+                <h1 class="home-text animate__animated animate__fadeInDown" style="font-size: 2.5em; text-shadow: 2px 2px 8px #000;">{{home_text.line1|safe}}</h1>
+                <h3 class="home-text-sm animate__animated animate__fadeInUp" style="font-size: 2.0em; text-shadow: 2px 2px 8px #000;">{{home_text.line2|safe}}</h3>
+            </div>
+            {% endfor %} 
+          </div>
+
+          <div class="home-btns">
+              <a href="#" class="frontpage_btn text-white"  onclick="" style="float: left;">READ MORE</a>
+              <a href="#" class="frontpage_btn text-white"  onclick="" style="float: left;">BOOK TEST</a>
+          </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="side-info">
+              <h4 class="text-white" style="letter-spacing: 1px; text-align: center;">Available Jobs</h4>
+              
+              <table class="table table-responsive table-sm text-white">
+                <thead>
+                    <th>Description</th>
+                    <th>Post Date</th>
+                    <th>Closing Date</th>
+                </thead>
+                <tbody class="text-white" style="font-size: .85em;">
+                  {% for job in available_jobs %}
+                    <tr>
+                        <td><a class="joblink" href="{% url 'job' pk=job.pk %}">{{job.job_title|truncatechars:40}}</a> </td>
+                        <td>{{job.date_created|date:"d.m.Y"}}</td>
+                        <td>{{job.closing_date|date:"d.m.Y"}}</td>
+                    </tr>
+                  {% empty %}
+                      <span class="text-danger">No available job opportunities currently</span>
+                  {% endfor %}
+                                       
+                </tbody>
+            </table>
+            {% if available_jobs|length_is:"12" %}
+            <span class="seemore"><a href="{% url 'jobs-list' %}">See More &#8250;</a> </span>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+  </div>
+
+   
+  
+  <div id="page-contents" class="universal-padding">
+    <div class="page-segment">
+        <h4 class="mt-4 page-title">Welcome to DriverHealth</h4>
+        <h3 class="page-title-subtext">Your Leading Partner in Truck Driver Training</h3>
+        <div class="row">
+          <div class="col-sm-6">
+            <p>DriverHealth provides quality driver training for light and heavy-duty vehicles for the experienced and beginner driver in a professional manner and at an affordable rate to members of the public and corporate organizations – to produce safe, healthy, and responsible drivers for the transport and logistics industry in South Africa and beyond.
+              <br><br>
+              Currently there are just a few accredited truck driver training schools offering professional training to truck drivers. Almost none of these schools have the correct training equipment needed to produce quality drivers and their training fees are out of reach for many.
+              <br><br>
+              We make use of the E-Learn training program, truck training simulators, and Superlink trucks for on-road training. When trainees prove competent, they are then be put on trucks with qualified drivers for a certain period. This provides trainees with the much-needed on-the-road experience, preparing them for full time employment.
+            </p>
+
+            <div style="text-align: center;">
+              <a href="{% url 'contact-us' %}" class="btn btn-outline-danger btn-sm">Contact Us</a>
+            </div>
+            
+          </div>
+          <div class="col-sm-6">
+            <div class="home-img-container">
+              <img src="https://ik.imagekit.io/2mjln4gew/media/images/truckimg_hp.jfif" class="home-img" />
+
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <hr>
+    <div class="page-segment">
+      <h4 class="mt-4 page-title">Our Training Plan</h4>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="home-img-container">
+            <img src="https://ik.imagekit.io/2mjln4gew/media/images/tuckimg_hp2.webp" class="home-img" />
+          </div>
+        </div>
+        <div class="col-sm-6">
+                    
+            <div class="hp-subsection">
+              <span class="inner-header"> E-Learning</span>
+              <p>
+                This develops the theoretical base knowledge of the trainee. Teaches the trainee the theory, vehicle basics and terminology.
+
+              </p>
+              <span class="inner-header"> Truck Inspection Trainer</span>
+              <p>
+                This teaches the trainee how to perform pre-trip and post-trip vehicle inspections and how to report the findings.
+
+              </p>
+              <span class="inner-header">Advanced Training Truck Simulator </span>
+              <p>
+                This develops the driving skills of the trainee in a focused, rapid, and comprehensive way. Our integrated driver training program addresses basic to advanced topics including reversing, parking, docking, risky situations, crash avoidance with other vehicles, pedestrians, and animals, as well as driving in adverse weather, at night, hauling oversize or overweight loads, and much more.
+
+              </p>
+              <span class="inner-header">Superlink Truck </span>
+              <p>
+                This gives the trainee the opportunity to transfer the skills learnt from the E-learning, the truck inspection trainer, and the advanced truck training simulator into reality.
+
+              </p>
+            </div>
+            
+          
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="page-segment">
+      <h4 class="mt-4 page-title">Training</h4>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="listcont">
+            <h5 class="embedded-header mt-3">WHAT WE OFFER</h5>
+            <ul style="font-size: .95em;">
+              <li>Beginner (Novice) code 14 truck driver training </li>
+              <li>Beginner (Novice) code 10 truck driver training </li>
+              <li>Upskilling drivers from code 10 to code 14</li>
+              <li>Defensive and professional truck driving training</li>
+              <li>Periodic driver refresher training</li>
+              <li>Convey dangerous goods training</li>
+              <li>Fatigue management</li>
+              <li>Rollover prevention</li>
+              <li>Economic driving</li>
+              <li>Road safety</li>
+              <li>Speed management</li>
+              <li>Route assessments</li>
+              <li>In-cab assessments</li>
+              <li>Other training – basic first-aid, basic firefighting etc.</li>
+              <li>Driver medical examinations</li>
+              <li>Learnership programs</li>
+              <li>Employment opportunities</li>
+            </ul>
+            <div style="text-align: center;">
+              <a href="{% url 'courses' %}" class="btn btn-outline-danger btn-sm">View Courses</a>
+            </div>
+          </div>
+                    
+        </div>
+        <div class="col-sm-6">
+          <div class="home-img-container">
+            <img src="https://ik.imagekit.io/2mjln4gew/media/images/DriverTraining7.jfif" class="home-img" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="page-segment">
+      <div class="emb-header">Why do truck drivers need training?</div>
+      <p>The majority of other road users truck drivers will encounter when driving will be non-professional drivers who will not have as much training as they do. Professional drivers need to be courteous and drive in a defensive manner. Driving in such a manner encourages a more tolerant attitude towards the Road Transport Industry and people employed in it.</p>
+      <div class="emb-header">Definition of a Defensive Driver</div>
+      <p>A defensive truck driver is one who not only avoids causing accidents, but also avoids becoming involved in accidents caused by other road users. Trained truck drivers know and observe the laws and regulations relating to the road, the vehicles they drive, and the goods they are transporting. Being technically or legally in the right is no compensation for the death, injury, or property damage that road accidents can cause. The defensive truck driver is prepared to give way to avoid the possibility of an accident, even if by law, the other motorist is at fault.</p>
+      <h3 class="page-title-subtext">Do not take driver training for granted!</h3>
+      <h5>Talk to our team today on 086 100 5164</h5>
+      <h5>info@driverhealth.co.za</h5>
+      <h3 class="emb-header">WHAT MAKES US UNIQUE?</h3>
+      <h6 style="text-align: center;">South Africa’s leading truck driver training school</h6>
+      <h6>Fully equipped training facility</h6>
+      <h6>Affordable training fees</h6>
+      <h6>Accredited trainers</h6>
+      <h6>Personalised training</h6>
+    </div>
+
+    <hr>
+
+    
+    <div class="page-segment">
+      <h4 class="mt-2 page-title">Driver Fitness</h4>
+      <h3 class="page-title-subtext">Medical Screenings</h3>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="home-img-container">
+            <img src="https://ik.imagekit.io/2mjln4gew/media/images/HealthCheck.jpg" class="home-img" />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <!-- <p>
+            Mostly employers focus on the need to check vehicles regularly for defects and to have them serviced often, but very few ensure that the person driving the vehicle remains healthy.
+            <br><br>
+            If your business requires employees to drive as part of their work, whether that be in a company car, a heavy goods vehicle or anything in between, then you are responsible for ensuring that those drivers are fit for their roles, and the best way to validate a driver’s health is by conducting a full medical examination.
+            <br><br>
+            By requiring your drivers to undergo regular health checks, your business demonstrates compliance with health and safety regulations and is better equipped to defend itself if the worst happens and your driver is involved in a collision.
+
+          </p> -->
+          <h4>Our Services include:</h4>
+          <ul style="list-style-type: none; padding-left: 0px; font-size: 1em;">
+            <li>Pre-Employment Health Assessments</li>
+            <li>Periodic Health Assessments</li>
+            <li>Exit Employment Health Assessments</li>
+            <li>Wellness Days</li>
+          </ul>
+          <br>
+          <h4 class="text-info">Full examinations include the following tests:</h4>
+          <ul style="font-size: 1em;">
+            <li>Occupational &amp; Medical history documentation</li>
+            <li>Height, Weight, Blood Pressure &amp; Urine Analysis</li>
+            <li>Lung function test, (FEV1, FVC &amp; FEV / FVC %)</li>
+            <li>Vision screening – Snellen eye test &amp; Keystone screening
+              for operators / drivers</li>
+              <li>Audiometric screening</li>
+              <li>Physical examinations</li>
+          </ul>
+          <div style="text-align: right;">
+            <a href="{% url 'contact-us' %}" class="btn btn-outline-danger btn-sm">Contact Us</a>
+          </div>
+
+          
+        </div>
+      
+        
+      </div>
+    </div>
+
+    <hr>
+    <div class="page-segment">
+      <h4 class="mt-2 page-title">Careers</h4>
+                    
+            <div class="row">
+                <div class="col-sm-6 mb-2">
+                    <div class="available-container">
+                        
+                        <h5>Available Jobs</h5>
+                        <p style="text-align: center; font-size: .95em;">
+                            Demand for truck drivers is very high and trucking companies are always looking for reliable and hard working drivers. If you think you have what it takes, register and upload your CV.
+                        </p>
+                    
+                        <h5 class="text-info">What you will need</h5>
+                        <div class="listcontainer" style="font-size: .95em;">
+                            <span style="display: block;">A valid truck driver's licence</span>
+                            <span style="display: block;">A valid PrDP / Medical Certificate</span>
+                            <span style="display: block;">Work history with traceable references</span>
+                            <span style="display: block;">A clear criminal record</span>
+                            <span style="display: block;">Proof of additional truck driver training attained</span>
+                        </div>
+                        <br>
+                        <p style="text-align: center; font-size: .95em">Boost your employability by getting the training you need and we can help you through our Truck Driver Training Academy</p>
+                        
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="internship-container">
+                        
+                            <h5 style="text-align: center;">Companies</h5>
+                                                          
+                            <p class="text-dark" style="text-align: center; font-size: .95em;">
+                                                                  
+                                    Are you looking to employ drivers on a temporary or permanent basis? Look no further, we have trained and experienced truck drivers around the country in search of employment. 
+                                    <br><br>
+                                    To ensure that you get exceptional drivers, we identify suitable candidates, we conduct all necessary checks and assessments, and we take candidates through our inhouse driver training program that offers advanced driver training. To view available drivers please click the button below.
+                            </p>
+                            <br><br>
+                            <a href="{% url 'jobs-list' %}">View Available Jobs</a>
+                            {% if request.user.is_company %}
+                            <a href="{% url 'client-list' %}">View Available Drivers</a>
+                            {% endif %}
+                    </div>
+                </div>
+            </div>
+    </div>
+
+ 
+
+
+  </div>
+
+ 
+  
+
+
+    
+  
+    
+    
+
+  
+   
+
+
+{% endblock content %}
+
+
+{% block js %}
+
+    <script type="text/javascript">
+        // implementation of the text animation in the homepage.
+        const text_strings = document.getElementsByClassName("home-text-container");
+        let index = 0;    //holds the index of individual text containers
+
+        function displayText(){
+        for(let i = 0; i < text_strings.length; i++){
+            text_strings[i].style.display = 'none';
+        }
+        text_strings[index].style.display = 'block';
+
+        if(index == text_strings.length-1){
+            index = 0;
+        }else{
+            index++;
+        }
+
+        setTimeout(displayText, 6000);
+        }
+
+        window.onload = displayText;
+    </script>
+
+{% endblock js %}
+

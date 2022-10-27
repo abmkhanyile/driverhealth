@@ -4,16 +4,17 @@
 
 {% block css %}
 <style>
-    p{
-        max-inline-size: 100% !important;
-    }
+
 </style>
 {% endblock css %}
+{% block page_header %}{% include 'page-header.html' with pagetitle="Gallery" only %}{% endblock page_header %}
+
 
 {% block content %}
 
 
-    <div class="universal-padding">
+<div class="container-xxl py-5">
+    <div class="container">
        <h4>Gallery</h4>
     
                   <div class="photos-container">
@@ -33,6 +34,7 @@
      
  
     </div>
+</div>
 
 {% endblock %}
 

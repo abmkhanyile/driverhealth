@@ -8,10 +8,13 @@
 </style>
 {% endblock css %}
 
+{% block page_header %}{% include 'page-header.html' with pagetitle="Register" only %}{% endblock page_header %}
+
 {% block content %}
 
 
-    <div class="universal-padding">
+<div class="container-xxl py-5">
+    <div class="container">
         {% include 'errors.html' %}
 
         <div class="formcontainer">
@@ -79,6 +82,7 @@
         </div>
 
     </div>
+</div>
 
 {% endblock %}
 

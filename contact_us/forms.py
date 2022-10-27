@@ -10,12 +10,9 @@ class ContactForm(forms.ModelForm):
         fields = '__all__'
 
         widgets = {
-            'name': forms.TextInput(attrs={
+            'full_name': forms.TextInput(attrs={
                 'class': 'form-control'
-            }),
-            'surname': forms.TextInput(attrs={
-                'class': 'form-control'
-            }),
+            }),          
             'email': forms.EmailInput(attrs={
                 'class': 'form-control'
             }),
@@ -23,7 +20,8 @@ class ContactForm(forms.ModelForm):
                 'class': 'form-control'
             }),
             'message': forms.Textarea(attrs={
-                'class': 'form-control'
+                'class': 'form-control cf-textarea',
+                'id': 'message',
             }),
         }
 

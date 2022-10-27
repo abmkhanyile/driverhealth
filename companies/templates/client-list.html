@@ -5,6 +5,12 @@
 
 {% block css %}
 <style>
+
+    .topheader{
+        position: relative;
+        background-color: #000 !important;
+        /* margin-bottom: 20px; */
+    }
       .shortcut-links-container{
         display: flex !important;
         flex-wrap: nowrap;
@@ -52,6 +58,8 @@
 
 
     <div class="universal-padding">
+        <div><span class="text-danger">{{request.user.company.driver_requests_limit}} Available Requests</span></div>
+
         <div class="filter-container">
             <div class="countries-container">
                 {% for country in countries %}
@@ -72,7 +80,9 @@
                 </form>
             </div>
             
+            
         </div>
+
 
         <ul style="list-style-type: none; padding-left: 0px;">
             {% for client in page_obj %}

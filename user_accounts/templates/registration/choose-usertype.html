@@ -12,11 +12,14 @@
     }
 </style>
 {% endblock css %}
+{% block page_header %}{% include 'page-header.html' with pagetitle="Choose Account Type" only %}{% endblock page_header %}
 
 {% block content %}
 
+<div class="container-xxl py-5">
+    <div class="container">
 
-    <div class="contdiv universal-padding">
+    
         {% include 'errors.html' %}
 
         
@@ -33,6 +36,9 @@
             </form> 
         </div>
 
+    
+
+    </div>
     </div>
 
 {% endblock %}

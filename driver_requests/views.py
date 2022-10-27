@@ -18,6 +18,11 @@ class RequestDriver(View, ContextMixin):
 
     def post(self, request, **kwargs):
         context = self.get_context_data()
+        company = request.user.company
+        if company.driver_requests_limit <= 0:
+            messages.warning(request, "You've reached your daily limit for driver requests.")
+            return HttpResponseRedirect(reverse("clientprofile", kwargs={'pk': context['driver'].pk}))
+
         reqform = DriverRequestForm(request.POST)
     
         driver_req = Driver_Request.objects.filter(driver=context['driver'], company=request.user.company, closed=False)
@@ -30,9 +35,11 @@ class RequestDriver(View, ContextMixin):
         if reqform.is_valid():
             dreq = reqform.save(commit=False)
             dreq.driver = context['driver']
-            dreq.company = request.user.company
+            dreq.company = company
             dreq.req_id = random.randint(100000000000,999999999999)
             dreq.save()
+            company.driver_requests_limit -= 1
+            company.save()
             RequestStatus.objects.create(status=1, driver_req=dreq)
             messages.success(request, "Your request was sent successfully.")
             return HttpResponseRedirect(reverse("clientprofile", kwargs={'pk': context['driver'].pk}))

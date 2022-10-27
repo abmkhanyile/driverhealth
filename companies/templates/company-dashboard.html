@@ -4,18 +4,23 @@
 
 {% block css %}
 <style>
-    .shortcut-links-container{
-        display: flex !important;
-        flex-wrap: nowrap;
-        /* justify-content: left; */
-        align-items: center;
-    }
-    .subheader-contianer{
-        color: #fff;
-    }
+.topheader{
+    position: relative;
+    background-color: #000 !important;
+    /* margin-bottom: 20px; */
+}
+
+.shortcut-links-container{
+    display: flex !important;
+    flex-wrap: nowrap;
+    /* justify-content: left; */
+    align-items: center;
+}
     
 </style>
 {% endblock css %}
+
+
 
 {% block submenu %}
 {% include 'dashboard-menu.html' %}
@@ -31,7 +36,8 @@
 {% block content %}
 
 
-    <div class="universal-padding">
+<div class="container-xxl py-5">
+    <div class="container">
         <div class="row">
            <div class="col-sm-4">
             <div class="bg-secondary text-white p-3" style="border-radius: 10px;">
@@ -83,5 +89,6 @@
            </div>
         </div>
     </div>
+</div>
 
 {% endblock %}

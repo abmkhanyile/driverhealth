@@ -8,79 +8,83 @@
 </style>
 {% endblock css %}
 
+{% block page_header %}{% include 'page-header.html' with pagetitle="Company Registration" only %}{% endblock page_header %}
+
 {% block content %}
 
+<div class="container-xxl py-5">
+    <div class="container">
+        <form method="post" action="/user_accounts/company-registration/">{% csrf_token %}
 
-    <div class="universal-padding">
-        <div class="formcontainer">
-            <form method="post" action="/user_accounts/company-registration/">{% csrf_token %}
+            {{ company_form.company_name.errors }}
+            <label for="{{ company_form.company_name.id_for_label }}" class="mb-0">Company Name <span class="required">*</span></label>
+            {{ company_form.company_name }}
 
-                {{ company_form.company_name.errors }}
-                <label for="{{ company_form.company_name.id_for_label }}" class="mb-0">Company Name <span class="required">*</span></label>
-                {{ company_form.company_name }}
+            {{ company_form.company_reg_num.errors }}
+            <label for="{{ company_form.company_reg_num.id_for_label }}" class="mb-0 mt-4">Company Registration Number <span class="required">*</span></label>
+            {{ company_form.company_reg_num }}
 
-                {{ company_form.company_reg_num.errors }}
-                <label for="{{ company_form.company_reg_num.id_for_label }}" class="mb-0 mt-4">Company Registration Number <span class="required">*</span></label>
-                {{ company_form.company_reg_num }}
+            {{ company_form.vat_num.errors }}
+            <label for="{{ company_form.vat_num.id_for_label }}" class="mb-0 mt-4">VAT Number <span class="required">*</span></label>
+            {{ company_form.vat_num }}
 
-                {{ company_form.vat_num.errors }}
-                <label for="{{ company_form.vat_num.id_for_label }}" class="mb-0 mt-4">VAT Number <span class="required">*</span></label>
-                {{ company_form.vat_num }}
+            {{ company_form.contact_person.errors }}
+            <label for="{{ company_form.contact_person.id_for_label }}" class="mb-0 mt-4">Contact Person <span class="required">*</span></label>
+            {{ company_form.contact_person }}
 
-                {{ company_form.contact_person.errors }}
-                <label for="{{ company_form.contact_person.id_for_label }}" class="mb-0 mt-4">Contact Person <span class="required">*</span></label>
-                {{ company_form.contact_person }}
+            {{ company_form.contact_num1.errors }}
+            <label for="{{ company_form.contact_num1.id_for_label }}" class="mb-0 mt-4">Contact Number <span class="required">*</span></label>
+            {{ company_form.contact_num1 }}
 
-                {{ company_form.contact_num1.errors }}
-                <label for="{{ company_form.contact_num1.id_for_label }}" class="mb-0 mt-4">Contact Number <span class="required">*</span></label>
-                {{ company_form.contact_num1 }}
+            {{ company_form.contact_num2.errors }}
+            <label for="{{ company_form.contact_num2.id_for_label }}" class="mb-0 mt-4">Alternative Contact Number <span class="required">*</span></label>
+            {{ company_form.contact_num2 }}
 
-                {{ company_form.contact_num2.errors }}
-                <label for="{{ company_form.contact_num2.id_for_label }}" class="mb-0 mt-4">Alternative Contact Number <span class="required">*</span></label>
-                {{ company_form.contact_num2 }}
+            {{ company_form.email_address.errors }}
+            <label for="{{ company_form.email_address.id_for_label }}" class="mb-0 mt-4">Email Address <span class="required">*</span></label>
+            {{ company_form.email_address }}
 
-                {{ company_form.email_address.errors }}
-                <label for="{{ company_form.email_address.id_for_label }}" class="mb-0 mt-4">Email Address <span class="required">*</span></label>
-                {{ company_form.email_address }}
+            {{ company_form.address.errors }}
+            <label for="{{ company_form.address.id_for_label }}" class="mb-0 mt-4">Physical Address <span class="required">*</span></label>
+            {{ company_form.address }}
 
-                {{ company_form.address.errors }}
-                <label for="{{ company_form.address.id_for_label }}" class="mb-0 mt-4">Physical Address <span class="required">*</span></label>
-                {{ company_form.address }}
+            {{ company_form.country.errors }}
+            <label for="{{ company_form.country.id_for_label }}" class="mb-0 mt-4">Country <span class="required">*</span></label>
+            {{ company_form.country }}
 
-                {{ company_form.country.errors }}
-                <label for="{{ company_form.country.id_for_label }}" class="mb-0 mt-4">Country <span class="required">*</span></label>
-                {{ company_form.country }}
+            {{ user_form.username.errors }}
+            <label for="{{ user_form.username.id_for_label }}" class="mb-0 mt-4">Username <span class="required">*</span></label>
+            {{ user_form.username }}
 
-                {{ user_form.username.errors }}
-                <label for="{{ user_form.username.id_for_label }}" class="mb-0 mt-4">Username <span class="required">*</span></label>
-                {{ user_form.username }}
+            {{ user_form.password1.errors }}
+            <label for="{{ user_form.password1.id_for_label }}" class="mb-0 mt-4">Password <span class="required">*</span></label>
+            {{ user_form.password1 }}
 
-                {{ user_form.password1.errors }}
-                <label for="{{ user_form.password1.id_for_label }}" class="mb-0 mt-4">Password <span class="required">*</span></label>
-                {{ user_form.password1 }}
+            {{ user_form.password2.errors }}
+            <label for="{{ user_form.password2.id_for_label }}" class="mb-0 mt-4">Confirm password <span class="required">*</span></label>
+            {{ user_form.password2 }}
 
-                {{ user_form.password2.errors }}
-                <label for="{{ user_form.password2.id_for_label }}" class="mb-0 mt-4">Confirm password <span class="required">*</span></label>
-                {{ user_form.password2 }}
+            {{ user_form.terms.errors }}
+            {{ user_form.terms }}
+            <label for="{{ user_form.terms.id_for_label }}" class="mb-0 mt-4">By clicking <strong>Agree and Register:</strong>, I hereby:</label>
+            
+            <ul>
+                <li>Agree and consent to the <a href="#">Terms and Conditions</a>, the <a href="#">Terms of Service</a>, it's policies, and the <a href="#">Privacy Policy</a>  </li>
+                <li>Expressly instruct DriverHealth to communicate specific information about me and my account to third parties in accordance with the Privacy Policy and the Protection of Personal Information Act 4 of 2013
 
-                {{ user_form.terms.errors }}
-                {{ user_form.terms }}
-                <label for="{{ user_form.terms.id_for_label }}" class="mb-0 mt-4">By clicking <strong>Agree and Register:</strong>, I hereby:</label>
-                
-                <ul>
-                    <li>Agree and consent to the <a href="#">Terms and Conditions</a>, the <a href="#">Terms of Service</a>, it's policies, and the <a href="#">Privacy Policy</a>  </li>
-                    <li>Expressly instruct DriverHealth to communicate specific information about me and my account to third parties in accordance with the Privacy Policy and the Protection of Personal Information Act 4 of 2013
+                </li>
+            </ul>
+            <h5>Terms of Service and Privacy Policy</h5>
+            <p>These documents are designed to inform you of your rights and obligations when using the DriverHealth service.</p>
+            
 
-                    </li>
-                </ul>
-                <h5>Terms of Service and Privacy Policy</h5>
-                <p>These documents are designed to inform you of your rights and obligations when using the DriverHealth service.</p>
-                
-
-                <div class="mt-4" style="text-align: center;">
+            <div class="mt-4" style="text-align: center;">
                 <button type="submit" class="btn btn-secondary" style="width: 250px;">Register</button>
-            </form>
-        </div>
+            </div>
+        
+        </form>
+            
     </div>
+</div>
 
 {% endblock %}

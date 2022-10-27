@@ -12,8 +12,11 @@ class TrainingCourse(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     course_details = RichTextField()
     hourly_training = models.BooleanField(default=False)
-    elearning = models.BooleanField(default=False)
-    thirdparty_course = models.BooleanField(default=False)
+    elearning_course = models.BooleanField(default=False)
+    code14_course = models.BooleanField(default=False)
+    multiday_course = models.BooleanField(default=False)
+    hourly_simulator_course = models.BooleanField(default=False)
+    hourly_driving_course = models.BooleanField(default=False)
     date_created = models.DateTimeField(default=timezone.now, blank=False)
 
     def __str__(self):

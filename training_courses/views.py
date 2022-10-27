@@ -204,17 +204,6 @@ class Booking(View, ContextMixin):
                 return HttpResponseRedirect(reverse("booking-success", kwargs={'pk': btransaction.pk}))
             
 
-# handles the booking of elearning courses
-class ElearningCourses(View, ContextMixin):
-    template_name = "elearning-courses.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['elearning_courses'] = TrainingCourse.objects.filter(elearning=True)
-        return context
-
-    def get(self, request, **kwargs):
-        return render(request, self.template_name, self.get_context_data())
 
 # handles the process of sending an elearning enquiry
 class ElearningEnquiry(View, ContextMixin):
@@ -259,6 +248,72 @@ class Courses(View, ContextMixin):
         context['training_course'] = TrainingCourse.objects.filter(elearning=False, thirdparty_course=False)
         context['code14courses'] = TrainingCourse.objects.filter(thirdparty_course=True)
         context['current_date'] = timezone.now()
+        return context
+
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+
+# displays only hourly courses.
+class HourlyCourses(View, ContextMixin):
+    template_name = "hourly-courses.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['hourly_courses'] = TrainingCourse.objects.filter(hourly_driving_course=True)
+        return context
+
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+
+# displays only Multi-day courses.
+class MultidayCourses(View, ContextMixin):
+    template_name = "multiday-courses.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['multiday_courses'] = TrainingCourse.objects.filter(multiday_course=True)
+        return context
+
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+
+# handles the booking of elearning courses
+class ElearningCourses(View, ContextMixin):
+    template_name = "elearning-courses.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['elearning_courses'] = TrainingCourse.objects.filter(elearning_course=True)
+        return context
+
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+
+
+# displays only Simulator courses.
+class HourlySimulatorCourses(View, ContextMixin):
+    template_name = "hourly-simulator-courses.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['simulator_courses'] = TrainingCourse.objects.filter(hourly_simulator_course=True)
+        return context
+
+    def get(self, request, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+
+# displays only Code 14 courses.
+class Code14Courses(View, ContextMixin):
+    template_name = "code14-courses.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['code14_courses'] = TrainingCourse.objects.filter(code14_course=True)
         return context
 
     def get(self, request, **kwargs):

@@ -29,8 +29,7 @@ class ContactUs(View, ContextMixin):
             
             params = {
                 'message': contact_msg.message,
-                'name': contact_msg.name,
-                'surname': contact_msg.surname,
+                'full_name': contact_msg.full_name,
                 'email': contact_msg.email,
                 'contact_num': contact_msg.contact_num
             }

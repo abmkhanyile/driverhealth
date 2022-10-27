@@ -7,11 +7,14 @@
     
 </style>
 {% endblock css %}
+{% block page_header %}{% include 'page-header.html' with pagetitle="Available Jobs" only %}{% endblock page_header %}
+
 
 {% block content %}
 
 
-    <div class="universal-padding">
+<div class="container-xxl py-5">
+    <div class="container">
         <h1>Available Jobs</h1>   
 
         <ul style="list-style-type: none; padding-left: 0px; width: 100%;">
@@ -32,5 +35,6 @@
         {% include 'paginator.html' %}
        
     </div>
+</div>
 
 {% endblock %}

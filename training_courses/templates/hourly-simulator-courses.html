@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Hourly Simulator Courses{% endblock %}
+
+{% block css %}
+<style>
+
+</style>
+{% endblock css %}
+{% block page_header %}{% include 'page-header.html' with pagetitle="Hourly Simulator Courses" only %}{% endblock page_header %}
+
+{% block content %}
+
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div id="tdriver-courses" class="page-segment">
+            <h4 class="mt-4 page-title">Truck Driver Training Courses</h4>
+            <div style="text-align: center; width: 75%;">We offer affordable courses focusing on the skills, knowledge, and duties of a professional truck driver. Our training covers the fundamentals of tractor and trailer operations, tractor and trailer regulations and safety, theoretical basics of a vehicle, inspections, coupling and uncoupling, right & left turns, lane changing, shifting gears up and down, maneuvering and load securing among other. Register today and start your journey to an exciting paying career.</div>
+            <br>
+            <div class="course-outer-container">
+                {% for course in simulator_courses %}
+                <div class="course-container">
+                    <h6 style="text-align: center;"><strong>{{course.course_name}}</strong></h6>
+                    <h6>Duration {{course.duration}}</h6>
+                    <h4 style="color:#00b0f0">R{{course.price}}</h4>
+                    <div>
+                    {{course.course_details|safe}}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}

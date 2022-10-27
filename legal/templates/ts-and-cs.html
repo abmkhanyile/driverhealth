@@ -4,17 +4,18 @@
 
 {% block css %}
 <style>
-    p{
-        max-inline-size: 100% !important;
-    }
+
 </style>
 {% endblock css %}
 
 {% block content %}
+{% block page_header %}{% include 'page-header.html' with pagetitle="Terms and Conditions" only %}{% endblock page_header %}
 
 
-    <div class="about universal-padding">
+<div class="container-xxl py-5">
+    <div class="container">
         {{ts_and_cs.doc_text|safe}}
+    </div>
     </div>
 
 {% endblock %}

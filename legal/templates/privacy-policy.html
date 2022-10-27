@@ -8,13 +8,16 @@
         max-inline-size: 100% !important;
     }
 </style>
-{% endblock css %}
+{% endblock css %}{% block page_header %}{% include 'page-header.html' with pagetitle="Privacy Policy" only %}{% endblock page_header %}
+
 
 {% block content %}
 
-
-    <div class="about universal-padding">
+    
+<div class="container-xxl py-5">
+    <div class="container">
         {{privacy_policy.doc_text|safe}}
     </div>
+</div>
 
 {% endblock %}
