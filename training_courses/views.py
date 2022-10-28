@@ -318,3 +318,14 @@ class Code14Courses(View, ContextMixin):
 
     def get(self, request, **kwargs):
         return render(request, self.template_name, self.get_context_data())
+
+
+# displays course details.
+class CourseDetails(DetailView):
+    template_name = "course-details.html"
+    model = TrainingCourse
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_date'] = context['current_date'] = timezone.now()
+        return context

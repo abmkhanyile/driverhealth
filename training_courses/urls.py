@@ -11,6 +11,7 @@ from .views import (
     HourlySimulatorCourses,
     MultidayCourses,
     Code14Courses,
+    CourseDetails,
 )
 
 urlpatterns = [
@@ -25,4 +26,5 @@ urlpatterns = [
     path('hourly-simulator-courses/', HourlySimulatorCourses.as_view(), name="hourly-simulator-courses"),
     path('multiday-courses/', MultidayCourses.as_view(), name="multiday-courses"),
     path('code14-courses/', Code14Courses.as_view(), name="code14-courses"),
+    path('course-details/<pk>/', CourseDetails.as_view(), name="course-details"),
 ]

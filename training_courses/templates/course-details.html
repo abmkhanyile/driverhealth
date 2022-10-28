@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{object.course_name}}{% endblock %}
+
+{% block css %}
+<style>
+
+</style>
+{% endblock css %}
+{% block page_header %}{% include 'page-header.html' with pagetitle=object.course_name only %}{% endblock page_header %}
+
+{% block content %}
+
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="course-container">
+            <h2 style="text-align: center;"><strong>{{object.course_name}}</strong></h2>
+            <h4>Duration {{object.duration}}</h4>
+            <h1 class="text-primary">R{{object.price}}</h1>
+            <div>
+            {{object.course_details|safe}}
+            </div>
+            <a href="{% url 'book-training' pk=object.pk month=current_date.month year=current_date.year %}" class="btn btn-danger btn-lg text-white">Book Training</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

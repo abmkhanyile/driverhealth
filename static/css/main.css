@@ -1095,13 +1095,11 @@ footer ul{
   text-align: center;
 }
 .course-container{
-  border: 1px solid #00b0f0;
   padding: 10px;
   display: flex;
   align-items: center;
   flex-direction: column;
   min-height: 150px;
-  font-size: 1em !important;
 }
 
 .course-container span{
@@ -1177,4 +1175,14 @@ footer ul{
 
 .cf-textarea{
   min-height: 100px !important;
+}
+
+
+.coursecontainer{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
 }

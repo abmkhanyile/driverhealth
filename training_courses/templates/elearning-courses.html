@@ -16,16 +16,27 @@
 
 <div class="container-xxl py-5">
     <div class="container">
-        <div class="course-outer-container">
+        <div class="coursecontainer">
             {% for course in elearning_courses %}
-                <div class="course-container">
-                <h6 style="text-align: center;"><strong>{{course.course_name}}</strong></h6>
-                <h6>Duration {{course.duration}}</h6>
-                <h4 style="color:#00b0f0">R{{course.price}}</h4>
-                <div style="font-size: .85em !important; color:rgba(0, 0, 0) !important;">
-                    {{course.course_details|safe}}
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="causes-item d-flex flex-column bg-white border border-3 border-primary rounded-top rounded-bottom overflow-hidden h-100">
+                    <div class="text-center p-4 pt-0">
+                        <div class="d-inline-block bg-success text-white rounded-bottom fs-5 pb-1 px-3 mb-4">
+                            <small>{{course.course_name}}</small>
+                        </div>
+                        <h1>R{{course.price}}</h1>
+                        <h5 class="mb-3">Duration {{course.duration}}</h5>
+                        <p>{{course.course_intro}}</p>
+                        <a class="btn btn-outline-primary" href="{% url 'course-details' pk=course.pk %}">
+                            Read More
+                            <div class="d-inline-flex btn-sm-square bg-primary text-white rounded-circle ms-2">
+                                <i class="fa fa-arrow-right"></i>
+                            </div>
+                        </a>
+                    </div>
+                    
                 </div>
-                </div>
+            </div>
             {% endfor %}
         </div>
         

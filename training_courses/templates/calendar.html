@@ -12,6 +12,8 @@
     }
 </style>
 {% endblock css %}
+{% block page_header %}{% include 'page-header.html' with pagetitle="Booking Calendar" only %}{% endblock page_header %}
+
 
 {% block modals %}
 <!-- Button trigger modal -->
@@ -52,7 +54,8 @@
 {% block content %}
 
 
-    <div class="about universal-padding">
+<div class="container-xxl py-5">
+    <div class="container">
         {% include 'errors.html' %}
 
         
@@ -122,6 +125,7 @@
             {% include 'hourly-training-calendar.html' %}
         {% endif %}
     </div>
+</div>
 
 {% endblock %}
 

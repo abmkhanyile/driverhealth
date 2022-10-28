@@ -10,6 +10,7 @@ class TrainingCourse(models.Model):
     course_name = models.CharField(max_length=150, blank=False)
     duration = models.CharField(max_length=30, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    course_intro = models.CharField(max_length=200, blank=False, null=True)
     course_details = RichTextField()
     hourly_training = models.BooleanField(default=False)
     elearning_course = models.BooleanField(default=False)

@@ -9,11 +9,14 @@
     }
 </style>
 {% endblock css %}
+{% block page_header %}{% include 'page-header.html' with pagetitle="Booking Successfull" only %}{% endblock page_header %}
+
 
 {% block content %}
 
 
-    <div class="about universal-padding">
+<div class="container-xxl py-5">
+    <div class="container">
         <h5 class="text-success">Booking successful</h5>
         <h5 class="text-danger">{{object.ret_course}}</h5>
         <p>
@@ -45,6 +48,7 @@
             </tr>
         </table>
         <h3 class="text-success">Amount to Pay: R{{object.trans_tot}}</h3>
+    </div>
     </div>
 
 {% endblock %}

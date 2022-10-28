@@ -4,9 +4,7 @@
 
 {% block css %}
 <style>
-    p{
-        max-inline-size: 100% !important;
-    }
+
     .comment-container{
         min-height: 250px;
         padding: 10px;
@@ -14,15 +12,17 @@
         border: 1px solid #ccc;
     }
 
-
-
 </style>
 {% endblock css %}
+{% block page_header %}{% include 'page-header.html' with pagetitle="Booking" only %}{% endblock page_header %}
+
+
 
 {% block content %}
 
-
-    <div class="about universal-padding" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
+<div class="container-xxl py-5">
+    <div class="container">
+    <!-- <div class="about universal-padding" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;"> -->
         {% include 'errors.html' %}
         <h3>Book Training</h3>
         <br>
@@ -62,7 +62,9 @@
         </div>
         
        </form>
+    <!-- </div> -->
     </div>
+</div>
 
 {% endblock %}
 
