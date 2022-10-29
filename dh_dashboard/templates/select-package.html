@@ -63,7 +63,7 @@
             {% for course in courses %}
                 <div class="course">
                     {{course}}
-                    <a href="{% url 'post-training' pk=course.pk month=today.month year=today.year %}" class="btn btn-secondary btn-lg text-white">Post Training</a>
+                    <a href="{% url 'post-training' pk=course.pk month=today.month year=today.year %}" class="btn btn-primary btn-lg text-white">Post Training</a>
                 </div>
             {% endfor %}
         </div>       
