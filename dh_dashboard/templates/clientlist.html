@@ -54,7 +54,9 @@
 
 {% block content %}
 
-<div class="universal-padding">
+
+<div class="container-xxl py-5">
+    <div class="container">
     <div class="filter-container">
         <div class="countries-container">
             {% for country in countries %}
@@ -127,6 +129,7 @@
 </ul>
 
 {% include 'paginator.html' %}
+</div>
 </div>
 
 {% endblock content %}
