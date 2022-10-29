@@ -35,7 +35,8 @@
 {% block content %}
 
 
-    <div class="flex-page universal-padding">
+<div class="container-xxl py-5">
+    <div class="container">
         {% include 'errors.html' %}
         <form method="post" action="/companies/create-job/">{% csrf_token %}
             {{ jobform.media }}
@@ -46,5 +47,6 @@
             
         </form>
     </div>
+</div>
 
 {% endblock %}

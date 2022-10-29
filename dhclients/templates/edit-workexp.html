@@ -39,12 +39,14 @@
 {% block content %}
 
 
-    <div class="about universal-padding">
+<div class="container-xxl py-5">
+    <div class="container">
         <form method="post">{% csrf_token %}
             {{editform.media}}
             {{editform.as_p}}
             <input type="submit" class="btn btn-secondary" value="Save">
         </form>
     </div>
+</div>
 
 {% endblock %}

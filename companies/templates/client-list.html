@@ -57,7 +57,8 @@
 {% block content %}
 
 
-    <div class="universal-padding">
+<div class="container-xxl py-5">
+    <div class="container">
         <div><span class="text-danger">{{request.user.company.driver_requests_limit}} Available Requests</span></div>
 
         <div class="filter-container">
@@ -147,6 +148,7 @@
         
         {% include 'paginator.html' %}
     </div>
+</div>
 
 {% endblock %}
 

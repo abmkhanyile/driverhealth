@@ -7,13 +7,18 @@
 
 </style>
 {% endblock css %}
+{% block page_header %}{% include 'page-header.html' with pagetitle="Registration Successful" only %}{% endblock page_header %}
+
 
 {% block content %}
 
 
-    <div class="contdiv universal-padding">
+    
+<div class="container-xxl py-5">
+    <div class="container">
         <h5>Thank you for registering. Click <a class="text-primary" href="{% url 'login' %}">here</a> to login. After you have logged in, please click on your profile (i.e. "name") for User Instructions.</h5>    
 
     </div>
+</div>
 
 {% endblock %}
