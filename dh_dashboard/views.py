@@ -271,40 +271,45 @@ def skip_steps2_condition(wizard):
         return False
 
 def skip_steps3_condition(wizard):
-    cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
-    if cleaned_data.get('hr_training') == 1:
-        return False
-    else:
-        return True
+    pass
+    # cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
+    # if cleaned_data.get('hr_training') == 2:
+    #     return True
+    # else:
+    #     return False
 
 
 def skip_steps4_condition(wizard):
-    cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
-    if cleaned_data.get('hr_training') == 1:
-        return True
-    else:
-        return False
+    pass
+    # cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
+    # if cleaned_data.get('hr_training') == 1:
+    #     return True
+    # else:
+    #     return False
 
 def skip_steps5_condition(wizard):
-    cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
-    if cleaned_data.get('hr_training') == 1:
-        return False
-    else:
-        return True
+    pass
+    # cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
+    # if cleaned_data.get('hr_training') == 1:
+    #     return False
+    # else:
+    #     return True
 
 def skip_steps6_condition(wizard):
-    cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
-    if cleaned_data.get('hr_training') == 1:
-        return True
-    else:
-        return False
+    pass
+    # cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
+    # if cleaned_data.get('hr_training') == 1:
+    #     return True
+    # else:
+    #     return False
 
 def skip_steps7_condition(wizard):
-    cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
-    if cleaned_data.get('hr_training') == 1:
-        return False
-    else:
-        return True
+    pass
+    # cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
+    # if cleaned_data.get('hr_training') == 1:
+    #     return False
+    # else:
+    #     return True
 
 class PostTraingSession(SessionWizardView):
     success_pg = "training-post-success"
