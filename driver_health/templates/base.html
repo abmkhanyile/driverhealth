@@ -162,7 +162,7 @@
                                 {% if request.user.is_authenticated %}
                                 <span><a href="#" class="header-links">Hello, {{request.user.ret_acc_name|truncatechars:14}}</a> <br>
                                     <a href="{% url 'logout' %}" class="header-links" style="font-size: .85em;">Logout</a> | {% if request.user.is_company %}<a href="{% url 'company-dashboard' %}" class="header-links" style="font-size: .85em;">Dashboard</a>{% elif request.user.is_staff %}
-                                    <a class="header-links" href="{% url 'driverlist' %}" style="font-size: .85em;">Dashboard</a>{% else %}<a href="{% url 'client-profile' %}" class="header-links" style="font-size: .85em;">My Profile</a>{% endif %}
+                                    <a class="header-links" href="{% url 'dh-dashboard' %}" style="font-size: .85em;">Dashboard</a>{% else %}<a href="{% url 'client-profile' %}" class="header-links" style="font-size: .85em;">My Profile</a>{% endif %}
                                 </span>
                                 {% else %}
                                 <span><a href="#" class="header-links">My DriverHealth</a> <br>

@@ -1,34 +1,7 @@
 from django import forms
-from .models import TrainingEvent, TrainingBooking, TrainingTime, ElearningEnquiries
+from .models import TrainingEvent, TrainingBooking, TrainingTime, ElearningEnquiries, TrainingCourse
 
-class PostTrainingForm(forms.ModelForm):
-    # training_slots = forms.CharField(max_length=1500, required=False, widget=forms.HiddenInput(attrs={
-    #     'id': 'dates_input',
-    # }))
-    # seldate = forms.DateField(required=False, widget=forms.DateInput(attrs={
-    #     'class': 'form-control',
-    # }))
-    class Meta:
-        model = TrainingEvent
-        exclude = (
-            'training_course',
-            'slots',
-            'date_created',
-        )
-        fields = (
-            'comment',
-            'enrollees_num',
-        )
 
-        widgets = {
-            'comment': forms.Textarea(attrs={
-                'class': 'form-control',
-            }),
-            'enrollees_num': forms.NumberInput(attrs={
-                'class': 'form-control',
-            }),
-        
-        }
 
 # this form handles the booking.
 class TrainingBookingForm(forms.Form):
@@ -94,3 +67,5 @@ class TimeSelectionForm(forms.Form):
     timepk = forms.IntegerField(required=False, widget=forms.HiddenInput(attrs={
         'class': 'time_pk',
     }))
+
+

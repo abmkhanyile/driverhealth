@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% load i18n %}
+
+{% block head %}
+{{ wizard.form.media }}
+{% endblock %}
+
+{% load training_tags %}
+{% block title %}Select Training Type{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard_calendar.css' %}"/>
+<style>
+        .topheader{
+    position: relative;
+    background-color: #000 !important;
+    /* margin-bottom: 20px; */
+}
+    .shortcut-links-container{
+        display: flex !important;
+        flex-wrap: nowrap;
+        /* justify-content: left; */
+        align-items: center;
+    }
+    .subheader-contianer{
+        color: #fff;
+    }
+
+
+</style>
+{% endblock css %}
+
+{% block submenu %}
+{% include 'dhdashboard-menu.html' %}
+{% endblock submenu %}
+
+{% block entity_name %}
+    <div class="comp_name">{{request.user.company}}</div>
+{% endblock entity_name %}
+{% block dashboard_menu %}    
+    {% include 'dhdashboard-menu.html' %}
+{% endblock dashboard_menu %} 
+
+{% block content %}
+
+    
+
+
+<div class="container-xxl py-5">
+    <div class="container">
+        {% include 'errors.html' %}
+    
+        <div class="p-5">
+            <div class="wizardform-container">
+                <p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
+                <form action="" method="post">{% csrf_token %}
+                <table>
+                {{ wizard.management_form }}
+                {% if wizard.form.forms %}
+                    {{ wizard.form.management_form }}
+                    {% for form in wizard.form.forms %}
+                        {{ form.as_p }}
+                    {% endfor %}
+                {% else %}
+                    {{ wizard.form.as_p }}
+                {% endif %}
+                </table>
+                {% if wizard.steps.prev %}
+                <button name="wizard_goto_step" class="btn btn-dark" type="submit" value="{{ wizard.steps.first }}">{% trans "first step" %}</button>
+                <button name="wizard_goto_step" class="btn btn-dark" type="submit" value="{{ wizard.steps.prev }}">{% trans "prev step" %}</button>
+                {% endif %}
+                <input type="submit" class="btn btn-info" value="{% trans 'next step' %}"/>
+                </form>
+            </div>
+            
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+

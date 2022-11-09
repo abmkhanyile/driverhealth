@@ -1,20 +1,24 @@
 from email import message
-from multiprocessing import context
+from mimetypes import init
+from urllib import request
+from xml.etree.ElementTree import Comment
+from django import forms
 from django.forms import DateTimeField
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.base import View, ContextMixin
-from training_courses.models import TrainingCourse, TrainingDays, TrainingEvent, TrainingTime
+from django.views.generic import TemplateView
+from training_courses.models import TrainingCourse, TrainingDays, TrainingEvent, TrainingTime, Training
 from training_courses.views import BookTraining
 from django.utils import timezone
 from django.urls import reverse
-from training_courses.forms import PostTrainingForm
-from datetime import datetime
+from datetime import datetime, timedelta, tzinfo
 from django.contrib import messages
 import pytz
 from django.conf import settings
-from django.forms import formset_factory
-from .forms import PostTraining_Form, RemarkForm
+from django.forms import formset_factory, modelformset_factory, inlineformset_factory, BaseModelFormSet
+from .forms import PostTraining_Form, RemarkForm, TimeSelectionForm, PostTrainingForm, Form1, Form2, Form3, Form4, Form5, Form6, Form7
+from calendar import HTMLCalendar
 from companies.views import ClientList
 from dhclients.models import DHClient
 from django.core.paginator import Paginator
@@ -23,6 +27,9 @@ from countries.models import Country
 from dhclients.views import ClinetProfile
 from driver_requests.models import Driver_Request, RequestStatus
 from driver_requests.forms import DRStatusForm
+from formtools.wizard.views import SessionWizardView
+from formtools import wizard
+
 
 TIMEZONE  = pytz.timezone(settings.TIME_ZONE)
 
@@ -231,3 +238,206 @@ class RejectRequest(View, ContextMixin):
         messages.success(request, "Request Rejected")
         return HttpResponseRedirect(reverse("driver-req", kwargs={'pk': req.pk}))
         
+
+
+
+# this view handles the act of posting a training session.
+FORMS = [
+    ("form1_template", Form1),
+    ("form2_template", Form2),
+    ("form3_template", Form3),
+    ("form4_template", Form4),
+    ("form5_template", Form5),
+    ("form6_template", Form6),
+    ("form7_template", Form7)
+]
+
+TEMPLATES = {
+    '0': "post_training_forms/form1.html",
+    '1': "post_training_forms/form2.html",
+    '2': "post_training_forms/form3.html",
+    '3': "post_training_forms/form4.html",
+    '4': "post_training_forms/form5.html",
+    '5': "post_training_forms/form6.html",
+    '6': "post_training_forms/form7.html",
+}
+
+def skip_steps2_condition(wizard):
+    cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
+    if cleaned_data.get('hr_training') == 1:
+        return True
+    else:
+        return False
+
+def skip_steps3_condition(wizard):
+    cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
+    if cleaned_data.get('hr_training') == 1:
+        return False
+    else:
+        return True
+
+
+def skip_steps4_condition(wizard):
+    cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
+    if cleaned_data.get('hr_training') == 1:
+        return True
+    else:
+        return False
+
+def skip_steps5_condition(wizard):
+    cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
+    if cleaned_data.get('hr_training') == 1:
+        return False
+    else:
+        return True
+
+def skip_steps6_condition(wizard):
+    cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
+    if cleaned_data.get('hr_training') == 1:
+        return True
+    else:
+        return False
+
+def skip_steps7_condition(wizard):
+    cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
+    if cleaned_data.get('hr_training') == 1:
+        return False
+    else:
+        return True
+
+class PostTraingSession(SessionWizardView):
+    success_pg = "training-post-success"
+  
+    seldates_formset = formset_factory(form=Form4)
+    
+    form_list = [
+            Form1, 
+            Form2, 
+            Form3,
+            formset_factory(form=Form4),
+            Form5,
+            formset_factory(form=Form6),
+            formset_factory(form=Form7)
+        ]
+    
+    def get_context_data(self, form, **kwargs):
+        context = super().get_context_data(form, **kwargs)
+        if self.steps.current == '1':        
+            context['hourly_training_courses'] = TrainingCourse.objects.filter(hourly_training=True)    
+            self.initial_dict = {
+                '1': {'selected': True}
+            }       
+        return context
+
+
+    def get_form_initial(self, step):  
+        if step == '3':
+            step3formdata = self.get_cleaned_data_for_step('1')
+            datalist = []
+            for course in step3formdata['selected']:
+                datalist.append({'trcourse': course, 'hourly_limit': course.hourly_limit})
+            self.initial_dict['3'] = datalist
+            return self.initial_dict.get(step)
+        elif step == '5':
+            formdata_step3 = self.get_cleaned_data_for_step('3')
+             
+            datalist = []
+            for fdata in formdata_step3:
+                initdata_dict = {}
+                
+                stime = fdata['start_time']
+                etime = fdata['end_time']
+                trhr = datetime(day=stime.day, month=stime.month, year=stime.year, hour=stime.hour, minute=stime.minute, tzinfo=TIMEZONE)
+                endtime = datetime(day=etime.day, month=etime.month, year=etime.year, hour=etime.hour, minute=etime.minute, tzinfo=TIMEZONE)
+
+                times = [trhr]
+                while trhr < endtime:
+                    trhr += timedelta(hours=1)
+                    times.append(trhr)
+                initdata_dict['course'] = fdata['trcourse']
+                initdata_dict['courseid'] = fdata['trcourse'].pk
+
+                for i, time in enumerate(times):
+                    initdata_dict['time{}'.format(i+1)] = time
+                datalist.append(initdata_dict)
+            self.initial_dict['5'] = datalist
+            return self.initial_dict.get(step)
+        elif step == '6':
+            step5formdata = self.get_cleaned_data_for_step('4')
+            sdate = step5formdata['start_date']
+            edate = step5formdata['end_date']
+            trainingdays_num = edate- sdate
+           
+            trdates = [{'trdate': sdate}]
+            for i in range(trainingdays_num.days):
+                trdates.append({'trdate': sdate+timedelta(i+1)})
+            self.initial_dict['6'] = trdates
+            return self.initial_dict.get(step)
+        else:
+            return self.initial_dict.get(step, {})
+
+
+    def get_form(self, step=None, data=None, files=None):
+        form = super().get_form(step, data, files)
+
+        # determine the step if not given
+        if step is None:
+            step = self.steps.current
+
+        if step == '3':
+            step3formdata = self.get_cleaned_data_for_step('1')
+            selcourses_num = len(step3formdata['selected'])
+            form.extra, form.max_num = selcourses_num, selcourses_num
+        
+        if step == '5':
+            step3formdata = self.get_cleaned_data_for_step('1')
+            selcourses_num = len(step3formdata['selected'])
+            form.extra, form.max_num = selcourses_num, selcourses_num
+
+        if step == '6':
+            step5formdata = self.get_cleaned_data_for_step('4')
+            sdate = step5formdata['start_date']
+            edate = step5formdata['end_date']
+            trainingdays_num = edate- sdate
+            form.extra, form.max_num = trainingdays_num.days, trainingdays_num.days         
+
+        return form
+
+        
+
+    def get_template_names(self):
+        return [TEMPLATES[self.steps.current]]
+
+    
+    def done(self, form_list, form_dict, **kwargs):
+        form1data = self.get_cleaned_data_for_step('0')
+        if form1data['hr_training'] == 1:
+            step3formset = form_dict['3']
+            step6formset = self.get_cleaned_data_for_step('5')
+
+            for form in step3formset:
+                tr = form.save()
+                for tform in step6formset:
+                    if tr.trcourse.pk == tform['courseid']:
+                        for key, value in tform.items():
+                            if key.startswith("time") and value != '':
+                                trtime = datetime.fromisoformat(value)
+                                TrainingDays.objects.create(training_slot=trtime, selcourse=tr)
+                
+            return HttpResponseRedirect(reverse("training-post-success"))
+        else:
+            step6formset = self.get_cleaned_data_for_step('6')
+            step2formset = self.get_cleaned_data_for_step('2')
+            training = Training.objects.create(trcourse=step2formset['selcourse'], comment=step2formset['comment'])
+            for form in step6formset:
+                temptrdate = datetime.fromisoformat(form['trdate'])
+                TrainingDays.objects.create(training_slot=temptrdate, selcourse=training)
+            return HttpResponseRedirect(reverse("training-post-success"))
+
+class TrainingPostSuccess(TemplateView):
+    template_name = "training-post-success.html"
+
+
+
+    
+  

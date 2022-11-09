@@ -52,11 +52,11 @@
                 {% if req.access_granted == False %}
                 <a href="{% url 'accept-req' pk=req.pk %}" class="btn btn-success btn-sm text-white">Grant Access</a>
                 {% else %}
-                <span class="text-secondary">Access Granted</span>
+                <span class="text-dark">Access Granted</span>
                 {% endif %}
 
                 {% if req.access_granted == False %}
-                <a href="{% url 'reject-req' pk=req.pk %}" class="btn btn-secondary btn-sm text-white">Reject Access</a>
+                <a href="{% url 'reject-req' pk=req.pk %}" class="btn btn-dark btn-sm text-white">Reject Access</a>
                 {% else %}
                 <a href="{% url 'reject-req' pk=req.pk %}" class="btn btn-danger btn-sm text-white">Revoke Access</a>
                 {% endif %}

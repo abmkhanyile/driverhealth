@@ -23,6 +23,7 @@ from .notification_emails import booking_confirmation, elearning_enquiry_notific
 from django.forms import formset_factory
 
 
+
 # handles booking for training.
 class BookTraining(View, ContextMixin):
     template_name = "calendar.html"
@@ -116,7 +117,7 @@ class BookTraining(View, ContextMixin):
 
                     trbooking = TrainingBooking.objects.filter(client=request.user, training_event=trtime.date.event)
                     if trbooking.exists():
-                        messages.warning(request, "You've booked {} on {}".format(trtime, trtime.date))
+                        messages.warning(request, "You've already booked {} on {}".format(trtime, trtime.date))
                         return HttpResponseRedirect(reverse("book-training", kwargs={
                             'pk': context['course'].pk,
                             'month': context['curr_month'].month,
@@ -329,3 +330,6 @@ class CourseDetails(DetailView):
         context = super().get_context_data(**kwargs)
         context['current_date'] = context['current_date'] = timezone.now()
         return context
+
+
+

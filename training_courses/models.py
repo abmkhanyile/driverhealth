@@ -18,6 +18,7 @@ class TrainingCourse(models.Model):
     multiday_course = models.BooleanField(default=False)
     hourly_simulator_course = models.BooleanField(default=False)
     hourly_driving_course = models.BooleanField(default=False)
+    hourly_limit = models.IntegerField(blank=True, null=True)
     date_created = models.DateTimeField(default=timezone.now, blank=False)
 
     def __str__(self):
@@ -36,15 +37,14 @@ class Code14Course(models.Model):
 
 
 # this is an intermediary table for the Trainees and TrainingEvent relationship.
-class Course_Enrollees(models.Model):
-    enrollee = models.ForeignKey('dhclients.DHClient', on_delete=models.CASCADE, blank=False) 
-    course_event = models.ForeignKey('training_courses.TrainingEvent', on_delete=models.CASCADE, blank=False)
-    paid = models.BooleanField(default=False)
+# class Course_Enrollees(models.Model):
+#     enrollee = models.ForeignKey('dhclients.DHClient', on_delete=models.CASCADE, blank=False) 
+#     course_event = models.ForeignKey('training_courses.TrainingEvent', on_delete=models.CASCADE, blank=False)
+#     paid = models.BooleanField(default=False)
 
 
 # holds all training events.
 class TrainingEvent(models.Model):
-    training_course = models.ForeignKey('training_courses.TrainingCourse', related_name="course_events", on_delete=models.CASCADE, blank=False)
     comment = models.CharField(max_length=1000, blank=True)
     fully_booked = models.BooleanField(default=False)
     enrollees_num = models.IntegerField(null=True)
@@ -57,13 +57,22 @@ class TrainingEvent(models.Model):
     def ret_training_dates(self):
         return self.training_event_dates.all()
 
+
+
+class Training(models.Model):
+    trcourse = models.ForeignKey('training_courses.TrainingCourse', related_name='selected_courses', on_delete=models.CASCADE, blank=False, null=True)
+    enrollees_num = models.IntegerField(blank=True, null=True)
+    hourly_limit = models.IntegerField(blank=True, null=True)
+    comment = models.CharField(max_length=1000, blank=False)
+    date_created = models.DateTimeField(default=timezone.now, blank=False)
+
     
 
 
 # holds the dates for the training 
 class TrainingDays(models.Model):
-    training_slot = models.DateField(blank=False)
-    event = models.ForeignKey('training_courses.TrainingEvent', related_name="training_event_dates", on_delete=models.CASCADE, blank=False, null=True)
+    training_slot = models.DateTimeField(blank=False)
+    selcourse = models.ForeignKey('training_courses.Training', related_name="course_dates", on_delete=models.CASCADE, blank=False, null=True)
    
     def __str__(self):
         return str(self.training_slot)

@@ -465,3 +465,36 @@ function check_status(elem){
     note_input.value = ''
   }
 }
+
+function populate_date(elem){
+  if($(elem).attr('name') == "3-0-seldate_time"){
+    let date = $(elem).val()
+
+    console.log(date)
+ 
+    let datefields = document.getElementsByClassName('trdate')
+    let s_times = document.getElementsByClassName('stime')
+    let e_times = document.getElementsByClassName('etime')
+
+    for(let i=0; i<datefields.length; i++){
+      datefields[i].value = date
+    }
+
+    for(let j=0; j<s_times.length; j++){
+      s_times[j].value = date+"T08:00"
+    }
+
+    for(let k=0; k<e_times.length; k++){
+      e_times[k].value = date+"T17:00"
+    }
+  }
+}
+
+// removes the time slot before a form is posted.
+function remove_time(elem){
+  let closebtn = $(elem)
+  let timeinput_container = closebtn.parent()
+  console.log(timeinput_container)
+  $(timeinput_container).remove()
+
+}
