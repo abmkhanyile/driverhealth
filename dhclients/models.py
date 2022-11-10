@@ -36,6 +36,7 @@ class DHClient(models.Model):
 
     class Meta:
         verbose_name_plural = ('DH Clients')
+        ordering = ['user']
 
     def __str__(self):
         return f'{self.user.get_full_name()}' 

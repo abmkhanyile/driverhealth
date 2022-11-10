@@ -173,7 +173,7 @@ class Form6(forms.Form):
 
  
 class Form7(forms.Form):
-    trdate = forms.CharField(required=False, widget=forms.DateTimeInput(attrs={
+    trdate = forms.CharField(required=False, label="Training Date", widget=forms.DateTimeInput(attrs={
         'type': 'datetime-local',
     }))
 

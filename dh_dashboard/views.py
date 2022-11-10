@@ -263,59 +263,53 @@ TEMPLATES = {
     '6': "post_training_forms/form7.html",
 }
 
-def skip_steps2_condition(wizard):
-    cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
-    if cleaned_data.get('hr_training') == 1:
-        return True
-    else:
-        return False
-
-def skip_steps3_condition(wizard):
-    pass
-    # cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
-    # if cleaned_data.get('hr_training') == 2:
-    #     return True
-    # else:
-    #     return False
+def skip_step2_condition(wizard):
+    if len(wizard.storage.data['step_data']) != 0:
+        if wizard.storage.data['step_data']['0']['0-hr_training'][0] == '1':
+            return True
+        else:
+            return False
 
 
-def skip_steps4_condition(wizard):
-    pass
-    # cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
-    # if cleaned_data.get('hr_training') == 1:
-    #     return True
-    # else:
-    #     return False
+def skip_step3_condition(wizard):
+    if len(wizard.storage.data['step_data']) != 0:
+        if wizard.storage.data['step_data']['0']['0-hr_training'][0] == '1':
+            return False
+        else:
+            return True
 
-def skip_steps5_condition(wizard):
-    pass
-    # cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
-    # if cleaned_data.get('hr_training') == 1:
-    #     return False
-    # else:
-    #     return True
 
-def skip_steps6_condition(wizard):
-    pass
-    # cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
-    # if cleaned_data.get('hr_training') == 1:
-    #     return True
-    # else:
-    #     return False
+def skip_step4_condition(wizard):
+    if len(wizard.storage.data['step_data']) != 0:
+        if wizard.storage.data['step_data']['0']['0-hr_training'][0] == '1':
+            return True
+        else:
+            return False
 
-def skip_steps7_condition(wizard):
-    pass
-    # cleaned_data = wizard.get_cleaned_data_for_step('0') or {}
-    # if cleaned_data.get('hr_training') == 1:
-    #     return False
-    # else:
-    #     return True
+def skip_step5_condition(wizard):
+    if len(wizard.storage.data['step_data']) != 0:
+        if wizard.storage.data['step_data']['0']['0-hr_training'][0] == '1':
+            return False
+        else:
+            return True
+
+def skip_step6_condition(wizard):
+    if len(wizard.storage.data['step_data']) != 0:
+        if wizard.storage.data['step_data']['0']['0-hr_training'][0] == '1':
+            return True
+        else:
+            return False
+
+def skip_step7_condition(wizard):
+    if len(wizard.storage.data['step_data']) != 0:
+        if wizard.storage.data['step_data']['0']['0-hr_training'][0] == '1':
+            return False
+        else:
+            return True
 
 class PostTraingSession(SessionWizardView):
     success_pg = "training-post-success"
-  
-    seldates_formset = formset_factory(form=Form4)
-    
+      
     form_list = [
             Form1, 
             Form2, 
@@ -328,15 +322,16 @@ class PostTraingSession(SessionWizardView):
     
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form, **kwargs)
-        if self.steps.current == '1':        
-            context['hourly_training_courses'] = TrainingCourse.objects.filter(hourly_training=True)    
-            self.initial_dict = {
-                '1': {'selected': True}
-            }       
+        # if self.steps.current == '1':        
+        #     context['hourly_training_courses'] = TrainingCourse.objects.filter(hourly_training=True)    
+        #     self.initial_dict = {
+        #         '1': {'selected': True}
+        #     }       
         return context
 
 
     def get_form_initial(self, step):  
+        
         if step == '3':
             step3formdata = self.get_cleaned_data_for_step('1')
             datalist = []
@@ -438,7 +433,7 @@ class PostTraingSession(SessionWizardView):
             for form in step6formset:
                 temptrdate = datetime.fromisoformat(form['trdate'])
                 TrainingDays.objects.create(training_slot=temptrdate, selcourse=training)
-            return HttpResponseRedirect(reverse("training-post-success"))
+        return HttpResponseRedirect(reverse("training-post-success"))
 
 class TrainingPostSuccess(TemplateView):
     template_name = "training-post-success.html"
