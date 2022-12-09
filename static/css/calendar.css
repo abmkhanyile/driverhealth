@@ -36,14 +36,14 @@
 
 .calendar-days{
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 30px 30px 30px 30px 30px 30px 30px;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
 .calendar-days > div{
   border: 1px solid #ccc;
-  min-height: 100px;
-  min-width: 20px;
+  height: 30px;
+  width: 30px;
 }
 
 .clink{

@@ -47,27 +47,27 @@ class BookTraining(View, ContextMixin):
         _calendar = HTMLCalendar(firstweekday=6)
         calendar_dates = _calendar.itermonthdates(_year, _month)
 
-        events = TrainingEvent.objects.filter(fully_booked=False, training_course=training_course)
+        # events = TrainingEvent.objects.filter(fully_booked=False, training_course=training_course)
 
-        data = []
-        for date in calendar_dates:
-            datestr = (date,)
-            if events.exists():
-                events_list = []
-                for event in events:
-                    dates = event.training_event_dates.filter(training_slot=date)
-                    if len(dates) > 0:
-                        events_list.append(event)
-                data.append(datestr + (events_list,) + (dates,))
-            else:
-                data.append(datestr + () + ())
+        # data = []
+        # for date in calendar_dates:
+        #     datestr = (date,)
+        #     if events.exists():
+        #         events_list = []
+        #         for event in events:
+        #             dates = event.training_event_dates.filter(training_slot=date)
+        #             if len(dates) > 0:
+        #                 events_list.append(event)
+        #         data.append(datestr + (events_list,) + (dates,))
+        #     else:
+        #         data.append(datestr + () + ())
         
-        context['data'] = data              
+        # context['data'] = data              
         context['calendar_dates'] = _calendar.itermonthdates(_year, _month)
         
         context['calendar'] = _calendar
         context['curr_month'] = curr_month
-        context['trainingdates'] = TrainingDays.objects.filter(training_slot__month__gte=prevdate.month, training_slot__month__lte=nextdate.month, event__fully_booked=False, event__training_course=training_course)
+        context['trainingdates'] = TrainingDays.objects.filter(training_slot__month__gte=prevdate.month, training_slot__month__lte=nextdate.month)
         
         return context
 
